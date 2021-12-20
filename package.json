@@ -1,0 +1,27 @@
+{
+  "name": "horizon",
+  "version": "0.0.1",
+  "description": "A JS library for easy access to the SpaceTrader api.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewPerson/Horizon.git"
+  },
+  "author": "AndrewPerson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndrewPerson/Horizon/issues"
+  },
+  "homepage": "https://github.com/AndrewPerson/Horizon#readme",
+  "dependencies": {
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.6",
+    "esbuild-plugin-clear": "^1.0.1"
+  }
+}
