@@ -1,6 +1,6 @@
 {
   "name": "cosmos-peddler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A JS library for easy access to the SpaceTrader api.",
   "main": "dist/client.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndrewPerson/Horizon.git"
+    "url": "git+https://github.com/AndrewPerson/Cosmos-Peddler.git"
   },
   "author": "AndrewPerson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AndrewPerson/Horizon/issues"
+    "url": "https://github.com/AndrewPerson/Cosmos-Peddler/issues"
   },
-  "homepage": "https://github.com/AndrewPerson/Horizon#readme",
+  "homepage": "https://github.com/AndrewPerson/Cosmos-Peddler#readme",
   "devDependencies": {
     "esbuild": "^0.14.6",
     "esbuild-plugin-clear": "^1.0.1",
