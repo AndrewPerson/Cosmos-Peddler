@@ -7,5 +7,9 @@
         "moduleResolution": "node",
         "skipLibCheck": true,
         "strictPropertyInitialization": false,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "dist",
+        "declarationMap": true
     }
 }

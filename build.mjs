@@ -17,7 +17,7 @@ glob.glob("./src/**/*.ts", (err, files) => {
     });
 });
 
-exec("npx tsc --noEmit", (err, stdout, stderr) => {
+exec("npx tsc", (err, stdout, stderr) => {
     console.log(stdout);
     console.log(stderr);
 });
