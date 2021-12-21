@@ -3,22 +3,24 @@ import { HTTPMethod } from "./enums";
 
 import { Resource, ResourceArray } from "./resource";
 
+import { User } from "./user";
 import { AvailableLoan } from "./loans/available";
-import { TakenLoan } from "./loans/taken";
+import { WithdrawnLoan } from "./loans/withdrawn";
 import { LeaderBoard } from "./leaderboard";
 import { ShipListingEntry } from "./ships/listing-entry";
 import { FlightPlanListing } from "./flight-plan/listing";
 import { DockedShip } from "./ships/docked";
-import { SystemLocation } from "./system/system";
-import { SystemInfo } from "./system/info";
 import { LocationInfo } from "./locations/info";
+import { System } from "./system";
+import { Location } from "./locations/location";
 import { MarketResource } from "./market-resource";
 import { ShipInfo } from "./ships/info";
 import { FlightPlan } from "./flight-plan/flight-plan";
+import { Ship } from "./ships/ship";
 
-export class Account extends Resource {
-    static async Register(name: string): Promise<string> {
-        var userResponse = await fetch(`http://api.spacetraders.io/users/${name}/claim`, {
+export class Client extends Resource {
+    static async Register(username: string): Promise<string> {
+        var userResponse = await fetch(`http://api.spacetraders.io/users/${username}/claim`, {
             method: "POST"
         });
 
@@ -27,34 +29,29 @@ export class Account extends Resource {
         return (await userResponse.json()).token;
     }
 
-    static async Instantiate(token: string): Promise<Account> {
-        var userResponse = await fetch("https://api.spacetraders.io/my/account", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        if (!userResponse.ok) throw new ResourceError(userResponse.statusText);
-
-        return new Account({
-            ...await userResponse.json(),
-            token: token
-        });
+    static async Initialise(token: string) {
+        this.token = token;
+        this.initialised = true;
     }
 
-    token: string;
+    static initialised: boolean = false;
+    static token: string;
 
-    username: string;
-    shipCount: number;
-    structureCount: number;
-    joinedAt: Date = new Date();
-    credits: number;
+    static user: User | undefined = undefined;
 
-    //TODO Cache ships. (Not necessarily here.)
+    static withdrawnLoans: WithdrawnLoan[] | undefined = undefined;
 
-    rateLimited: boolean = false;
+    static ships: Ship[] | undefined = undefined;
 
-    requestQueue: {
+    static systemFlightPlans: {
+        [key: string]: FlightPlanListing[]
+    } = {};
+
+    static flightPlans: FlightPlan[] | undefined = undefined;
+
+    static rateLimited: boolean = false;
+
+    static requestQueue: {
         resource: string;
         method: HTTPMethod;
         options: Record<string, string>;
@@ -63,7 +60,7 @@ export class Account extends Resource {
     }[] = [];
 
     //#region GetResources
-    private async GetResourceRaw(resource: string, method: HTTPMethod, options: Record<string, string>) {
+    private static async GetResourceRaw(resource: string, method: HTTPMethod, options: Record<string, string>) {
         if (method == HTTPMethod.GET) {
             var resourceResponse = await fetch(`https://api.spacetraders.io/${resource}?${new URLSearchParams(options).toString()}`, {
                 method: method,
@@ -89,7 +86,7 @@ export class Account extends Resource {
         return resourceResponse;
     }
 
-    private async GetResource(resource: string, method: HTTPMethod, options: Record<string, string> = {}) {
+    private static async GetResource(resource: string, method: HTTPMethod, options: Record<string, string> = {}) {
         var resourceResponse = await this.GetResourceRaw(resource, method, options);
 
         if (resourceResponse.status == 429) {
@@ -113,12 +110,12 @@ export class Account extends Resource {
         return await resourceResponse.json();
     }
 
-    private ScheduleRequestRetry(delay: number) {
+    private static ScheduleRequestRetry(delay: number) {
         //Add an extra 10ms to give leeway in case clocks aren't aligned
         setTimeout(this.SendQueuedRequests.bind(this), delay + 10);
     }
 
-    private async SendQueuedRequests(): Promise<void> {
+    private static async SendQueuedRequests(): Promise<void> {
         var requestCount = this.requestQueue.length;
 
         for (var i = 0; i < requestCount; i++) {
@@ -146,114 +143,209 @@ export class Account extends Resource {
     }
     //#endregion
 
+    //#region User
+    static async User(): Promise<User> {
+        if (this.user === undefined) {
+            this.user = new User(await this.GetResource("my/account", HTTPMethod.GET));
+        }
+
+        return this.user;
+    }
+    //#endregion
+
     //#region Loans
-    async AvailableLoans(): Promise<AvailableLoan[]> {
+    static async AllLoans(): Promise<AvailableLoan[]> {
         return ResourceArray<AvailableLoan>((await this.GetResource("types/loans", HTTPMethod.GET)).loans);
     }
 
-    async TakenLoans(): Promise<TakenLoan[]> {
-        return ResourceArray<TakenLoan>((await this.GetResource("my/loans", HTTPMethod.GET)).loans);
+    static async AvailableLoans(): Promise<AvailableLoan[]> {
+        var withdrawnLoans = await this.WithdrawnLoans();
+        var allLoans = await this.AllLoans();
+
+        return allLoans.filter(loan => !withdrawnLoans.some(withdrawnLoan => withdrawnLoan.type == loan.type));
     }
 
-    async TakeLoan(type: string): Promise<TakenLoan> {
+    static async WithdrawnLoans(): Promise<WithdrawnLoan[]> {
+        if (this.withdrawnLoans === undefined) {
+            this.withdrawnLoans = ResourceArray<WithdrawnLoan>((await this.GetResource("my/loans", HTTPMethod.GET)).loans);
+        }
+        
+        return this.withdrawnLoans;
+    }
+
+    static async WithdrawLoan(type: string): Promise<WithdrawnLoan> {
         var loanResponse = await this.GetResource("my/loans", HTTPMethod.POST, {
             type: type
         });
 
-        this.credits = loanResponse.credits;
+        if (this.user !== undefined) this.user.credits = loanResponse.credits;
 
-        return new TakenLoan(loanResponse.loan);
+        if (this.withdrawnLoans !== undefined) this.withdrawnLoans.push(new WithdrawnLoan(loanResponse.loan));
+
+        return new WithdrawnLoan(loanResponse.loan);
     }
 
-    async PayLoan(loan: TakenLoan): Promise<TakenLoan[]> {
-        var loanResponse = await this.GetResource(`my/loans/${loan.id}`, HTTPMethod.PUT);
+    static async PayLoan(loanId: string): Promise<void> {
+        var loanResponse = await this.GetResource(`my/loans/${loanId}`, HTTPMethod.PUT);
 
-        this.credits = loanResponse.credits;
+        if (this.user !== undefined) this.user.credits = loanResponse.credits;
 
-        return ResourceArray<TakenLoan>(loanResponse.loans);
+        this.withdrawnLoans = ResourceArray<WithdrawnLoan>(loanResponse.loans);
     }
     //#endregion
 
     //#region LeaderBoard
-    async LeaderBoard(): Promise<LeaderBoard> {
+    static async LeaderBoard(): Promise<LeaderBoard> {
         return new LeaderBoard(await this.GetResource("game/leaderboard/net-worth", HTTPMethod.GET));
     }
     //#endregion
 
     //#region Systems
-    async SystemLocations(systemSymbol: string): Promise<SystemLocation[]> {
-        return ResourceArray<SystemLocation>((await this.GetResource(`systems/${systemSymbol}/locations`, HTTPMethod.GET)).locations);
-    }
-
-    async SystemInfo(systemSymbol: string): Promise<SystemInfo> {
-        return new SystemInfo((await this.GetResource(`systems/${systemSymbol}`, HTTPMethod.GET)).system);
+    static async SystemInfo(systemSymbol: string): Promise<System> {
+        return new System((await this.GetResource(`systems/${systemSymbol}`, HTTPMethod.GET)).system);
     }
     //#endregion
 
     //#region Locations
-    async LocationInfo(locationSymbol: string): Promise<LocationInfo> {
-        return new LocationInfo((await this.GetResource(`locations/${locationSymbol}`, HTTPMethod.GET)).location);
+    static async SystemLocations(systemSymbol: string): Promise<LocationInfo[]> {
+        return ResourceArray<LocationInfo>((await this.GetResource(`systems/${systemSymbol}/locations`, HTTPMethod.GET)).locations);
+    }
+
+    static async LocationInfo(locationSymbol: string): Promise<Location> {
+        return new Location((await this.GetResource(`locations/${locationSymbol}`, HTTPMethod.GET)).location);
     }
     //#endregion
 
     //#region Ships
-    async AvailableShips(): Promise<ShipInfo[]> {
+    static async AvailableShips(): Promise<ShipInfo[]> {
         return ResourceArray<ShipInfo>((await this.GetResource("types/ships", HTTPMethod.GET)).ships);
     }
 
-    async ShipListings(systemSymbol: string): Promise<ShipListingEntry[]> {
+    static async ShipListings(systemSymbol: string): Promise<ShipListingEntry[]> {
         return ResourceArray<ShipListingEntry>((await this.GetResource(`systems/${systemSymbol}/ship-listings`, HTTPMethod.GET)).shipListings);
     }
 
-    async SystemDockedShips(systemSymbol: string): Promise<DockedShip[]> {
+    static async MyShips(): Promise<Ship[]> {
+        if (this.ships === undefined) {
+            this.ships = ResourceArray<Ship>((await this.GetResource("my/ships", HTTPMethod.GET)).ships);
+        }
+
+        return this.ships;
+    }
+
+    static async PurchaseShip(location: string, type: string): Promise<Ship> {
+        var shipResponse = await this.GetResource("my/ships", HTTPMethod.POST, {
+            location: location,
+            type: type
+        });
+
+        var ship = new Ship(shipResponse.ship);
+
+        if (this.ships === undefined) {
+            this.ships = [ship];
+        }
+        else {
+            this.ships.push(ship);
+        }
+
+        if (this.user !== undefined) this.user.credits = shipResponse.credits;
+
+        return ship;
+    }
+
+    static async SystemDockedShips(systemSymbol: string): Promise<DockedShip[]> {
         return ResourceArray<DockedShip>((await this.GetResource(`systems/${systemSymbol}/ships`, HTTPMethod.GET)).ships);
     }
 
-    async FlightPlans(systemSymbol: string): Promise<FlightPlanListing[]> {
-        return ResourceArray<FlightPlanListing>((await this.GetResource(`systems/${systemSymbol}/flight-plans`, HTTPMethod.GET)).flightPlans);
+    static async FlightPlans(systemSymbol: string): Promise<FlightPlanListing[]> {
+        if (!(systemSymbol in this.systemFlightPlans)) {
+            this.systemFlightPlans[systemSymbol] = ResourceArray<FlightPlanListing>((await this.GetResource(`systems/${systemSymbol}/flight-plans`, HTTPMethod.GET)).flightPlans);
+        }
+        
+        return this.systemFlightPlans[systemSymbol];
     }
 
-    async FlightPlan(flightPlanId: string): Promise<FlightPlan> {
-        return new FlightPlan((await this.GetResource(`my/flight-plans/${flightPlanId}`, HTTPMethod.GET)).flightPlan);
+    static async FlightPlan(flightPlanId: string): Promise<FlightPlan> {
+        if (this.flightPlans === undefined) {
+            return new FlightPlan((await this.GetResource(`my/flight-plans/${flightPlanId}`, HTTPMethod.GET)).flightPlan);
+        }
+
+        var flightPlan = this.flightPlans.find(flightPlan => flightPlan.id == flightPlanId);
+
+        if (flightPlan === undefined) {
+            return new FlightPlan((await this.GetResource(`my/flight-plans/${flightPlanId}`, HTTPMethod.GET)).flightPlan);
+        }
+
+        return flightPlan;
     }
 
-    async CreateFlightPlan(shipId: string, destination: string): Promise<FlightPlan> {
-        return new FlightPlan((await this.GetResource(`my/flight-plans`, HTTPMethod.POST, {
+    static async CreateFlightPlan(shipId: string, locationSymbol: string): Promise<FlightPlan> {
+        var flightPlan = new FlightPlan((await this.GetResource(`my/flight-plans`, HTTPMethod.POST, {
             shipId: shipId,
-            destination: destination
+            destination: locationSymbol
         })).flightPlan);
+
+        if (this.flightPlans === undefined) {
+            this.flightPlans = [flightPlan];
+        }
+        else {
+            this.flightPlans.push(flightPlan);
+        }
+
+        if (this.ships !== undefined) {
+            var index = this.ships.findIndex(ship => ship.id == shipId);
+            
+            if (index != -1) {
+                this.ships[index].flightPlanId = flightPlan.id;
+                this.ships[index].location = undefined;
+                
+                var fuelIndex = this.ships[index].cargo.findIndex(cargo => cargo.good == "FUEL");
+
+                if (fuelIndex != -1) {
+                    this.ships[index].cargo[fuelIndex].quantity = flightPlan.fuelRemaining;
+                }
+            }
+        }
+
+        return flightPlan;
     }
 
-    async LocationShips(locationSymbol: string): Promise<DockedShip[]> {
+    static async LocationShips(locationSymbol: string): Promise<DockedShip[]> {
         return ResourceArray<DockedShip>((await this.GetResource(`locations/${locationSymbol}/ships`, HTTPMethod.GET)).ships);
     }
     //#endregion
 
     //#region Goods
-    async Marketplace(locationSymbol: string): Promise<MarketResource[]> {
+    static async Marketplace(locationSymbol: string): Promise<MarketResource[]> {
         return ResourceArray<MarketResource>((await this.GetResource(`locations/${locationSymbol}/marketplace`, HTTPMethod.GET)).marketplace);
     }
 
-    async Purchase(shipId: string, good: string, quantity: number): Promise<void> {
+    static async PurchaseGood(shipId: string, goodSymbol: string, quantity: number): Promise<void> {
         var purchaseResponse = await this.GetResource("my/purchase-orders", HTTPMethod.POST, {
             shipId: shipId,
-            good: good,
+            good: goodSymbol,
             quantity: quantity.toString()
         });
 
-        this.credits = purchaseResponse.credits;
+        if (this.user !== undefined) this.user.credits = purchaseResponse.credits;
 
-        //TODO update cached ships based on ship returned in result.
+        if (this.ships !== undefined) {
+            var ship = new Ship(purchaseResponse.ship);
+
+            var index = this.ships.findIndex(s => s.id == ship.id);
+
+            this.ships[index] = ship;
+        }
     }
 
-    async Sell(shipId: string, good: string, quantity: number): Promise<void> {
+    static async SellGood(shipId: string, good: string, quantity: number): Promise<void> {
         var sellResponse = await this.GetResource("my/sell-orders", HTTPMethod.POST, {
             shipId: shipId,
             good: good,
             quantity: quantity.toString()
         });
 
-        this.credits = sellResponse.credits;
+        if (this.user !== undefined) this.user.credits = sellResponse.credits;
     }
     //#endregion
 }

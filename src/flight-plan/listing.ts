@@ -1,8 +1,12 @@
-import { Resource } from "../resource";
+import { Resource, WriteDate } from "../resource";
 
 export class FlightPlanListing extends Resource {
-    arrivesAt: Date = new Date();
-    createdAt: Date = new Date();
+    @WriteDate
+    arrivesAt: Date;
+
+    @WriteDate
+    createdAt: Date;
+
     departure: string;
     destination: string;
     id: string;

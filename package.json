@@ -1,8 +1,8 @@
 {
-  "name": "horizon",
+  "name": "cosmos-peddler",
   "version": "0.0.1",
   "description": "A JS library for easy access to the SpaceTrader api.",
-  "main": "dist/index.js",
+  "main": "dist/client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.mjs"
@@ -17,11 +17,10 @@
     "url": "https://github.com/AndrewPerson/Horizon/issues"
   },
   "homepage": "https://github.com/AndrewPerson/Horizon#readme",
-  "dependencies": {
-    "typescript": "^4.5.4"
-  },
   "devDependencies": {
     "esbuild": "^0.14.6",
-    "esbuild-plugin-clear": "^1.0.1"
+    "esbuild-plugin-clear": "^1.0.1",
+    "glob": "^7.2.0",
+    "typescript": "^4.5.4"
   }
 }

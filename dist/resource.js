@@ -1,0 +1,1 @@
+export class Resource{constructor(r=void 0){this._writers={};if(!(r==null||r==null))for(var n of Object.keys(r))n in this._writers?this[n]=this._writers[n](r[n]):this[n]=r[n]}}export function ResourceArray(t){return t.map(r=>r)}export function WriteDate(t,r){t._writers[r]=n=>new Date(n)}export function WriteWith(t){return(r,n)=>{r._writers[n]=t}}

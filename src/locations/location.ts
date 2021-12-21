@@ -1,11 +1,13 @@
 import { Resource } from "../resource";
-import { LocationType } from "../enums";
+import { LocationType, LocationTrait } from "../enums";
 
-export class SystemLocation extends Resource {
+export class Location extends Resource {
     allowsConstruction: boolean;
+    dockedShips: number;
     name: string;
     symbol: string;
     type: LocationType;
+    traits: LocationTrait[];
     x: number;
     y: number;
 }

@@ -1,7 +1,8 @@
 import { Resource } from "../resource";
+import { Client } from "../client";
 
 export class ShipListingEntry extends Resource {
-    "class": string;
+    class: string;
     manufacturer: string;
     maxCargo: number;
     plating: number;
@@ -9,6 +10,10 @@ export class ShipListingEntry extends Resource {
     speed: number;
     type: string;
     weapons: number;
+
+    async Purchase() {
+        return await Client.PurchaseShip(this.type, this.class);
+    }
 }
 
 export type ShipPurchaseLocation = {

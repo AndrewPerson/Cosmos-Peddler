@@ -1,8 +1,12 @@
-import { Resource } from "../resource";
+import { Resource, WriteDate } from "../resource";
 
 export class FlightPlan extends Resource {
-    arrivesAt: Date = new Date();
-    createdAt: Date = new Date();
+    @WriteDate
+    arrivesAt: Date;
+
+    @WriteDate
+    createdAt: Date;
+
     departure: string;
     destination: string;
     distance: number;
@@ -10,6 +14,13 @@ export class FlightPlan extends Resource {
     fuelRemaining: number;
     id: string;
     shipId: string;
-    terminatedAt: Date = new Date();
+
+    @WriteDate
+    terminatedAt: Date;
+    
     timeRemainingInSeconds: number;
+
+    get progress() {
+        return 1 - (this.arrivesAt.getTime() - new Date().getTime()) / (this.arrivesAt.getTime() - this.createdAt.getTime());
+    }
 }
