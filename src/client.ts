@@ -54,7 +54,7 @@ export class Client extends Resource {
         [key: string]: FlightPlanListing[]
     } = {};
 
-    private static flightPlans: FlightPlan[] | undefined = undefined;
+    private static flightPlans: FlightPlan[] = [];
 
     static rateLimited: boolean = false;
 
@@ -276,10 +276,7 @@ export class Client extends Resource {
 
         var ship = new Ship(shipResponse.ship);
 
-        if (this.ships === undefined) {
-            this.ships = [ship];
-        }
-        else {
+        if (this.ships !== undefined) {
             this.ships.push(ship);
         }
 
@@ -373,14 +370,14 @@ export class Client extends Resource {
     }
 
     static async FlightPlan(flightPlanId: string): Promise<FlightPlan> {
-        if (this.flightPlans === undefined) {
-            return this.UncachedFlightPlan(flightPlanId);
-        }
-
         var flightPlan = this.flightPlans.find(flightPlan => flightPlan.id == flightPlanId);
 
         if (flightPlan === undefined) {
-            return this.UncachedFlightPlan(flightPlanId);
+            var uncachedFlightPlan = await this.UncachedFlightPlan(flightPlanId);
+
+            this.flightPlans.push(uncachedFlightPlan);
+
+            return uncachedFlightPlan;
         }
 
         return flightPlan;
@@ -392,12 +389,34 @@ export class Client extends Resource {
             destination: locationSymbol
         })).flightPlan);
 
-        if (this.flightPlans === undefined) {
-            this.flightPlans = [flightPlan];
+        
+        this.flightPlans.push(flightPlan);
+
+        if (this.ships !== undefined) {
+            var index = this.ships.findIndex(ship => ship.id == shipId);
+            
+            if (index != -1) {
+                this.ships[index].flightPlanId = flightPlan.id;
+                this.ships[index].location = undefined;
+                
+                var fuelIndex = this.ships[index].cargo.findIndex(cargo => cargo.good == "FUEL");
+
+                if (fuelIndex != -1) {
+                    this.ships[index].cargo[fuelIndex].quantity = flightPlan.fuelRemaining;
+                }
+            }
         }
-        else {
-            this.flightPlans.push(flightPlan);
-        }
+
+        return flightPlan;
+    }
+
+    static async WarpShip(shipId: string): Promise<FlightPlan> {
+        var flightPlan = new FlightPlan((await this.GetResource("my/warp-jumps", HTTPMethod.POST, {
+            shipId: shipId
+        })).flightPlan);
+
+        
+        this.flightPlans.push(flightPlan);
 
         if (this.ships !== undefined) {
             var index = this.ships.findIndex(ship => ship.id == shipId);
