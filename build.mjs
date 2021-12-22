@@ -16,4 +16,9 @@ glob.glob("./src/**/*.ts", (err, files) => {
 exec("npx tsc", (err, stdout, stderr) => {
     console.log(stdout);
     console.log(stderr);
+    console.log(err || "");
+
+    if (err) {
+        process.exit(1);
+    }
 });

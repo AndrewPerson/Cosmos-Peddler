@@ -6,7 +6,6 @@
         "strict": true,
         "target": "es2020",
         "moduleResolution": "node",
-        "skipLibCheck": true,
         "strictPropertyInitialization": false,
         "declaration": true,
         "emitDeclarationOnly": true,

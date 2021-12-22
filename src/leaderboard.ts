@@ -7,7 +7,7 @@ export class LeaderBoard extends Resource {
     constructor(object: any) {
         super();
 
-        this.leaderBoard = ResourceArray(object.netWorth);
+        this.leaderBoard = ResourceArray(object.netWorth, LeaderBoardEntry);
         this.you = new LeaderBoardEntry(object.userNetWorth[0]);
     }
 }

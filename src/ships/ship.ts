@@ -1,9 +1,10 @@
 import { Resource, ResourceArray, WriteWith } from "../resource";
 import { FlightPlan } from "../flight-plan/flight-plan";
+import { Cargo } from "../cargo";
 import { Client } from "../client";
 
 export class Ship extends Resource {
-    @WriteWith((object: any) => ResourceArray<Cargo>(object))
+    @WriteWith((object: any) => ResourceArray<Cargo>(object, Cargo))
     cargo: Cargo[];
 
     class: string;
@@ -79,16 +80,12 @@ export class Ship extends Resource {
     async FlyTo(locationSymbol: string) {
         return await Client.CreateFlightPlan(this.id, locationSymbol);
     }
-}
 
-export class Cargo extends Resource {
-    good: string;
-    quantity: number;
-    totalVolume: number;
+    async Scrap() {
+        await Client.ScrapShip(this.id);
+    }
 
-    _shipId: string;
-
-    Sell(quantity: number) {
-        return Client.SellGood(this._shipId, this.good, quantity);
+    async TransferCargoTo(toShipId: string, good: string, quantity: number) {
+        await Client.TransferCargo(this.id, toShipId, good, quantity);
     }
 }
