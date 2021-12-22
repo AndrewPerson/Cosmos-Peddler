@@ -1,1 +1,0 @@
-import{Resource as e,ResourceArray as o}from"./resource";export class LeaderBoard extends e{constructor(r){super();this.leaderBoard=o(r.netWorth),this.you=new LeaderBoardEntry(r.userNetWorth[0])}}export class LeaderBoardEntry extends e{}

@@ -1,1 +1,0 @@
-var m=Object.defineProperty;var a=Object.getOwnPropertyDescriptor;var i=(n,r,s,t)=>{for(var e=t>1?void 0:t?a(r,s):r,u=n.length-1,o;u>=0;u--)(o=n[u])&&(e=(t?o(r,s,e):o(e))||e);return t&&e&&m(r,s,e),e};import{Resource as c,WriteDate as b}from"./resource";export class User extends c{}i([b],User.prototype,"joinedAt",2);

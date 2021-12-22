@@ -1,1 +1,0 @@
-{"version":3,"file":"withdrawn.d.ts","sourceRoot":"","sources":["../../src/loans/withdrawn.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAa,MAAM,aAAa,CAAC;AAClD,OAAO,EAAE,UAAU,EAAE,MAAM,UAAU,CAAC;AAGtC,qBAAa,aAAc,SAAQ,QAAQ;IACvC,EAAE,EAAE,MAAM,CAAC;IAGX,GAAG,EAAE,IAAI,CAAC;IAEV,eAAe,EAAE,MAAM,CAAC;IACxB,MAAM,EAAE,UAAU,CAAC;IACnB,IAAI,EAAE,MAAM,CAAC;IAEP,GAAG;CASZ"}

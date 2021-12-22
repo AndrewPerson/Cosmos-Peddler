@@ -9,7 +9,7 @@
         "strictPropertyInitialization": false,
         "declaration": true,
         "emitDeclarationOnly": true,
-        "outDir": "dist",
+        "outDir": "./",
         "declarationMap": true
     }
 }

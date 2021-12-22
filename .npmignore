@@ -1,0 +1,7 @@
+/node_modules
+/.github
+/src
+.gitignore
+build.mjs
+scratchboard.md
+tsconfig.json
