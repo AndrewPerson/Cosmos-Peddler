@@ -33,6 +33,15 @@ export class Client extends Resource {
         if (!token) return;
 
         this.token = token;
+
+        try {
+            await this.User();
+        }
+        catch(e) {
+            this.token = "";
+            throw new AuthenticationError();
+        }
+
         this._initialised = true;
     }
 
@@ -415,7 +424,6 @@ export class Client extends Resource {
             shipId: shipId
         })).flightPlan);
 
-        
         this.flightPlans.push(flightPlan);
 
         if (this.ships !== undefined) {
