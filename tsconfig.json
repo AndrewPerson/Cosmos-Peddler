@@ -1,5 +1,6 @@
 {
     "include": ["src/**/*.ts"],
+    "exclude": [],
     "compilerOptions": {
         "experimentalDecorators": true,
         "strict": true,
