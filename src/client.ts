@@ -29,19 +29,10 @@ export class Client extends Resource {
         return (await userResponse.json()).token;
     }
 
-    static async Initialise(token: string) {
+    static Initialise(token: string) {
         if (!token) return;
 
         this.token = token;
-
-        try {
-            await this.User();
-        }
-        catch(e) {
-            this.token = "";
-            throw new AuthenticationError();
-        }
-
         this._initialised = true;
     }
 
