@@ -1,6 +1,6 @@
 {
   "name": "cosmos-peddler",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A JS library for easy access to the SpaceTrader api.",
   "main": "client.js",
   "scripts": {
