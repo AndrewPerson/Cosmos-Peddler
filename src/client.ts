@@ -29,10 +29,12 @@ export class Client extends Resource {
         return (await userResponse.json()).token;
     }
 
-    static Initialise(token: string) {
-        if (!token) return;
+    static Initialise(token: string, knownSystems: string[] = []) {
+        if (token === null || token === undefined) return;
+        if (knownSystems === null || knownSystems === undefined) return;
 
         this.token = token;
+        this.knownSystems = knownSystems;
         this._initialised = true;
     }
 
@@ -41,20 +43,17 @@ export class Client extends Resource {
     }
 
     private static _initialised: boolean = false;
-
     static token: string;
 
+    static knownSystems: string[] = [];
+
     private static user: User | undefined = undefined;
-
     private static withdrawnLoans: WithdrawnLoan[] | undefined = undefined;
-
     private static ships: Ship[] | undefined = undefined;
-
+    private static flightPlans: FlightPlan[] = [];
     private static systemFlightPlans: {
         [key: string]: FlightPlanListing[]
     } = {};
-
-    private static flightPlans: FlightPlan[] = [];
 
     static rateLimited: boolean = false;
 
@@ -260,6 +259,15 @@ export class Client extends Resource {
         return ResourceArray<ShipListingEntry>((await this.GetResource(`systems/${systemSymbol}/ship-listings`, HTTPMethod.GET)).shipListings, ShipListingEntry);
     }
 
+    static async PurchasableShips(): Promise<ShipListingEntry[]> {
+        var promises = [];
+        for (var system of this.knownSystems) {
+            promises.push(this.ShipListings(system));
+        }
+
+        return (await Promise.all(promises)).flat();
+    }
+
     static async MyShips(): Promise<Ship[]> {
         if (this.ships === undefined) {
             this.ships = ResourceArray<Ship>((await this.GetResource("my/ships", HTTPMethod.GET)).ships, Ship);
@@ -268,10 +276,10 @@ export class Client extends Resource {
         return this.ships;
     }
 
-    static async PurchaseShip(location: string, type: string): Promise<Ship> {
+    static async PurchaseShip(locationSymbol: string, shipType: string): Promise<Ship> {
         var shipResponse = await this.GetResource("my/ships", HTTPMethod.POST, {
-            location: location,
-            type: type
+            location: locationSymbol,
+            type: shipType
         });
 
         var ship = new Ship(shipResponse.ship);
@@ -416,6 +424,16 @@ export class Client extends Resource {
         })).flightPlan);
 
         this.flightPlans.push(flightPlan);
+
+        var symbols = flightPlan.departure.split("-");
+
+        if (symbols.length > 0 && !this.knownSystems.includes(symbols[0])) {
+            this.knownSystems.push(symbols[0]);
+        }
+
+        if (symbols.length > 2 && !this.knownSystems.includes(symbols[2])) {
+            this.knownSystems.push(symbols[2]);
+        }
 
         if (this.ships !== undefined) {
             var index = this.ships.findIndex(ship => ship.id == shipId);
