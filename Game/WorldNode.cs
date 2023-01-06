@@ -27,7 +27,7 @@ public partial class WorldNode : Node3D
 		{
 			bool centredCamera = false;
 
-			await foreach (var system in SpaceTradersClient.GetSystems(200))
+			await foreach (var system in SpaceTradersClient.GetSystems(100))
 			{
 				if (!centredCamera)
 				{

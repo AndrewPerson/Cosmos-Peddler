@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace CosmosPeddler;
 
@@ -14,7 +15,7 @@ public static class StringExtensions
 
 public partial class SolarSystem
 {
-    public Task<Waypoint[]> GetWaypoints()
+    public IAsyncEnumerable<Waypoint> GetWaypoints()
     {
         return SpaceTradersClient.GetSystemWaypoints(Symbol);
     }
@@ -62,12 +63,25 @@ public partial class Waypoint
         });
     }
 
-    public async Task<Ship[]> GetShips()
+    public async IAsyncEnumerable<Ship> GetShips(int pageSize = 100)
     {
-        return (await SpaceTradersClient.GetMyShips())
-                .Where(s => s.Nav.Route.Departure.Symbol == Symbol ||
-                       s.Nav.Route.Destination.Symbol == Symbol)
-                .ToArray();
+        await foreach (var ship in SpaceTradersClient.GetMyShips(pageSize))
+        {
+            if (ship.Nav.Status == ShipNavStatus.IN_TRANSIT)
+            {
+                if (ship.Nav.Route.Departure.Symbol == Symbol || ship.Nav.Route.Destination.Symbol == Symbol)
+                {
+                    yield return ship;
+                }
+            }
+            else
+            {
+                if (ship.Nav.WaypointSymbol == Symbol)
+                {
+                    yield return ship;
+                }
+            }
+        }
     }
 }
 

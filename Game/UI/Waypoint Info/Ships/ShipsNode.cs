@@ -46,43 +46,41 @@ public partial class ShipsNode : PanelContainer
 	{
 		SetStatus("Loading...");
 
-		Waypoint.GetShips().ContinueWith(task =>
+		UpdateShipInfoAsync().ContinueWith(t =>
 		{
-			if (task.IsFaulted)
+			if (t.IsFaulted)
 			{
-				GD.PrintErr(task.Exception);
-				return;
-			}
-
-			var ships = task.Result;
-
-			if (ships.Length == 0)
-			{
-				SetStatus("No ships");
-				return;
-			}
-
-			ClearStatus();
-
-			for (int i = 0; i < Mathf.Min(shipsList.GetChildCount(), ships.Length); i++)
-			{
-				var ship = shipsList.GetChild<ShipNode>(i);
-				ship.Ship = ships[i];
-			}
-
-			for (int i = Mathf.Min(shipsList.GetChildCount(), ships.Length); i < ships.Length; i++)
-			{
-				var ship = shipScene.Instantiate<ShipNode>();
-				ship.Ready += () => ship.Ship = ships[i];
-
-				shipsList.AddChild(ship);
-			}
-
-			for (int i = ships.Length; i < shipsList.GetChildCount(); i++)
-			{
-				shipsList.GetChild(i).QueueFree();
+				if (t.Exception != null)
+				{
+					SetStatus(t.Exception.Message);
+				}
+				else SetStatus("Unknown error");
 			}
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	private async Task UpdateShipInfoAsync()
+	{
+		for (int i = 0; i < shipsList.GetChildCount(); i++)
+		{
+			shipsList.GetChild(i).QueueFree();
+		}
+
+		bool noShips = true;
+		await foreach (var ship in Waypoint.GetShips())
+		{
+			noShips = false;
+			ClearStatus();
+
+			var shipNode = shipScene.Instantiate<ShipNode>();
+			shipNode.Ready += () => shipNode.Ship = ship;
+			shipsList.AddChild(shipNode);
+		}
+
+		if (noShips)
+		{
+			SetStatus("No ships");
+		}
 	}
 }

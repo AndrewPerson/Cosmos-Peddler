@@ -111,27 +111,15 @@ public partial class SpaceTradersClient
         ))).Data;
     }
 
-    public static async IAsyncEnumerable<SolarSystem> GetSystems(int? pageSize = null)
+    public static async IAsyncEnumerable<SolarSystem> GetSystems(int pageSize = 100)
     {
-        int limit;
-        int totalItems;
-
-        if (pageSize == null)
-        {
-            var dummy = await retry429Policy.ExecuteAsync<Response2>(() => _client.GetSystemsAsync(1, 0));
-
-            limit = dummy.Meta.Total;
-            totalItems = dummy.Meta.Total;
-        }
-        else limit = pageSize!.Value;
-
+        int itemsRemaining;
         int page = 1;
         do
         {
-            var response = await retry429Policy.ExecuteAsync<Response2>(() => _client.GetSystemsAsync(page, limit));
+            var response = await retry429Policy.ExecuteAsync<Response2>(() => _client.GetSystemsAsync(page, pageSize));
 
-            page = response.Meta.Page + 1;
-            totalItems = response.Meta.Total;
+            itemsRemaining = response.Meta.Total - response.Meta.Page * response.Meta.Limit;
 
             foreach (var system in response.Data)
             {
@@ -140,7 +128,7 @@ public partial class SpaceTradersClient
 
             page++;
         }
-        while (page * limit < totalItems);
+        while (itemsRemaining > 0);
     }
 
     public static async Task<SolarSystem> GetSystem(string systemSymbol)
@@ -148,13 +136,24 @@ public partial class SpaceTradersClient
         return (await retry429Policy.ExecuteAsync<Response3>(() => _client.GetSystemAsync(systemSymbol))).Data;
     }
 
-    public static async Task<Waypoint[]> GetSystemWaypoints(string systemSymbol)
+    public static async IAsyncEnumerable<Waypoint> GetSystemWaypoints(string systemSymbol, int pageSize = 100)
     {
-        var dummy = await retry429Policy.ExecuteAsync<Response4>(() => _client.GetSystemWaypointsAsync(1, 0, systemSymbol));
+        int itemsRemaining;
+        int page = 1;
+        do
+        {
+            var response = await retry429Policy.ExecuteAsync<Response4>(() => _client.GetSystemWaypointsAsync(page, pageSize, systemSymbol));
 
-        var max = dummy.Meta.Total;
+            itemsRemaining = response.Meta.Total - response.Meta.Page * response.Meta.Limit;
 
-        return (await retry429Policy.ExecuteAsync<Response4>(() => _client.GetSystemWaypointsAsync(1, max, systemSymbol))).Data.ToArray();
+            foreach (var waypoint in response.Data)
+            {
+                if (waypoint != null) yield return waypoint;
+            }
+
+            page++;
+        }
+        while (itemsRemaining > 0);
     }
 
     public static async Task<Waypoint> GetWaypoint(string systemSymbol, string waypointSymbol)
@@ -177,13 +176,24 @@ public partial class SpaceTradersClient
         return (await retry429Policy.ExecuteAsync<Response8>(() => _client.GetJumpGateAsync(systemSymbol, waypointSymbol))).Data;
     }
 
-    public static async Task<Faction[]> GetFactions()
+    public static async IAsyncEnumerable<Faction> GetFactions(int pageSize = 100)
     {
-        var dummy = await retry429Policy.ExecuteAsync<Response9>(() => _client.GetFactionsAsync(1, 0));
+        int itemsRemaining;
+        int page = 1;
+        do
+        {
+            var response = await retry429Policy.ExecuteAsync<Response9>(() => _client.GetFactionsAsync(page, pageSize));
 
-        var max = dummy.Meta.Total;
+            itemsRemaining = response.Meta.Total - response.Meta.Page * response.Meta.Limit;
 
-        return (await retry429Policy.ExecuteAsync<Response9>(() => _client.GetFactionsAsync(1, max))).Data.ToArray();
+            foreach (var faction in response.Data)
+            {
+                if (faction != null) yield return faction;
+            }
+
+            page++;
+        }
+        while (itemsRemaining > 0);
     }
 
     public static async Task<Faction> GetFaction(string factionSymbol)
@@ -196,13 +206,24 @@ public partial class SpaceTradersClient
         return (await retry429Policy.ExecuteAsync<Response11>(_client.GetMyAgentAsync)).Data;
     }
 
-    public static async Task<Contract[]> GetContracts()
+    public static async IAsyncEnumerable<Contract> GetContracts(int pageSize = 100)
     {
-        var dummy = await retry429Policy.ExecuteAsync<Response12>(() => _client.GetContractsAsync(1, 0));
+        int itemsRemaining;
+        int page = 1;
+        do
+        {
+            var response = await retry429Policy.ExecuteAsync<Response12>(() => _client.GetContractsAsync(page, pageSize));
 
-        var max = dummy.Meta.Total;
+            itemsRemaining = response.Meta.Total - response.Meta.Page * response.Meta.Limit;
 
-        return (await retry429Policy.ExecuteAsync<Response12>(() => _client.GetContractsAsync(1, max))).Data.ToArray();
+            foreach (var contract in response.Data)
+            {
+                if (contract != null) yield return contract;
+            }
+
+            page++;
+        }
+        while (itemsRemaining > 0);
     }
 
     public static async Task<Contract> GetContract(string contractId)
@@ -234,13 +255,24 @@ public partial class SpaceTradersClient
         return (await retry429Policy.ExecuteAsync<Response16>(() => _client.FulfillContractAsync(contractId))).Data;
     }
 
-    public static async Task<Ship[]> GetMyShips()
+    public static async IAsyncEnumerable<Ship> GetMyShips(int pageSize = 100)
     {
-        var dummy = await retry429Policy.ExecuteAsync<Response17>(() => _client.GetMyShipsAsync(1, 0));
+        int itemsRemaining;
+        int page = 1;
+        do
+        {
+            var response = await retry429Policy.ExecuteAsync<Response17>(() => _client.GetMyShipsAsync(page, pageSize));
 
-        var max = dummy.Meta.Total;
+            itemsRemaining = response.Meta.Total - response.Meta.Page * response.Meta.Limit;
 
-        return (await retry429Policy.ExecuteAsync<Response17>(() => _client.GetMyShipsAsync(1, max))).Data.ToArray();
+            foreach (var ship in response.Data)
+            {
+                if (ship != null) yield return ship;
+            }
+
+            page++;
+        }
+        while (itemsRemaining > 0);
     }
 
     public static async Task<Data5> PurchaseShip(ShipType shipType, string waypointSymbol)

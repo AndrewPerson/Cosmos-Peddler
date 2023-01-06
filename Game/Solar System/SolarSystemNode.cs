@@ -65,51 +65,63 @@ public partial class SolarSystemNode : Node3D
 
 	public void InstantiateWaypoints()
 	{
-		system!.GetWaypoints().ContinueWith(task =>
+		InstantiateWaypointsAsync().ContinueWith(task =>
 		{
-			var waypoints = new Dictionary<string, Waypoint>(task.Result.Select(waypoint => new KeyValuePair<string, Waypoint>(waypoint.Symbol, waypoint)));
-
-			var orbitalWaypoints = new Dictionary<Waypoint, Waypoint>();
-
-			foreach (var (_, waypoint) in waypoints)
+			if (task.IsFaulted)
 			{
-				foreach (var orbital in waypoint.Orbitals)
-				{
-					orbitalWaypoints.Add(waypoints[orbital.Symbol], waypoint);
-				}
-			}
-
-			var nonOrbitalWaypoints = waypoints.Where(waypoint => orbitalWaypoints.ContainsKey(waypoint.Value) == false);
-
-			var waypointNodeDict = new Dictionary<Waypoint, WaypointNode>();
-
-			foreach (var (_, waypoint) in nonOrbitalWaypoints)
-			{
-				var waypointInstance = waypointScene.Instantiate<WaypointNode>();
-
-				waypointInstance.waypoint = waypoint;
-				waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
-				waypointInstance.mapScale = waypointMapScale;
-
-				waypointContainer.AddChild(waypointInstance);
-
-				waypointNodeDict.Add(waypoint, waypointInstance);
-			}
-
-			foreach (var (waypoint, orbitalTarget) in orbitalWaypoints)
-			{
-				var waypointInstance = waypointScene.Instantiate<WaypointNode>();
-
-				waypointInstance.waypoint = waypoint;
-				waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
-				waypointInstance.mapScale = waypointMapScale;
-
-				waypointInstance.orbitalTarget = waypointNodeDict[orbitalTarget];
-
-				waypointContainer.AddChild(waypointInstance);
+				GD.PrintErr(task.Exception);
 			}
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	private async Task InstantiateWaypointsAsync()
+	{
+		var waypoints = new Dictionary<string, Waypoint>();
+		await foreach (var waypoint in system.GetWaypoints())
+		{
+			waypoints.Add(waypoint.Symbol, waypoint);
+		}
+
+		var orbitalWaypoints = new Dictionary<Waypoint, Waypoint>();
+
+		foreach (var (_, waypoint) in waypoints)
+		{
+			foreach (var orbital in waypoint.Orbitals)
+			{
+				orbitalWaypoints.Add(waypoints[orbital.Symbol], waypoint);
+			}
+		}
+
+		var nonOrbitalWaypoints = waypoints.Where(waypoint => orbitalWaypoints.ContainsKey(waypoint.Value) == false);
+
+		var waypointNodeDict = new Dictionary<Waypoint, WaypointNode>();
+
+		foreach (var (_, waypoint) in nonOrbitalWaypoints)
+		{
+			var waypointInstance = waypointScene.Instantiate<WaypointNode>();
+
+			waypointInstance.waypoint = waypoint;
+			waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
+			waypointInstance.mapScale = waypointMapScale;
+
+			waypointContainer.AddChild(waypointInstance);
+
+			waypointNodeDict.Add(waypoint, waypointInstance);
+		}
+
+		foreach (var (waypoint, orbitalTarget) in orbitalWaypoints)
+		{
+			var waypointInstance = waypointScene.Instantiate<WaypointNode>();
+
+			waypointInstance.waypoint = waypoint;
+			waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
+			waypointInstance.mapScale = waypointMapScale;
+
+			waypointInstance.orbitalTarget = waypointNodeDict[orbitalTarget];
+
+			waypointContainer.AddChild(waypointInstance);
+		}
 	}
 
 	public void ShowOrbits()
