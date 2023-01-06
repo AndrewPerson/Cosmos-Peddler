@@ -31,7 +31,7 @@ public partial class WaypointNode : Node3D
 
 	public override void _EnterTree()
 	{
-		#region Generate Waypoint Types
+#region Generate Waypoint Types
 		if (waypointTypes == null)
 		{
 			waypointTypes = new Dictionary<string, PackedScene>();
@@ -58,20 +58,23 @@ public partial class WaypointNode : Node3D
 #region Create Waypoint
 		if (orbitalTarget != null) Scale = new Vector3(0.5f, 0.5f, 0.5f);
 
-		Node waypointInstance;
+		Node3D waypointInstance;
 		if (waypointTypes!.TryGetValue(waypoint.Type.ToString(), out var scene))
 		{
-			waypointInstance = scene.Instantiate();
+			waypointInstance = scene.Instantiate<Node3D>();
 		}
 		else
 		{
-			waypointInstance = waypointTypes["UNKNOWN"].Instantiate();
+			waypointInstance = waypointTypes["UNKNOWN"].Instantiate<Node3D>();
 		}
 
 		var waypointVisualiser = (IWaypointVisualiser)waypointInstance;
 
 		waypointVisualiser.Waypoint = waypoint;
 		waypointVisualiser.SolarSystemCentre = solarSystemCenter;
+
+		waypointInstance.Visible = false;
+		Ready += () => waypointInstance.SetDeferred("visible", true);
 
 		AddChild(waypointInstance);
 
