@@ -1,9 +1,10 @@
-#if TOOLS
 using System.Threading.Tasks;
 
 namespace Godot;
 
+#if TOOLS
 [Tool]
+#endif
 public partial class AdvancedLineEdit : LineEdit
 {
     public delegate string? ValidationDelegate(string text);
@@ -168,14 +169,3 @@ public partial class AdvancedLineEdit : LineEdit
         }
     }
 }
-
-partial class ImLoadImage : Image
-{
-    public ImLoadImage() : base() { }
-
-    public ImLoadImage(string path) : base()
-    {
-        Load(path);
-    }
-}
-#endif
