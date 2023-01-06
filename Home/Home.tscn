@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxbkkp56uc5wc"]
+[gd_scene load_steps=12 format=3 uid="uid://cxbkkp56uc5wc"]
 
 [ext_resource type="Script" path="res://Home/HomeNode.cs" id="1_1dtef"]
 [ext_resource type="PackedScene" uid="uid://b4pijn8qgv1it" path="res://Game/Solar System/Stars/Blackhole/Blackhole.tscn" id="1_41snd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Home/LoginNode.cs" id="4_lrfcv"]
 [ext_resource type="Script" path="res://addons/AdvancedLineEdit/AdvancedLineEdit.cs" id="5_qfjrs"]
 [ext_resource type="Script" path="res://Home/RegisterNode.cs" id="6_3vhti"]
+[ext_resource type="Script" path="res://Home/AboutNode.cs" id="8_mjiom"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0x0f0"]
 
@@ -107,7 +108,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -400.0
 offset_right = 400.0
-offset_bottom = 98.0
+offset_bottom = 157.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
@@ -122,44 +123,22 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Register"
 
-[node name="Login" type="Control" parent="UI"]
+[node name="About" type="Button" parent="UI/Home"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "About"
+
+[node name="Login" type="HBoxContainer" parent="UI"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(800, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_right = 400.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+offset_left = 176.0
+offset_top = 324.0
+offset_right = 976.0
+offset_bottom = 363.0
 script = ExtResource("4_lrfcv")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Login"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 61.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Token Name" type="Label" parent="UI/Login/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-text = "Token"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Login/VBoxContainer"]
-layout_mode = 2
-
-[node name="Token Input" type="LineEdit" parent="UI/Login/VBoxContainer/HBoxContainer"]
+[node name="Token Input" type="LineEdit" parent="UI/Login"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -167,7 +146,7 @@ script = ExtResource("5_qfjrs")
 Label = "Token"
 ValidationMessage = "Invalid Token"
 
-[node name="Login" type="Button" parent="UI/Login/VBoxContainer/HBoxContainer"]
+[node name="Login" type="Button" parent="UI/Login"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "Login"
@@ -241,9 +220,58 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Register"
 
+[node name="About" type="Control" parent="UI"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mjiom")
+
+[node name="Credits" type="RichTextLabel" parent="UI/About"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 19.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[center][outline_size=3][outline_color=black]A [color=lightblue][url=https://spacetraders.io]Space Traders[/url][/color] client created by [color=lightblue][url=https://github.com/AndrewPerson]AP[/url][/color][/outline_color][/outline_size][/center]"
+fit_content_height = true
+
+[node name="License Heading" type="RichTextLabel" parent="UI/About"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 38.0
+offset_bottom = 57.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[center][outline_size=3][outline_color=black]Godot License:[/outline_color][/outline_size][/center]"
+fit_content_height = true
+
+[node name="License" type="RichTextLabel" parent="UI/About"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 57.0
+offset_bottom = 57.0
+grow_horizontal = 2
+bbcode_enabled = true
+fit_content_height = true
+
 [connection signal="pressed" from="UI/Home Button" to="UI" method="ShowHome"]
 [connection signal="pressed" from="UI/Home/Login" to="UI" method="ShowLogin"]
 [connection signal="pressed" from="UI/Home/Register" to="UI" method="ShowRegister"]
-[connection signal="text_submitted" from="UI/Login/VBoxContainer/HBoxContainer/Token Input" to="UI/Login" method="Login" unbinds=1]
-[connection signal="pressed" from="UI/Login/VBoxContainer/HBoxContainer/Login" to="UI/Login" method="Login"]
+[connection signal="pressed" from="UI/Home/About" to="UI" method="ShowAbout"]
 [connection signal="pressed" from="UI/Register/Register" to="UI/Register" method="Register"]
+[connection signal="meta_clicked" from="UI/About/Credits" to="UI/About" method="OpenLink"]
