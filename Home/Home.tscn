@@ -1,0 +1,249 @@
+[gd_scene load_steps=11 format=3 uid="uid://cxbkkp56uc5wc"]
+
+[ext_resource type="Script" path="res://Home/HomeNode.cs" id="1_1dtef"]
+[ext_resource type="PackedScene" uid="uid://b4pijn8qgv1it" path="res://Game/Solar System/Stars/Blackhole/Blackhole.tscn" id="1_41snd"]
+[ext_resource type="Script" path="res://Home/UINode.cs" id="2_b84ea"]
+[ext_resource type="Texture2D" uid="uid://cwpax0bh0y8wi" path="res://UI/Back.svg" id="3_wis2y"]
+[ext_resource type="Script" path="res://Home/LoginNode.cs" id="4_lrfcv"]
+[ext_resource type="Script" path="res://addons/AdvancedLineEdit/AdvancedLineEdit.cs" id="5_qfjrs"]
+[ext_resource type="Script" path="res://Home/RegisterNode.cs" id="6_3vhti"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0x0f0"]
+
+[sub_resource type="Sky" id="Sky_ubc2u"]
+sky_material = SubResource("ProceduralSkyMaterial_0x0f0")
+
+[sub_resource type="Environment" id="Environment_cw1fq"]
+background_mode = 1
+sky = SubResource("Sky_ubc2u")
+ambient_light_source = 2
+ambient_light_color = Color(0.203922, 0.203922, 0.203922, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 3
+ssr_max_steps = 68
+ssr_fade_in = 5.74647e-05
+ssr_fade_out = 1e-05
+ssr_depth_tolerance = 128.0
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_blend_mode = 0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[node name="Home" type="Node"]
+script = ExtResource("1_1dtef")
+
+[node name="Background" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Background"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8)
+
+[node name="Blackhole" parent="Background" instance=ExtResource("1_41snd")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Background"]
+environment = SubResource("Environment_cw1fq")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_b84ea")
+
+[node name="Cosmos Peddler" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -74.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/normal_font_size = 56
+bbcode_enabled = true
+text = "[center]Cosmos Peddler[/center]"
+fit_content_height = true
+
+[node name="Home Button" type="Button" parent="UI"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="TextureRect" type="TextureRect" parent="UI/Home Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wis2y")
+ignore_texture_size = true
+
+[node name="Home" type="VBoxContainer" parent="UI"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Login" type="Button" parent="UI/Home"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Login"
+
+[node name="Register" type="Button" parent="UI/Home"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Register"
+
+[node name="Login" type="Control" parent="UI"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_right = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_lrfcv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Login"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Token Name" type="Label" parent="UI/Login/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "Token"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Login/VBoxContainer"]
+layout_mode = 2
+
+[node name="Token Input" type="LineEdit" parent="UI/Login/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_qfjrs")
+Label = "Token"
+ValidationMessage = "Invalid Token"
+
+[node name="Login" type="Button" parent="UI/Login/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Login"
+
+[node name="Register" type="VBoxContainer" parent="UI"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+script = ExtResource("6_3vhti")
+
+[node name="Name Input" type="LineEdit" parent="UI/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("5_qfjrs")
+Label = "Name"
+ValidationMessage = "Problem"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/Register"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -3
+
+[node name="Faction" type="Label" parent="UI/Register/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "Faction"
+
+[node name="Faction Input" type="OptionButton" parent="UI/Register/VBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 39)
+layout_mode = 2
+item_count = 10
+selected = 0
+popup/item_0/text = "Cosmic"
+popup/item_0/id = 0
+popup/item_1/text = "Void"
+popup/item_1/id = 1
+popup/item_2/text = "Galactic"
+popup/item_2/id = 2
+popup/item_3/text = "Quantum"
+popup/item_3/id = 3
+popup/item_4/text = "Dominion"
+popup/item_4/id = 4
+popup/item_5/text = "Astro"
+popup/item_5/id = 5
+popup/item_6/text = "Corsair"
+popup/item_6/id = 6
+popup/item_7/text = "United"
+popup/item_7/id = 7
+popup/item_8/text = "Solitary"
+popup/item_8/id = 8
+popup/item_9/text = "Cobalt"
+popup/item_9/id = 9
+
+[node name="Register" type="Button" parent="UI/Register"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Register"
+
+[connection signal="pressed" from="UI/Home Button" to="UI" method="ShowHome"]
+[connection signal="pressed" from="UI/Home/Login" to="UI" method="ShowLogin"]
+[connection signal="pressed" from="UI/Home/Register" to="UI" method="ShowRegister"]
+[connection signal="text_submitted" from="UI/Login/VBoxContainer/HBoxContainer/Token Input" to="UI/Login" method="Login" unbinds=1]
+[connection signal="pressed" from="UI/Login/VBoxContainer/HBoxContainer/Login" to="UI/Login" method="Login"]
+[connection signal="pressed" from="UI/Register/Register" to="UI/Register" method="Register"]

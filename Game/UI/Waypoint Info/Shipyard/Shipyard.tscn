@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvyrav6wu6f03"]
+
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="1_hfieo"]
+[ext_resource type="Script" path="res://Game/UI/Waypoint Info/Shipyard/ShipyardNode.cs" id="1_r6ry6"]
+[ext_resource type="PackedScene" uid="uid://bksces4tmwsn4" path="res://Game/UI/Waypoint Info/Shipyard/Ship/Shipyard Ship.tscn" id="2_5tbke"]
+
+[node name="Shipyard" type="PanelContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_r6ry6")
+shipScene = ExtResource("2_5tbke")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("1_hfieo")
+
+[node name="Shipyard" type="Label" parent="VBox/Header"]
+layout_mode = 2
+text = "Shipyard"
+
+[node name="Ships Margin" type="MarginContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Status" type="CenterContainer" parent="VBox/Ships Margin"]
+layout_mode = 2
+
+[node name="Status" type="Label" parent="VBox/Ships Margin/Status"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Loading..."
+
+[node name="Ships List" type="VBoxContainer" parent="VBox/Ships Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5

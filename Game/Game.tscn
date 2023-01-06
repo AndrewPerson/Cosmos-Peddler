@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://bfhxd2ashfj2o"]
+
+[ext_resource type="Script" path="res://Game/WorldNode.cs" id="1_drfwb"]
+[ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_rmgst"]
+[ext_resource type="Script" path="res://Game/GameCameraNode.cs" id="3_j1hyy"]
+[ext_resource type="Script" path="res://Game/UI/UINode.cs" id="4_h7rjt"]
+[ext_resource type="PackedScene" uid="uid://ce5mawdnc3fpb" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
+[ext_resource type="PackedScene" uid="uid://d3xoniddnoqq" path="res://Game/UI/Waypoint Info/Waypoint Info.tscn" id="5_mtryu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bvkj"]
+
+[sub_resource type="Sky" id="Sky_2rwvl"]
+sky_material = SubResource("ProceduralSkyMaterial_4bvkj")
+
+[sub_resource type="Environment" id="Environment_725tv"]
+background_mode = 1
+sky = SubResource("Sky_2rwvl")
+ambient_light_source = 2
+ambient_light_color = Color(0.203922, 0.203922, 0.203922, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 3
+ssr_max_steps = 68
+ssr_fade_in = 5.74647e-05
+ssr_fade_out = 1e-05
+ssr_depth_tolerance = 128.0
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_blend_mode = 1
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[node name="Game" type="Node"]
+
+[node name="World" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00360143, -0.00142813, -0.00234313)
+script = ExtResource("1_drfwb")
+solarSystemScene = ExtResource("2_rmgst")
+mapScale = 0.06
+waypointMapScale = 0.2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
+environment = SubResource("Environment_725tv")
+
+[node name="Camera" type="Camera3D" parent="World"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, -1.51833, 15.2442, 8.6311)
+script = ExtResource("3_j1hyy")
+speed = 1.0
+minZoom = 2.0
+maxZoom = 40.0
+
+[node name="NoLight" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+visible = false
+light_energy = 0.05
+sky_mode = 1
+
+[node name="Systems" type="Node3D" parent="World"]
+unique_name_in_owner = true
+
+[node name="UI" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_h7rjt")
+
+[node name="Waypoint Info" parent="UI" instance=ExtResource("5_mtryu")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Ship Info" parent="UI" instance=ExtResource("5_amhjw")]
+unique_name_in_owner = true
+visible = false
+
+[connection signal="mouse_entered" from="UI" to="UI" method="MouseEnter"]
+[connection signal="mouse_exited" from="UI" to="UI" method="MouseExit"]

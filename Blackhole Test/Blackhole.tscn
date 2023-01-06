@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://c2bpr1jh0i1e8"]
+
+[ext_resource type="Shader" path="res://Blackhole Test/Test.gdshader" id="1_8ah5b"]
+[ext_resource type="Shader" path="res://Blackhole Test/Test2.gdshader" id="2_o8qav"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xhgb"]
+render_priority = 0
+shader = ExtResource("1_8ah5b")
+shader_parameter/ior = 1.9
+shader_parameter/planeSize = Vector2(2, 2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_5lqgy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0e0s4"]
+render_priority = 0
+shader = ExtResource("2_o8qav")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2ubuw"]
+
+[node name="Home" type="Node"]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.836162, 0.548483, 0, -0.548483, 0.836162, -0.125745, 1.17906, 1.90429)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+material_override = SubResource("ShaderMaterial_6xhgb")
+mesh = SubResource("SphereMesh_5lqgy")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+material_override = SubResource("ShaderMaterial_0e0s4")
+mesh = SubResource("PlaneMesh_2ubuw")

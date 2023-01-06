@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://tbry2w156gs6"]
+
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="1_d2ese"]
+[ext_resource type="Script" path="res://Game/UI/Waypoint Info/Traits/TraitsNode.cs" id="1_j0jij"]
+
+[node name="Traits" type="PanelContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_j0jij")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 55.0
+offset_bottom = 48.0
+
+[node name="Header" type="PanelContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 31)
+offset_right = 53.0
+offset_bottom = 32.0
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("1_d2ese")
+
+[node name="Traits" type="Label" parent="VBox/Header"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = 27.0
+text = "Traits"
+
+[node name="Traits Margin" type="MarginContainer" parent="VBox"]
+offset_top = 36.0
+offset_right = 53.0
+offset_bottom = 46.0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Traits" type="VBoxContainer" parent="VBox/Traits Margin"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = 5.0
+theme_override_constants/separation = 5

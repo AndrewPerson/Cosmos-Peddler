@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8qu5w1xh7iqo"]
+
+[ext_resource type="Script" path="res://Game/Solar System/Orbit Indicator/OrbitIndicatorNode.cs" id="1_c31fd"]
+[ext_resource type="Shader" path="res://Game/Solar System/Orbit Indicator/Orbit.gdshader" id="1_egi0l"]
+[ext_resource type="Shader" path="res://Game/Solar System/Orbit Indicator/Waypoint Indicator.gdshader" id="2_7ifjw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l18oa"]
+render_priority = 0
+shader = ExtResource("2_7ifjw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6cfjk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ipv8b"]
+render_priority = 0
+shader = ExtResource("1_egi0l")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ne02i"]
+
+[node name="Orbit Indicator" type="Node3D"]
+script = ExtResource("1_c31fd")
+
+[node name="Waypoint Indicator" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("ShaderMaterial_l18oa")
+instance_shader_parameters/dash_count = 1.59155
+instance_shader_parameters/line_width = 0.05
+instance_shader_parameters/time_scale = 0.0555556
+mesh = SubResource("PlaneMesh_6cfjk")
+
+[node name="Orbit" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("ShaderMaterial_ipv8b")
+instance_shader_parameters/dash_count = 10.0
+instance_shader_parameters/line_width = 0.05
+instance_shader_parameters/time_scale = 10.0
+mesh = SubResource("PlaneMesh_ne02i")

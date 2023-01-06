@@ -1,0 +1,151 @@
+[gd_scene load_steps=5 format=3 uid="uid://2gytlhuenjw2"]
+
+[ext_resource type="Script" path="res://Game/UI/Ship Info/Crew/CrewNode.cs" id="1_i04i7"]
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_mdkix"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a8gv7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2n60d"]
+
+[node name="Crew" type="PanelContainer"]
+offset_right = 101.0
+offset_bottom = 71.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_i04i7")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 99.0
+offset_bottom = 148.0
+
+[node name="Header Container" type="PanelContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 31)
+offset_right = 97.0
+offset_bottom = 32.0
+size_flags_vertical = 0
+tooltip_text = "The ship's crew service and maintain the ship's systems and equipment."
+theme_override_styles/panel = ExtResource("2_mdkix")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBox/Header Container"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 92.0
+offset_bottom = 27.0
+theme_override_constants/separation = 0
+
+[node name="Header" type="Label" parent="VBox/Header Container/HBoxContainer"]
+offset_right = 54.0
+offset_bottom = 22.0
+text = "Crew - "
+
+[node name="Crew Count" type="Label" parent="VBox/Header Container/HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 54.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 20.0
+label_settings = SubResource("LabelSettings_a8gv7")
+
+[node name="Divider" type="Label" parent="VBox/Header Container/HBoxContainer"]
+offset_left = 55.0
+offset_right = 62.0
+offset_bottom = 22.0
+text = "/"
+
+[node name="Max Crew" type="Label" parent="VBox/Header Container/HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 62.0
+offset_top = 1.0
+offset_right = 63.0
+offset_bottom = 20.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox"]
+offset_top = 36.0
+offset_right = 97.0
+offset_bottom = 146.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="VBox/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 92.0
+offset_bottom = 105.0
+theme_override_constants/h_separation = 10
+columns = 2
+
+[node name="Required Label" type="Label" parent="VBox/MarginContainer/GridContainer"]
+offset_right = 71.0
+offset_bottom = 22.0
+size_flags_horizontal = 2
+tooltip_text = "The minimum number of crew members required to maintain the ship."
+mouse_filter = 1
+text = "Required:"
+
+[node name="Required" type="Label" parent="VBox/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+offset_left = 86.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 20.0
+size_flags_horizontal = 10
+label_settings = SubResource("LabelSettings_2n60d")
+horizontal_alignment = 2
+
+[node name="Morale Label" type="Label" parent="VBox/MarginContainer/GridContainer"]
+offset_top = 26.0
+offset_right = 56.0
+offset_bottom = 48.0
+size_flags_horizontal = 2
+tooltip_text = "A rough measure of the crew's morale. A higher morale means the crew is happier and more productive. A lower morale means the ship is more prone to accidents."
+mouse_filter = 1
+text = "Morale:"
+
+[node name="Morale" type="Label" parent="VBox/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+offset_left = 86.0
+offset_top = 27.0
+offset_right = 87.0
+offset_bottom = 46.0
+size_flags_horizontal = 10
+horizontal_alignment = 2
+
+[node name="Rotation Label" type="Label" parent="VBox/MarginContainer/GridContainer"]
+offset_top = 52.0
+offset_right = 68.0
+offset_bottom = 74.0
+size_flags_horizontal = 2
+tooltip_text = "The rotation of crew shifts. A stricter shift improves the ship's performance. A more relaxed shift improves the crew's morale."
+mouse_filter = 1
+text = "Rotation:"
+
+[node name="Rotation" type="Label" parent="VBox/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+offset_left = 86.0
+offset_top = 53.0
+offset_right = 87.0
+offset_bottom = 72.0
+size_flags_horizontal = 10
+horizontal_alignment = 2
+
+[node name="Wages Label" type="Label" parent="VBox/MarginContainer/GridContainer"]
+offset_top = 78.0
+offset_right = 57.0
+offset_bottom = 100.0
+size_flags_horizontal = 2
+tooltip_text = "The amount of credits per crew member paid per hour. Wages are paid when a ship docks at a civilized waypoint."
+mouse_filter = 1
+text = "Wages:"
+
+[node name="Wages" type="Label" parent="VBox/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+offset_left = 86.0
+offset_top = 79.0
+offset_right = 87.0
+offset_bottom = 98.0
+size_flags_horizontal = 10
+horizontal_alignment = 2

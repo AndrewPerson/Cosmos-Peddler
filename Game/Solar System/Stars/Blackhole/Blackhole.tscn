@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=3 uid="uid://b4pijn8qgv1it"]
+
+[ext_resource type="Shader" path="res://Game/Solar System/Stars/Blackhole/BlackholeHalo.gdshader" id="1_85dvb"]
+[ext_resource type="Shader" path="res://Game/Solar System/Stars/Blackhole/Blackhole.gdshader" id="2_yev3d"]
+[ext_resource type="Script" path="res://Game/Solar System/Stars/Blackhole/BlackholeNode.cs" id="3_x7p6d"]
+
+[sub_resource type="Gradient" id="Gradient_7wljx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.189003, 0.398625, 0.611684, 0.817869)
+colors = PackedColorArray(0.929412, 0.482353, 0.223529, 1, 1, 0.960784, 0.25098, 1, 1, 0.721569, 0.290196, 1, 0.929412, 0.482353, 0.223529, 1, 0.741176, 0.25098, 0.207843, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ehqe0"]
+gradient = SubResource("Gradient_7wljx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tf71s"]
+render_priority = 0
+shader = ExtResource("1_85dvb")
+shader_parameter/colours = SubResource("GradientTexture1D_ehqe0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5a1e"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_tf71s")
+shader = ExtResource("2_yev3d")
+shader_parameter/blackholeRadius = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_ady3t"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bm0li"]
+
+[sub_resource type="Sky" id="Sky_glygu"]
+sky_material = SubResource("ProceduralSkyMaterial_bm0li")
+
+[sub_resource type="Environment" id="Environment_iq1tm"]
+background_mode = 1
+sky = SubResource("Sky_glygu")
+ambient_light_source = 2
+ambient_light_color = Color(0.203922, 0.203922, 0.203922, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 3
+ssr_max_steps = 68
+ssr_fade_in = 5.74647e-05
+ssr_fade_out = 1e-05
+ssr_depth_tolerance = 128.0
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_blend_mode = 0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[node name="Blackhole" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_g5a1e")
+instance_shader_parameters/emission_strength = 2.0
+instance_shader_parameters/seed = 1.0
+mesh = SubResource("SphereMesh_ady3t")
+script = ExtResource("3_x7p6d")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_iq1tm")

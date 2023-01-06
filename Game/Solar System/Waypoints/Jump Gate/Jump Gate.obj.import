@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://drfkstbjqeiu7"
+path="res://.godot/imported/Jump Gate.obj-7759fcc411a09fa3d0a270cc22344063.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Jump Gate.obj-7759fcc411a09fa3d0a270cc22344063.mesh"]
+
+source_file="res://Game/Solar System/Waypoints/Jump Gate/Jump Gate.obj"
+dest_files=["res://.godot/imported/Jump Gate.obj-7759fcc411a09fa3d0a270cc22344063.mesh", "res://.godot/imported/Jump Gate.obj-7759fcc411a09fa3d0a270cc22344063.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(0.02, 0.02, 0.02)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

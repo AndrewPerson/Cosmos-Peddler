@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bksces4tmwsn4"]
+
+[ext_resource type="Script" path="res://Game/UI/Waypoint Info/Shipyard/Ship/ShipyardShipNode.cs" id="1_efx7t"]
+
+[node name="Shipyard Ship" type="HBoxContainer"]
+offset_right = 266.0
+offset_bottom = 39.0
+script = ExtResource("1_efx7t")
+
+[node name="Name" type="Label" parent="."]
+unique_name_in_owner = true
+offset_top = 8.0
+offset_right = 127.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "HAULER 2000"
+
+[node name="Buy" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(135, 0)
+offset_left = 131.0
+offset_right = 266.0
+offset_bottom = 39.0
+text = "Buy - $2000"

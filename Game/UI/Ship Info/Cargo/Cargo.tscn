@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwkn36r3smmmg"]
+
+[ext_resource type="Script" path="res://Game/UI/Ship Info/Cargo/CargoNode.cs" id="1_uwln4"]
+[ext_resource type="PackedScene" uid="uid://cplttuvknqhip" path="res://Game/UI/Ship Info/Cargo/Cargo Item/Cargo Item.tscn" id="2_ypc6l"]
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="3_hotlr"]
+
+[node name="Cargo" type="PanelContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_uwln4")
+cargoItemScene = ExtResource("2_ypc6l")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 48.0
+
+[node name="Header Container" type="PanelContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 31)
+offset_right = 78.0
+offset_bottom = 32.0
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("3_hotlr")
+
+[node name="Header" type="Label" parent="VBox/Header Container"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 73.0
+offset_bottom = 27.0
+text = "Cargo - /"
+
+[node name="Cargo Margin" type="MarginContainer" parent="VBox"]
+offset_top = 36.0
+offset_right = 78.0
+offset_bottom = 46.0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBox/Cargo Margin"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 73.0
+offset_bottom = 5.0
+horizontal_scroll_mode = 0
+
+[node name="Cargo List" type="VBoxContainer" parent="VBox/Cargo Margin/ScrollContainer"]
+unique_name_in_owner = true
+offset_right = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 5

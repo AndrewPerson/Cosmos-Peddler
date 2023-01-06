@@ -1,0 +1,38 @@
+[gd_scene load_steps=10 format=3 uid="uid://i32ffov68o0f"]
+
+[ext_resource type="Script" path="res://Game/Solar System/Waypoints/WaypointNode.cs" id="1_bs3ml"]
+[ext_resource type="PackedScene" uid="uid://da1oqnhu3qegd" path="res://Game/Solar System/Waypoints/Planet/Planet.tscn" id="2_1hvr2"]
+[ext_resource type="PackedScene" uid="uid://bqnyf8fteoaib" path="res://Game/Solar System/Waypoints/Gas Giant/Gas Giant.tscn" id="3_lc6qi"]
+[ext_resource type="PackedScene" uid="uid://bdxl26go1xcnn" path="res://Game/Solar System/Waypoints/Moon/Moon.tscn" id="4_bvjae"]
+[ext_resource type="PackedScene" uid="uid://cfdmqoayl6jkj" path="res://Game/Solar System/Waypoints/Jump Gate/Jump Gate.tscn" id="5_50wc5"]
+[ext_resource type="PackedScene" uid="uid://2mckxw2vfkex" path="res://Game/Solar System/Waypoints/Asteroids/Asteroids.tscn" id="5_mn47c"]
+[ext_resource type="PackedScene" uid="uid://b5re7nbwpxka0" path="res://Game/Solar System/Waypoints/Unknown/Unknown.tscn" id="6_pllal"]
+[ext_resource type="PackedScene" uid="uid://b8qu5w1xh7iqo" path="res://Game/Solar System/Orbit Indicator/Orbit Indicator.tscn" id="7_l0xfe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e0il1"]
+
+[node name="Waypoint" type="Area3D"]
+script = ExtResource("1_bs3ml")
+waypointTypeNames = [&"PLANET", &"GAS_GIANT", &"MOON", &"JUMP_GATE", &"ASTEROID_FIELD", &"UNKNOWN"]
+waypointTypeScenes = [ExtResource("2_1hvr2"), ExtResource("3_lc6qi"), ExtResource("4_bvjae"), ExtResource("5_50wc5"), ExtResource("5_mn47c"), ExtResource("6_pllal")]
+
+[node name="Bounds" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("BoxShape3D_e0il1")
+
+[node name="Orbit Indicator" parent="." instance=ExtResource("7_l0xfe")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Name" type="Label3D" parent="."]
+unique_name_in_owner = true
+visible = false
+pixel_size = 0.001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+render_priority = 2
+outline_render_priority = 1
+
+[connection signal="mouse_entered" from="." to="." method="MouseEnter"]
+[connection signal="mouse_exited" from="." to="." method="MouseExit"]

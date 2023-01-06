@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://crpid6ct7ts2s"
+path="res://.godot/imported/wormhole.obj-20d2e65828322a657c2cfe1f931615d3.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wormhole.obj-20d2e65828322a657c2cfe1f931615d3.mesh"]
+
+source_file="res://Game/Solar System/Waypoints/Jump Gate/wormhole.obj"
+dest_files=["res://.godot/imported/wormhole.obj-20d2e65828322a657c2cfe1f931615d3.mesh", "res://.godot/imported/wormhole.obj-20d2e65828322a657c2cfe1f931615d3.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(0.2, 0.2, 0.2)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
