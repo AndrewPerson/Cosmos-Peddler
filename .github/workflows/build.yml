@@ -48,6 +48,10 @@ jobs:
         if: steps.templates-cache.outputs.cache-hit != 'true'
         run: unzip ./Godot_v4.0-beta9_mono_export_templates.tpz
         
+      - name: Create Export Template directory
+        if: steps.templates-cache.outputs.cache-hit != 'true'
+        run: mkdir /home/runner/.local/share/godot/export_templates/4.0.beta9.mono --parents
+        
       - name: Copy Export Templates
         if: steps.templates-cache.outputs.cache-hit != 'true'
         run: cp ./templates /home/runner/.local/share/godot/export_templates/4.0.beta9.mono -r
