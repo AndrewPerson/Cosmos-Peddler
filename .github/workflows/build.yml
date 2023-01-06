@@ -34,7 +34,7 @@ jobs:
         run: unzip ./Godot_v4.0-beta9_mono_linux_x86_64.zip
       
       - name: Export with Godot
-        run: "\"./Godot_v4.0-beta9_mono_linux_x86_64/Godot_v4.0-beta9_mono_linux.x86_64\" --export-release ${{ matrix.export.template }} \"./Releases/${{ matrix.export.template }}/Cosmos-Peddler.${{ matrix.export.file }}\""
+        run: "\"./Godot_v4.0-beta9_mono_linux_x86_64/Godot_v4.0-beta9_mono_linux.x86_64\" --display-driver headless --export-release ${{ matrix.export.template }} \"./Releases/${{ matrix.export.template }}/Cosmos-Peddler.${{ matrix.export.file }}\""
 
       - name: Upload ${{ matrix.export.template }} artifacts
         uses: actions/upload-artifact@v3
