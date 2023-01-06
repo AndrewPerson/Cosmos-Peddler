@@ -10,21 +10,17 @@ script = ExtResource("1_8hnl5")
 shipScene = ExtResource("2_borud")
 
 [node name="VBox" type="VBoxContainer" parent="."]
-layout_mode = 2
 
 [node name="Header" type="PanelContainer" parent="VBox"]
 custom_minimum_size = Vector2(0, 31)
-layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = ExtResource("2_e4673")
 
 [node name="Ships" type="Label" parent="VBox/Header"]
-layout_mode = 2
 text = "Ships
 "
 
 [node name="Ships Margin" type="MarginContainer" parent="VBox"]
-layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -32,14 +28,11 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="Status" type="CenterContainer" parent="VBox/Ships Margin"]
-layout_mode = 2
 
 [node name="Status" type="Label" parent="VBox/Ships Margin/Status"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
 text = "Loading..."
 
 [node name="Ships List" type="VBoxContainer" parent="VBox/Ships Margin"]
 unique_name_in_owner = true
-layout_mode = 2

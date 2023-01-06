@@ -55,6 +55,7 @@ grow_vertical = 2
 script = ExtResource("2_b84ea")
 
 [node name="Cosmos Peddler" type="RichTextLabel" parent="UI"]
+layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -74,12 +75,14 @@ fit_content_height = true
 [node name="Home Button" type="Button" parent="UI"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 50.0
 offset_bottom = 50.0
 
 [node name="TextureRect" type="TextureRect" parent="UI/Home Button"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -97,6 +100,7 @@ ignore_texture_size = true
 [node name="Home" type="VBoxContainer" parent="UI"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -110,31 +114,24 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 
 [node name="Login" type="Button" parent="UI/Home"]
-offset_left = 359.0
-offset_right = 440.0
-offset_bottom = 39.0
+layout_mode = 2
 size_flags_horizontal = 4
 text = "Login"
 
 [node name="Register" type="Button" parent="UI/Home"]
-offset_left = 348.0
-offset_top = 59.0
-offset_right = 451.0
-offset_bottom = 98.0
+layout_mode = 2
 size_flags_horizontal = 4
 text = "Register"
 
 [node name="About" type="Button" parent="UI/Home"]
-offset_left = 357.0
-offset_top = 118.0
-offset_right = 443.0
-offset_bottom = 157.0
+layout_mode = 2
 size_flags_horizontal = 4
 text = "About"
 
 [node name="Login" type="HBoxContainer" parent="UI"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 0
 offset_left = 176.0
 offset_top = 324.0
 offset_right = 976.0
@@ -143,12 +140,14 @@ script = ExtResource("4_lrfcv")
 
 [node name="Token Input" type="LineEdit" parent="UI/Login"]
 unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("5_qfjrs")
 Label = "Token"
 ValidationMessage = "Invalid Token"
 
 [node name="Login" type="Button" parent="UI/Login"]
+layout_mode = 2
 size_flags_vertical = 8
 text = "Login"
 
@@ -156,6 +155,7 @@ text = "Login"
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -171,15 +171,18 @@ script = ExtResource("6_3vhti")
 
 [node name="Name Input" type="LineEdit" parent="UI/Register"]
 unique_name_in_owner = true
+layout_mode = 2
 script = ExtResource("5_qfjrs")
 Label = "Name"
 ValidationMessage = "Problem"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Register"]
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = -3
 
 [node name="Faction" type="Label" parent="UI/Register/VBoxContainer2"]
+layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 text = "Faction"
@@ -187,6 +190,7 @@ text = "Faction"
 [node name="Faction Input" type="OptionButton" parent="UI/Register/VBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 39)
+layout_mode = 2
 item_count = 10
 selected = 0
 popup/item_0/text = "Cosmic"
@@ -211,6 +215,7 @@ popup/item_9/text = "Cobalt"
 popup/item_9/id = 9
 
 [node name="Register" type="Button" parent="UI/Register"]
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Register"
@@ -218,7 +223,7 @@ text = "Register"
 [node name="About" type="Control" parent="UI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -232,6 +237,7 @@ grow_vertical = 2
 script = ExtResource("8_mjiom")
 
 [node name="Credits" type="RichTextLabel" parent="UI/About"]
+layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 19.0
@@ -242,6 +248,7 @@ fit_content_height = true
 
 [node name="License Heading" type="RichTextLabel" parent="UI/About"]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_top = 38.0
@@ -253,6 +260,7 @@ fit_content_height = true
 
 [node name="License" type="RichTextLabel" parent="UI/About"]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_top = 57.0
