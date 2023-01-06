@@ -66,6 +66,9 @@ jobs:
       - name: Export for ${{ matrix.export.dir }} with Godot
         run: "\"./Godot_v4.0-beta9_mono_linux_x86_64/Godot_v4.0-beta9_mono_linux.x86_64\" --display-driver headless --export-release \"${{ matrix.export.template }}\" \"./Releases/${{ matrix.export.dir }}/Cosmos-Peddler.${{ matrix.export.file }}\""
 
+      - name: Print directory
+        run: ls "./Release/${{ matrix.export.dir }}"
+
       - name: Upload ${{ matrix.export.dir }} artifacts
         uses: actions/upload-artifact@v3
         with:
