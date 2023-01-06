@@ -23,6 +23,7 @@ jobs:
         uses: actions/cache@v3.2.2
         with:
           path: ./Godot_v4.0-beta9_mono_linux_x86_64/
+          key: godot-cache
           
       - name: Download Godot
         if: steps.godot-cache.outputs.cache-hit != 'true'
