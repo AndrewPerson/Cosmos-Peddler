@@ -2,9 +2,7 @@ using System.Threading.Tasks;
 
 namespace Godot;
 
-#if TOOLS
 [Tool]
-#endif
 public partial class AdvancedLineEdit : LineEdit
 {
     public delegate string? ValidationDelegate(string text);
