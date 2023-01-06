@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         export:
@@ -18,10 +18,18 @@ jobs:
         with:
           dotnet-version: 6.0.1
           
+      - name: Cache Godot
+        id: godot-cache
+        uses: actions/cache@v3.2.2
+        with:
+          path: ./Godot_v4.0-beta9_mono_linux_x86_64/
+          
       - name: Download Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
         run: wget https://downloads.tuxfamily.org/godotengine/4.0/beta9/mono/Godot_v4.0-beta9_mono_linux_x86_64.zip
         
       - name: Extract Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
         run: unzip ./Godot_v4.0-beta9_mono_linux_x86_64.zip
       
       - name: Export with Godot
