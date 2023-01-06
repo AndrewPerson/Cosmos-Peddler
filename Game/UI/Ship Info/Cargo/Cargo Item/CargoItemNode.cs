@@ -68,6 +68,16 @@ public partial class CargoItemNode : HBoxContainer
 			var market = t.Result;
 			var goods = market.GetMarketItems();
 
+			if (goods == null)
+			{
+				buy.Text = "Unavailable";
+				buy.Disabled = true;
+				sell.Text = "Unavailable";
+				sell.Disabled = true;
+
+				return;
+			}
+
 			var marketGood = goods.FirstOrDefault(i => i.Symbol == cargo.Symbol);
 
 			if (marketGood == null)
