@@ -1,5 +1,8 @@
 generate-client.sh
-/.godot
+/.godot/editor
+/.godot/exported
+/.godot/mono
+/.godot/shader_cache
 /.config
 /.vscode
 /Releases
