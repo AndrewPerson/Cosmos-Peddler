@@ -12,29 +12,20 @@ script = ExtResource("1_qirdg")
 marketItemScene = ExtResource("2_nrt8r")
 
 [node name="VBox" type="VBoxContainer" parent="."]
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 421.0
-offset_bottom = 50.0
+layout_mode = 2
 
 [node name="Header" type="PanelContainer" parent="VBox"]
 custom_minimum_size = Vector2(0, 31)
-offset_right = 419.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = ExtResource("1_6evoh")
 
 [node name="Market" type="Label" parent="VBox/Header"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 414.0
-offset_bottom = 27.0
+layout_mode = 2
 text = "Market"
 
 [node name="Items Margin" type="MarginContainer" parent="VBox"]
-offset_top = 36.0
-offset_right = 419.0
-offset_bottom = 48.0
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -42,137 +33,73 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="Status" type="CenterContainer" parent="VBox/Items Margin"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 414.0
-offset_bottom = 7.0
+layout_mode = 2
 
 [node name="Status" type="Label" parent="VBox/Items Margin/Status"]
 unique_name_in_owner = true
 visible = false
-offset_left = 168.0
-offset_top = -10.0
-offset_right = 240.0
-offset_bottom = 12.0
+layout_mode = 2
 text = "Loading..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBox/Items Margin"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 414.0
-offset_bottom = 7.0
+layout_mode = 2
 
 [node name="Items List" type="VBoxContainer" parent="VBox/Items Margin/ScrollContainer"]
 unique_name_in_owner = true
 visible = false
-offset_right = 407.0
-offset_bottom = 787.0
+layout_mode = 2
 theme_override_constants/separation = 5
 
 [node name="Market Item" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 407.0
-offset_bottom = 39.0
+layout_mode = 2
 
 [node name="Market Item2" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 44.0
-offset_right = 407.0
-offset_bottom = 83.0
+layout_mode = 2
 
 [node name="Market Item3" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 88.0
-offset_right = 407.0
-offset_bottom = 127.0
+layout_mode = 2
 
 [node name="Market Item4" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 132.0
-offset_right = 407.0
-offset_bottom = 171.0
+layout_mode = 2
 
 [node name="Market Item5" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 176.0
-offset_right = 407.0
-offset_bottom = 215.0
+layout_mode = 2
 
 [node name="Market Item6" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 220.0
-offset_right = 407.0
-offset_bottom = 259.0
+layout_mode = 2
 
 [node name="Market Item7" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 264.0
-offset_right = 407.0
-offset_bottom = 303.0
+layout_mode = 2
 
 [node name="Market Item8" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 308.0
-offset_right = 407.0
-offset_bottom = 347.0
+layout_mode = 2
 
 [node name="Market Item9" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 352.0
-offset_right = 407.0
-offset_bottom = 391.0
+layout_mode = 2
 
 [node name="Market Item10" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 396.0
-offset_right = 407.0
-offset_bottom = 435.0
+layout_mode = 2
 
 [node name="Market Item11" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 440.0
-offset_right = 407.0
-offset_bottom = 479.0
+layout_mode = 2
 
 [node name="Market Item12" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 484.0
-offset_right = 407.0
-offset_bottom = 523.0
+layout_mode = 2
 
 [node name="Market Item13" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 528.0
-offset_right = 407.0
-offset_bottom = 567.0
+layout_mode = 2
 
 [node name="Market Item14" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 572.0
-offset_right = 407.0
-offset_bottom = 611.0
+layout_mode = 2
 
 [node name="Market Item15" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 616.0
-offset_right = 407.0
-offset_bottom = 655.0
+layout_mode = 2
 
 [node name="Market Item16" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 660.0
-offset_right = 407.0
-offset_bottom = 699.0
+layout_mode = 2
 
 [node name="Market Item17" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 704.0
-offset_right = 407.0
-offset_bottom = 743.0
+layout_mode = 2
 
 [node name="Market Item18" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-offset_left = 0.0
-offset_top = 748.0
-offset_right = 407.0
-offset_bottom = 787.0
+layout_mode = 2
