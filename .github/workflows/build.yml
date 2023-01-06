@@ -18,6 +18,9 @@ jobs:
         with:
           dotnet-version: 6.x
           
+      - name: Setup .NET OpenAPI Tools
+        run: dotnet tool install -g Microsoft.dotnet-openapi
+          
       - name: Cache Godot
         id: godot-cache
         uses: actions/cache@v3.2.2
