@@ -53,15 +53,16 @@ public partial class ShipyardNode : PanelContainer
 
 		SetStatus("Loading...");
 
-		Waypoint.GetShipyard().ContinueWith(task =>
+		Waypoint.GetShipyard().ContinueWith(t =>
 		{
-			if (task.IsFaulted)
+			if (t.IsFaulted)
 			{
-				GD.PrintErr(task.Exception);
+				GD.PrintErr(t.Exception);
+				SetStatus(t.Exception?.Message ?? "Unknown error");
 				return;
 			}
 
-			var shipyard = task.Result;
+			var shipyard = t.Result;
 
 			if (shipyard == null)
 			{

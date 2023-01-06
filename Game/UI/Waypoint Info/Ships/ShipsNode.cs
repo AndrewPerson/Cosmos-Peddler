@@ -50,11 +50,9 @@ public partial class ShipsNode : PanelContainer
 		{
 			if (t.IsFaulted)
 			{
-				if (t.Exception != null)
-				{
-					SetStatus(t.Exception.Message);
-				}
-				else SetStatus("Unknown error");
+				GD.PrintErr(t.Exception);
+				SetStatus(t.Exception?.Message ?? "Unknown error");
+				return;
 			}
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());

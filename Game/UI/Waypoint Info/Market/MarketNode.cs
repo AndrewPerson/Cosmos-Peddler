@@ -59,6 +59,7 @@ public partial class MarketNode : PanelContainer
 			if (task.IsFaulted)
 			{
 				GD.PrintErr(task.Exception);
+				SetStatus(task.Exception?.Message ?? "Unknown error");
 				return;
 			}
 
