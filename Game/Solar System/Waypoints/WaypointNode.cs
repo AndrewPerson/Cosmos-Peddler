@@ -71,7 +71,7 @@ public partial class WaypointNode : Node3D
 		var waypointVisualiser = (IWaypointVisualiser)waypointInstance;
 
 		waypointVisualiser.Waypoint = waypoint;
-		waypointVisualiser.SolarSystemCentre = solarSystemCenter;
+		waypointVisualiser.OrbitCentre = orbitalTarget == null ? solarSystemCenter : orbitalTarget.GlobalPosition;
 
 		waypointInstance.Visible = false;
 		Ready += () => waypointInstance.SetDeferred("visible", true);

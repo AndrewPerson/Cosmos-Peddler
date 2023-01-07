@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Material" uid="uid://bl2afsj57rkhg" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Gas Giant.material" id="1_pybpw"]
+[ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/GasGiantNode.cs" id="2_4tewb"]
+[ext_resource type="Material" uid="uid://cgaw333ypmv7h" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Rings.material" id="3_g3djj"]
+[ext_resource type="Material" uid="uid://bqh0x400unw6u" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Fog.material" id="4_2jwpe"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_stx1e"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r0sav"]
+
+[node name="GasGiant" type="MeshInstance3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = ExtResource("1_pybpw")
+instance_shader_parameters/seed = 1.0
+mesh = SubResource("SphereMesh_stx1e")
+script = ExtResource("2_4tewb")
+
+[node name="Rings" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1.2, 0, 0, 0, 1.15912, 0.310583, 0, -0.310584, 1.15911, 0, 0, 0)
+material_override = ExtResource("3_g3djj")
+instance_shader_parameters/seed = 1.0
+mesh = SubResource("PlaneMesh_r0sav")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+extents = Vector3(0.55, 0.55, 0.55)
+shape = 0
+material = ExtResource("4_2jwpe")

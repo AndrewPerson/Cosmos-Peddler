@@ -1,0 +1,191 @@
+# Blender MTL File: 'None'
+# Material Count: 16
+
+newmtl clipper_blanket_hard
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.752943 0.791298 0.838799
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp_0r6jkjo
+
+newmtl clipper_blanket_hidable
+Ns 575.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.752943 0.791298 0.838799
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump /tmp/tmp_1i3u0u5
+
+newmtl clipper_blanket_soft
+Ns 575.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.752943 0.791298 0.838799
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump /tmp/tmpdm84azca
+
+newmtl clipper_bus_exposed
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpiw3n1kzv
+map_Kd /tmp/tmpmd7fhsln
+
+newmtl clipper_e_themis
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpotaf46tn
+map_Kd /tmp/tmpj1hk89s4
+
+newmtl clipper_eis
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmptsk8bgao
+map_Kd /tmp/tmpwao9qfwn
+
+newmtl clipper_europa_uvs
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp3iosornv
+map_Kd /tmp/tmpy2gsatcm
+
+newmtl clipper_magnetometer
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp5thi95ky
+map_Kd /tmp/tmp3gr8f948
+
+newmtl clipper_maspex
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmppshrd_bi
+map_Kd /tmp/tmpejfsnb3r
+
+newmtl clipper_mise
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp8hvn6j10
+map_Kd /tmp/tmpfk74qm2b
+
+newmtl clipper_pims
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpnifi4w0l
+map_Kd /tmp/tmpmoze5icl
+
+newmtl clipper_reason
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp3cnrlmnx
+map_Kd /tmp/tmpwlvhrlz1
+
+newmtl clipper_solar_cells
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpkids0i0h
+map_Kd /tmp/tmpsokq1jli
+
+newmtl clipper_solar_cells_chassis
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpmtd5hhbt
+map_Kd /tmp/tmpxexknq8t
+
+newmtl clipper_suda
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmpnfx3cvj4
+map_Kd /tmp/tmpw6w9b8sl
+
+newmtl clipper_telecom
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /tmp/tmp89ne_6i3
+map_Kd /tmp/tmp0yp__wug
