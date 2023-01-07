@@ -1,32 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4pijn8qgv1it"]
+[gd_scene load_steps=4 format=3 uid="uid://b4pijn8qgv1it"]
 
-[ext_resource type="Shader" path="res://Game/Solar System/Stars/Blackhole/BlackholeHalo.gdshader" id="1_85dvb"]
-[ext_resource type="Shader" path="res://Game/Solar System/Stars/Blackhole/Blackhole.gdshader" id="2_yev3d"]
+[ext_resource type="Material" uid="uid://cwng4a4dxycsr" path="res://Game/Solar System/Stars/Blackhole/Blackhole.material" id="1_d4w03"]
 [ext_resource type="Script" path="res://Game/Solar System/Stars/Blackhole/BlackholeNode.cs" id="3_x7p6d"]
-
-[sub_resource type="Gradient" id="Gradient_7wljx"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.189003, 0.398625, 0.611684, 0.817869)
-colors = PackedColorArray(0.929412, 0.482353, 0.223529, 1, 1, 0.960784, 0.25098, 1, 1, 0.721569, 0.290196, 1, 0.929412, 0.482353, 0.223529, 1, 0.741176, 0.25098, 0.207843, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ehqe0"]
-gradient = SubResource("Gradient_7wljx")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tf71s"]
-render_priority = 0
-shader = ExtResource("1_85dvb")
-shader_parameter/colours = SubResource("GradientTexture1D_ehqe0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5a1e"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_tf71s")
-shader = ExtResource("2_yev3d")
-shader_parameter/blackholeRadius = 0.3
 
 [sub_resource type="SphereMesh" id="SphereMesh_ady3t"]
 
 [node name="Blackhole" type="MeshInstance3D"]
-material_override = SubResource("ShaderMaterial_g5a1e")
+material_override = ExtResource("1_d4w03")
 instance_shader_parameters/emission_strength = 2.0
 instance_shader_parameters/seed = 1.0
 mesh = SubResource("SphereMesh_ady3t")
