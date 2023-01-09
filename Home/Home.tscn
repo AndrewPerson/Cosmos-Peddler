@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxbkkp56uc5wc"]
+[gd_scene load_steps=12 format=3 uid="uid://dkjo41ngwmgxu"]
 
 [ext_resource type="Script" path="res://Home/HomeNode.cs" id="1_1dtef"]
 [ext_resource type="PackedScene" uid="uid://b4pijn8qgv1it" path="res://Game/Solar System/Stars/Blackhole/Blackhole.tscn" id="1_41snd"]
@@ -75,7 +75,7 @@ fit_content_height = true
 [node name="Home Button" type="Button" parent="UI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
+layout_mode = 1
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 50.0
