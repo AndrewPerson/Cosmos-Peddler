@@ -10,7 +10,7 @@ public partial class PopupUI<DataT> : ReactiveUI<DataT>
         UINode.Instance.Show(instance);
     }
 
-    public override void _EnterTree()
+    public override void _Ready()
     {
         instance = this;
     }
