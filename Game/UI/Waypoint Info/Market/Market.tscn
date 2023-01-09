@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://b8x0ovgwxn3hl" path="res://Game/UI/Waypoint Info/Market/Market Item/Market Item.tscn" id="2_nrt8r"]
 
 [node name="Market" type="PanelContainer"]
-offset_right = 423.0
-offset_bottom = 52.0
+offset_right = 67.0
+offset_bottom = 50.0
 size_flags_vertical = 3
 script = ExtResource("1_qirdg")
 marketItemScene = ExtResource("2_nrt8r")
@@ -48,58 +48,5 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 5
-
-[node name="Market Item" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item2" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item3" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item4" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item5" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item6" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item7" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item8" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item9" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item10" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item11" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item12" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item13" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item14" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item15" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item16" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item17" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
-
-[node name="Market Item18" parent="VBox/Items Margin/ScrollContainer/Items List" instance=ExtResource("2_nrt8r")]
-layout_mode = 2
