@@ -21,7 +21,7 @@ public partial class CrewNode : ReactiveUI<ShipCrew>
 		wages = GetNode<Label>("%Wages");
 	}
 
-	private void UpdateCrewInfo()
+	public override void UpdateUI()
 	{
 		crewCount.Text = Data.Current.ToString();
 		if (Data.Current < Data.Required) crewCount.LabelSettings.FontColor = Colors.Red;

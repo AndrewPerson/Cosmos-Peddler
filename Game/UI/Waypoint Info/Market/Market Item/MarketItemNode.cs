@@ -1,22 +1,9 @@
 using Godot;
-using System;
 
 namespace CosmosPeddler.Game;
 
-public partial class MarketItemNode : HBoxContainer
+public partial class MarketItemNode : ReactiveUI<MarketItem>
 {
-	private MarketItem _item = null!;
-
-	public MarketItem Item
-	{
-		get => _item;
-		set
-		{
-			_item = value;
-			UpdateItemInfo();
-		}
-	}
-
 	private Label name = null!;
 	private Button buy = null!;
 	private Button sell = null!;
@@ -28,15 +15,15 @@ public partial class MarketItemNode : HBoxContainer
 		sell = GetNode<Button>("%Sell");
 	}
 
-	private void UpdateItemInfo()
+	public override void UpdateUI()
 	{
-		name.Text = Item.Symbol.Replace('_', ' ');
-		name.TooltipText = Item.Description;
+		name.Text = Data.Symbol.Replace('_', ' ');
+		name.TooltipText = Data.Description;
 
-		buy.Text = $"Buy - ${Item.PurchasePrice}";
-		buy.Disabled = !Item.TradeType.HasFlag(MarketItemTradeType.Export);
+		buy.Text = $"Buy - ${Data.PurchasePrice}";
+		buy.Disabled = !Data.TradeType.HasFlag(MarketItemTradeType.Export);
 
-		sell.Text = $"Sell - ${Item.SellPrice}";
-		sell.Disabled = !Item.TradeType.HasFlag(MarketItemTradeType.Import);
+		sell.Text = $"Sell - ${Data.SellPrice}";
+		sell.Disabled = !Data.TradeType.HasFlag(MarketItemTradeType.Import);
 	}
 }
