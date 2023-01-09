@@ -27,6 +27,10 @@ public partial class WaypointNode : Node3D
 
 	private OrbitIndicatorNode orbitIndicator = null!;
 	private Label3D name = null!;
+	private Node3D indicators = null!;
+	private Sprite3D shipsIndicator = null!;
+	private Sprite3D marketIndicator = null!;
+	private Sprite3D shipyardIndicator = null!;
 	private CollisionShape3D bounds = null!;
 
 	public override void _EnterTree()
@@ -49,6 +53,10 @@ public partial class WaypointNode : Node3D
 #region Get Nodes
 		orbitIndicator = GetNode<OrbitIndicatorNode>("%Orbit Indicator");
 		name = GetNode<Label3D>("%Name");
+		indicators = GetNode<Node3D>("%Indicators");
+		shipsIndicator = GetNode<Sprite3D>("%Ships Indicator");
+		marketIndicator = GetNode<Sprite3D>("%Market Indicator");
+		shipyardIndicator = GetNode<Sprite3D>("%Shipyard Indicator");
 		bounds = GetNode<CollisionShape3D>("%Bounds");
 #endregion
 	}
@@ -121,8 +129,22 @@ public partial class WaypointNode : Node3D
 
 #region Name
 		name.Text = waypoint.Symbol;
-		name.Position = new Vector3(0, dimensions.y / 2, -dimensions.z / 2) / Scale;
+		name.Position = new Vector3(0, new Vector2(dimensions.z / 2, dimensions.y / 2).Length(), 0) / Scale;
 		name.Scale /= Scale;
+#endregion
+
+#region Indicators
+		indicators.Position = new Vector3(0, -new Vector2(dimensions.z / 2, dimensions.y / 2).Length(), 0) / Scale;
+		indicators.Scale /= Scale;
+
+		SetIndicators(
+			ships: false,
+			market: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
+			shipyard: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
+		);
+
+		UINode.Instance.UIAppear += HideIndicators;
+		UINode.Instance.UIDisappear += ShowIndicators;
 #endregion
 	}
 
@@ -136,8 +158,7 @@ public partial class WaypointNode : Node3D
 				{
 					focused = true;
 					GameCameraNode.Instance.ZoomTo(GlobalPosition, dimensions);
-					UINode.Instance.AllUICleared += GameCameraNode.Instance.EndZoom;
-					UINode.Instance.AllUICleared += () => UINode.Instance.AllUICleared -= GameCameraNode.Instance.EndZoom;
+					UINode.Instance.UIDisappear += EndUIZoom;
 
 					WaypointInfoNode.Show(waypoint);
 
@@ -174,4 +195,64 @@ public partial class WaypointNode : Node3D
 
 		orbitalTarget?.HideOrbit();
 	}
+
+	public void EndUIZoom()
+	{
+		UINode.Instance.UIDisappear -= EndUIZoom;
+		GameCameraNode.Instance.EndZoom();
+		focused = false;
+	}
+
+	public void ShowIndicators() => indicators.Visible = true;
+	public void HideIndicators() => indicators.Visible = false;
+
+	public void SetIndicators(bool ships = false, bool market = false, bool shipyard = false)
+	{
+		List<Sprite3D> activeIndicators = new();
+		
+		if (ships)
+		{
+			activeIndicators.Add(shipsIndicator);
+			shipsIndicator.Visible = true;
+		}
+		else shipsIndicator.Visible = false;
+
+		if (market)
+		{
+			activeIndicators.Add(marketIndicator);
+			marketIndicator.Visible = true;
+		}
+		else marketIndicator.Visible = false;
+
+		if (shipyard)
+		{
+			activeIndicators.Add(shipyardIndicator);
+			shipyardIndicator.Visible = true;
+		}
+		else shipyardIndicator.Visible = false;
+
+		if (activeIndicators.Count > 0)
+		{
+			var indicatorWidth = activeIndicators.Sum(x => x.Texture.GetSize().x) - activeIndicators[0].Texture.GetSize().x / 2 - activeIndicators[^1].Texture.GetSize().x / 2;
+			var indicatorOffset = indicatorWidth / -2;
+
+			foreach (var indicator in activeIndicators)
+			{
+				indicator.Offset = new Vector2(indicatorOffset, indicator.Offset.y);
+				indicatorOffset += indicator.Texture.GetSize().x;
+			}
+		}
+	}
+
+    public override void _ExitTree()
+    {
+        if (focused)
+		{
+			UINode.Instance.UIDisappear -= EndUIZoom;
+			GameCameraNode.Instance.EndZoom();
+		}
+
+		UINode.Instance.UIAppear -= HideIndicators;
+		UINode.Instance.UIDisappear -= ShowIndicators;
+    }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bimbj5blpk5gt"]
+[gd_scene load_steps=15 format=3 uid="uid://bimbj5blpk5gt"]
 
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/WaypointNode.cs" id="1_bs3ml"]
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Planet.tscn" id="2_wgufh"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/Asteroids.tscn" id="7_oqeue"]
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/Unknown.tscn" id="8_qy72g"]
 [ext_resource type="Texture2D" uid="uid://dinvyvr8lt74l" path="res://Game/Solar System/Waypoints/Icons/hammer-outline.svg" id="10_igmog"]
+[ext_resource type="Script" path="res://UI/Billboard.cs" id="10_siyut"]
 [ext_resource type="Texture2D" uid="uid://dq3wwmtyc2l32" path="res://Game/Solar System/Waypoints/Icons/rocket-outline.svg" id="11_20swo"]
 [ext_resource type="Texture2D" uid="uid://bl5xfag8sjkgw" path="res://Game/Solar System/Waypoints/Icons/storefront-outline.svg" id="12_eeytj"]
 
@@ -28,48 +29,51 @@ shape = SubResource("BoxShape3D_e0il1")
 unique_name_in_owner = true
 visible = false
 
-[node name="Name" type="Label3D" parent="."]
+[node name="UI Billboard" type="Node3D" parent="."]
+script = ExtResource("10_siyut")
+
+[node name="Name" type="Label3D" parent="UI Billboard"]
 unique_name_in_owner = true
 visible = false
 pixel_size = 0.001
 offset = Vector2(0, 16)
-billboard = 1
 no_depth_test = true
 fixed_size = true
 render_priority = 2
 outline_render_priority = 1
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="Indicators" type="Node3D" parent="UI Billboard"]
+unique_name_in_owner = true
 
-[node name="Sprite3D" type="Sprite3D" parent="Node3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -1.03558, 0)
+[node name="Ships Indicator" type="Sprite3D" parent="UI Billboard/Indicators"]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 offset = Vector2(-600, -256)
 pixel_size = 0.0001
-billboard = 1
-no_depth_test = true
-fixed_size = true
-render_priority = 1
-texture = ExtResource("10_igmog")
-
-[node name="Sprite3D2" type="Sprite3D" parent="Node3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -1.03558, 0)
-offset = Vector2(0, -256)
-pixel_size = 0.0001
-billboard = 1
 no_depth_test = true
 fixed_size = true
 render_priority = 1
 texture = ExtResource("11_20swo")
 
-[node name="Sprite3D3" type="Sprite3D" parent="Node3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -1.03558, 0)
-offset = Vector2(600, -256)
+[node name="Market Indicator" type="Sprite3D" parent="UI Billboard/Indicators"]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+offset = Vector2(0, -256)
 pixel_size = 0.0001
-billboard = 1
 no_depth_test = true
 fixed_size = true
 render_priority = 1
 texture = ExtResource("12_eeytj")
+
+[node name="Shipyard Indicator" type="Sprite3D" parent="UI Billboard/Indicators"]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+offset = Vector2(600, -256)
+pixel_size = 0.0001
+no_depth_test = true
+fixed_size = true
+render_priority = 1
+texture = ExtResource("10_igmog")
 
 [connection signal="mouse_entered" from="." to="." method="MouseEnter"]
 [connection signal="mouse_exited" from="." to="." method="MouseExit"]

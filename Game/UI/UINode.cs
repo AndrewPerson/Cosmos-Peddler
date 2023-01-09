@@ -8,7 +8,8 @@ public partial class UINode : Control
 {
 	public static UINode Instance { get; private set; } = null!;
 
-	public event Action? AllUICleared;
+	public event Action? UIAppear;
+	public event Action? UIDisappear;
 
 	private readonly Stack<Control> _stack = new();
 
@@ -24,6 +25,11 @@ public partial class UINode : Control
 		Visible = true;
 		control.Visible = true;
 		_stack.Push(control);
+
+		if (_stack.Count == 1)
+		{
+			UIAppear?.Invoke();
+		}
 	}
 
 	public void HidePrevUI()
@@ -35,7 +41,7 @@ public partial class UINode : Control
 			if (_stack.Count == 0)
 			{
 				Visible = false;
-				AllUICleared?.Invoke();
+				UIDisappear?.Invoke();
 			}
 		}
 	}
@@ -50,7 +56,7 @@ public partial class UINode : Control
 			}
 
 			Visible = false;
-			AllUICleared?.Invoke();
+			UIDisappear?.Invoke();
 		}
 	}
 
