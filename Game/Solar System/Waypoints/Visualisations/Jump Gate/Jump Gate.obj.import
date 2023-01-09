@@ -4,11 +4,15 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://drfkstbjqeiu7"
-valid=false
+path="res://.godot/imported/Jump Gate.obj-4c82872882dfed99b3fc96fb7556403b.mesh"
 
 [deps]
 
+files=["res://.godot/imported/Jump Gate.obj-4c82872882dfed99b3fc96fb7556403b.mesh"]
+
 source_file="res://Game/Solar System/Waypoints/Visualisations/Jump Gate/Jump Gate.obj"
+dest_files=["res://.godot/imported/Jump Gate.obj-4c82872882dfed99b3fc96fb7556403b.mesh", "res://.godot/imported/Jump Gate.obj-4c82872882dfed99b3fc96fb7556403b.mesh"]
+
 [params]
 
 generate_tangents=true

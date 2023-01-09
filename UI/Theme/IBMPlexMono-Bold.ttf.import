@@ -3,11 +3,13 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bdhuk22rvwxoa"
-valid=false
+path="res://.godot/imported/IBMPlexMono-Bold.ttf-0efee2a4c6f8de321c1a1ca4c4aa3786.fontdata"
 
 [deps]
 
 source_file="res://UI/Theme/IBMPlexMono-Bold.ttf"
+dest_files=["res://.godot/imported/IBMPlexMono-Bold.ttf-0efee2a4c6f8de321c1a1ca4c4aa3786.fontdata"]
+
 [params]
 
 Rendering=null
