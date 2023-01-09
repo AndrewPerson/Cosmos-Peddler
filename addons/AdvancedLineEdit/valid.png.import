@@ -3,12 +3,10 @@
 importer="image"
 type="Image"
 uid="uid://ddbi2mo34skxb"
-path="res://.godot/imported/valid.png-f0ed62804b2839912a5bdd33b77ac4fd.image"
+valid=false
 
 [deps]
 
 source_file="res://addons/AdvancedLineEdit/valid.png"
-dest_files=["res://.godot/imported/valid.png-f0ed62804b2839912a5bdd33b77ac4fd.image"]
-
 [params]
 

@@ -4,15 +4,11 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://bodjh42sx1yqy"
-path="res://.godot/imported/Question Mark.obj-df8e6e7f51c8c9cbc1708838226d7b01.mesh"
+valid=false
 
 [deps]
 
-files=["res://.godot/imported/Question Mark.obj-df8e6e7f51c8c9cbc1708838226d7b01.mesh"]
-
 source_file="res://Game/Solar System/Waypoints/Visualisations/Unknown/Question Mark.obj"
-dest_files=["res://.godot/imported/Question Mark.obj-df8e6e7f51c8c9cbc1708838226d7b01.mesh", "res://.godot/imported/Question Mark.obj-df8e6e7f51c8c9cbc1708838226d7b01.mesh"]
-
 [params]
 
 generate_tangents=true

@@ -3,13 +3,11 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dxwfx227cgunu"
-path="res://.godot/imported/THICCCBOI-Black.ttf-f8253e662b98b60349e9662ea6c176c1.fontdata"
+valid=false
 
 [deps]
 
 source_file="res://UI/Theme/THICCCBOI-Black.ttf"
-dest_files=["res://.godot/imported/THICCCBOI-Black.ttf-f8253e662b98b60349e9662ea6c176c1.fontdata"]
-
 [params]
 
 Rendering=null

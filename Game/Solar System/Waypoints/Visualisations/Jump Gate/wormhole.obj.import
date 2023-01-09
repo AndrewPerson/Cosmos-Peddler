@@ -4,15 +4,11 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://crpid6ct7ts2s"
-path="res://.godot/imported/wormhole.obj-008c15ac8b2f0943f7d47c9d8030f3a8.mesh"
+valid=false
 
 [deps]
 
-files=["res://.godot/imported/wormhole.obj-008c15ac8b2f0943f7d47c9d8030f3a8.mesh"]
-
 source_file="res://Game/Solar System/Waypoints/Visualisations/Jump Gate/wormhole.obj"
-dest_files=["res://.godot/imported/wormhole.obj-008c15ac8b2f0943f7d47c9d8030f3a8.mesh", "res://.godot/imported/wormhole.obj-008c15ac8b2f0943f7d47c9d8030f3a8.mesh"]
-
 [params]
 
 generate_tangents=true

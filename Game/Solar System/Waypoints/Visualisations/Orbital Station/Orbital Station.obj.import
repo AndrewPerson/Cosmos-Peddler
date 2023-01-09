@@ -4,18 +4,14 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://c2xsdthbvg4si"
-path="res://.godot/imported/Orbital Station.obj-1695597cd1631aafc528fbfc009cc170.mesh"
+valid=false
 
 [deps]
 
-files=["res://.godot/imported/Orbital Station.obj-1695597cd1631aafc528fbfc009cc170.mesh"]
-
 source_file="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Orbital Station.obj"
-dest_files=["res://.godot/imported/Orbital Station.obj-1695597cd1631aafc528fbfc009cc170.mesh", "res://.godot/imported/Orbital Station.obj-1695597cd1631aafc528fbfc009cc170.mesh"]
-
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3(0.05, 0.05, 0.05)
+scale_mesh=Vector3(0.02, 0.02, 0.02)
 offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
