@@ -6,6 +6,8 @@ namespace CosmosPeddler.Game;
 
 public partial class StarNode : Node3D
 {
+	private static Dictionary<string, PackedScene>? starTypes = null;
+
 	[Signal]
 	public delegate void MouseEnterEventHandler();
 
@@ -29,10 +31,17 @@ public partial class StarNode : Node3D
 
 	public override void _Ready()
 	{
-		var starTypes = new Dictionary<string, PackedScene>();
-		for (int i = 0; i < starTypeNames.Length; i++)
+		if (starTypes == null)
 		{
-			starTypes.Add(starTypeNames[i], starTypeScenes[i]);
+			starTypes = new Dictionary<string, PackedScene>();
+
+			lock (starTypes)
+			{
+				for (int i = 0; i < starTypeNames.Length; i++)
+				{
+					starTypes.Add(starTypeNames[i], starTypeScenes[i]);
+				}
+			}
 		}
 
 		if (starTypes.TryGetValue(systemType.ToString(), out var scene))
