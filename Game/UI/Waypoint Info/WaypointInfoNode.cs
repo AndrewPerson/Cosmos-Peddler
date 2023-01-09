@@ -3,34 +3,14 @@ using System.Linq;
 
 namespace CosmosPeddler.Game;
 
-public partial class WaypointInfoNode : Control
+public partial class WaypointInfoNode : PopupUI<Waypoint>
 {
-	private static WaypointInfoNode Instance { get; set; } = null!;
-
-	private Waypoint _waypoint = null!;
-
-	public Waypoint Waypoint
-	{
-		get => _waypoint;
-		set
-		{
-			_waypoint = value;
-			UpdateWaypointInfo();
-		}
-	}
-
 	private Label name = null!;
 	private Label extraInfo = null!;
 	private TraitsNode traits = null!;
 	private ShipsNode ships = null!;
 	private ShipyardNode shipyard = null!;
 	private MarketNode market = null!;
-
-	public static void Show(Waypoint waypoint)
-	{
-		Instance.Waypoint = waypoint;
-		UINode.Instance.Show(Instance);
-	}
 
 	public override void _EnterTree()
 	{
@@ -43,19 +23,14 @@ public partial class WaypointInfoNode : Control
 		market = GetNode<MarketNode>("%Market");
 	}
 
-	public override void _Ready()
+	public override void UpdateUI()
 	{
-		Instance = this;
-	}
+		name.Text = Data.Symbol;
+		extraInfo.Text = $"{Data.Type.ToString().Replace('_', ' ')} - {Data.Faction?.Symbol.Replace('_', ' ') ?? "NO FACTION"}";
 
-	private void UpdateWaypointInfo()
-	{
-		name.Text = Waypoint.Symbol;
-		extraInfo.Text = $"{Waypoint.Type.ToString().Replace('_', ' ')} - {Waypoint.Faction?.Symbol.Replace('_', ' ') ?? "NO FACTION"}";
-
-		traits.Traits = Waypoint.Traits.ToArray();
-		ships.Waypoint = Waypoint;
-		shipyard.Waypoint = Waypoint;
-		market.Waypoint = Waypoint;
+		traits.Data = Data.Traits.ToArray();
+		ships.Data = Data;
+		shipyard.Data = Data;
+		market.Data = Data;
 	}
 }

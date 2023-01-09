@@ -3,31 +3,11 @@ using System;
 
 namespace CosmosPeddler.Game;
 
-public partial class ShipInfoNode : Control
+public partial class ShipInfoNode : PopupUI<Ship>
 {
-	private static ShipInfoNode Instance { get; set; } = null!;
-
-	private Ship _ship = null!;
-
-	public Ship Ship
-	{
-		get => _ship;
-		set
-		{
-			_ship = value;
-			UpdateShipInfo();
-		}
-	}
-
 	private Label name = null!;
 	private CargoNode cargo = null!;
 	private CrewNode crew = null!;
-
-	public static void Show(Ship ship)
-	{
-		Instance.Ship = ship;
-		UINode.Instance.Show(Instance);
-	}
 
 	public override void _EnterTree()
 	{
@@ -36,18 +16,13 @@ public partial class ShipInfoNode : Control
 		crew = GetNode<CrewNode>("%Crew");
 	}
 
-	public override void _Ready()
+	public override void UpdateUI()
 	{
-		Instance = this;
-	}
+		if (Data.Symbol == Data.Registration.Name) name.Text = $"{Data.Symbol} - {Data.Registration.Role}";
+		else name.Text = $"{Data.Symbol} ({Data.Registration.Name}) - {Data.Registration.Role}";
 
-	private void UpdateShipInfo()
-	{
-		if (_ship.Symbol == _ship.Registration.Name) name.Text = $"{_ship.Symbol} - {_ship.Registration.Role}";
-		else name.Text = $"{_ship.Symbol} ({_ship.Registration.Name}) - {_ship.Registration.Role}";
-
-		cargo.CargoInfo = (_ship.Nav, _ship.Cargo);
-		crew.Crew = _ship.Crew;
+		cargo.Data = (Data.Nav, Data.Cargo);
+		crew.Data = Data.Crew;
 		// engine.Engine = _ship.Engine;
 		// engine.Fuel = _ship.Fuel;
 		// frame.Frame = _ship.Frame;

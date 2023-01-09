@@ -4,20 +4,8 @@ using System.Threading.Tasks;
 
 namespace CosmosPeddler.Game;
 
-public partial class MarketNode : PanelContainer
+public partial class MarketNode : ReactiveUI<Waypoint>
 {
-	private Waypoint _waypoint = null!;
-
-	public Waypoint Waypoint
-	{
-		get => _waypoint;
-		set
-		{
-			_waypoint = value;
-			UpdateMarketInfo();
-		}
-	}
-
 	[Export]
 	public PackedScene marketItemScene = null!;
 
@@ -43,9 +31,9 @@ public partial class MarketNode : PanelContainer
 		marketItems.Visible = true;
 	}
 
-	private void UpdateMarketInfo()
+	public override void UpdateUI()
 	{
-		if (!Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE))
+		if (!Data.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE))
 		{
 			SetStatus("No market");
 
@@ -54,7 +42,7 @@ public partial class MarketNode : PanelContainer
 
 		SetStatus("Loading...");
 
-		Waypoint.GetMarket().ContinueWith(task =>
+		Data.GetMarket().ContinueWith(task =>
 		{
 			if (task.IsFaulted)
 			{
@@ -87,24 +75,7 @@ public partial class MarketNode : PanelContainer
 
 			ClearStatus();
 
-			for (int i = 0; i < Mathf.Min(marketItems.GetChildCount(), items.Length); i++)
-			{
-				var marketItem = marketItems.GetChild<MarketItemNode>(i);
-				marketItem.Item = items[i];
-			}
-
-			for (int i = Mathf.Min(marketItems.GetChildCount(), items.Length); i < items.Length; i++)
-			{
-				var marketItem = marketItemScene.Instantiate<MarketItemNode>();
-				marketItem.Ready += () => marketItem.Item = items[i];
-
-				marketItems.AddChild(marketItem);
-			}
-
-			for (int i = items.Length; i < marketItems.GetChildCount(); i++)
-			{
-				marketItems.GetChild(i).QueueFree();
-			}
+			RenderList(marketItems, marketItemScene, items);
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

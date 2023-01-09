@@ -2,28 +2,22 @@ using Godot;
 
 namespace CosmosPeddler.Game;
 
-public partial class ShipyardShipNode : Control
+public partial class ShipyardShipNode : ReactiveUI<ShipyardShip>
 {
-	private ShipyardShip _ship = null!;
-
-	public ShipyardShip Ship
-	{
-		get => _ship;
-		set
-		{
-			_ship = value;
-			UpdateShipInfo();
-		}
-	}
-
 	private Label name = null!;
 	private Button buy = null!;
 
-	public void UpdateShipInfo()
+	public override void _EnterTree()
 	{
-		name.Text = Ship.Name.Replace('_', ' ');
-		name.TooltipText = Ship.Description;
+		name = GetNode<Label>("%Name");
+		buy = GetNode<Button>("%Buy");
+	}
 
-		buy.Text = $"Buy - ${Ship.PurchasePrice}";
+	public override void UpdateUI()
+	{
+		name.Text = Data.Name.Replace('_', ' ');
+		name.TooltipText = Data.Description;
+
+		buy.Text = $"Buy - ${Data.PurchasePrice}";
 	}
 }

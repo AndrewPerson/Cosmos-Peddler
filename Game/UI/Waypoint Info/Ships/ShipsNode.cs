@@ -3,20 +3,8 @@ using System.Threading.Tasks;
 
 namespace CosmosPeddler.Game;
 
-public partial class ShipsNode : PanelContainer
+public partial class ShipsNode : AsyncReactiveUI<Waypoint>
 {
-	private Waypoint _waypoint = null!;
-
-	public Waypoint Waypoint
-	{
-		get => _waypoint;
-		set
-		{
-			_waypoint = value;
-			UpdateShipInfo();
-		}
-	}
-
 	[Export]
 	public PackedScene shipScene = null!;
 
@@ -42,43 +30,37 @@ public partial class ShipsNode : PanelContainer
 		shipsList.Visible = true;
 	}
 
-	private void UpdateShipInfo()
+	public override async Task UpdateUIAsync()
 	{
-		SetStatus("Loading...");
-
-		UpdateShipInfoAsync().ContinueWith(t =>
+		try
 		{
-			if (t.IsFaulted)
+			SetStatus("Loading...");
+
+			for (int i = 0; i < shipsList.GetChildCount(); i++)
 			{
-				GD.PrintErr(t.Exception);
-				SetStatus(t.Exception?.Message ?? "Unknown error");
-				return;
+				shipsList.GetChild(i).QueueFree();
 			}
-		},
-		TaskScheduler.FromCurrentSynchronizationContext());
-	}
 
-	private async Task UpdateShipInfoAsync()
-	{
-		for (int i = 0; i < shipsList.GetChildCount(); i++)
-		{
-			shipsList.GetChild(i).QueueFree();
+			bool noShips = true;
+			await foreach (var ship in Data.GetShips())
+			{
+				noShips = false;
+				ClearStatus();
+
+				var shipNode = shipScene.Instantiate<ShipNode>();
+				shipNode.Ready += () => shipNode.Data = ship;
+				shipsList.AddChild(shipNode);
+			}
+
+			if (noShips)
+			{
+				SetStatus("No ships");
+			}
 		}
-
-		bool noShips = true;
-		await foreach (var ship in Waypoint.GetShips())
+		catch (System.Exception e)
 		{
-			noShips = false;
-			ClearStatus();
-
-			var shipNode = shipScene.Instantiate<ShipNode>();
-			shipNode.Ready += () => shipNode.Ship = ship;
-			shipsList.AddChild(shipNode);
-		}
-
-		if (noShips)
-		{
-			SetStatus("No ships");
+			GD.PrintErr(e);
+			SetStatus(e.Message);
 		}
 	}
 }

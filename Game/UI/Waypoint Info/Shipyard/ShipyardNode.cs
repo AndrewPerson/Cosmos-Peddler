@@ -4,20 +4,8 @@ using System.Threading.Tasks;
 
 namespace CosmosPeddler.Game;
 
-public partial class ShipyardNode : PanelContainer
+public partial class ShipyardNode : ReactiveUI<Waypoint>
 {
-	private Waypoint _waypoint = null!;
-
-	public Waypoint Waypoint
-	{
-		get => _waypoint;
-		set
-		{
-			_waypoint = value;
-			UpdateShipyardInfo();
-		}
-	}
-
 	[Export]
 	public PackedScene shipScene = null!;
 
@@ -43,9 +31,9 @@ public partial class ShipyardNode : PanelContainer
 		shipsList.Visible = true;
 	}
 
-	private void UpdateShipyardInfo()
+	public override void UpdateUI()
 	{
-		if (!Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD))
+		if (!Data.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD))
 		{
 			SetStatus("No shipyard");
 			return;
@@ -53,7 +41,7 @@ public partial class ShipyardNode : PanelContainer
 
 		SetStatus("Loading...");
 
-		Waypoint.GetShipyard().ContinueWith(t =>
+		Data.GetShipyard().ContinueWith(t =>
 		{
 			if (t.IsFaulted)
 			{
@@ -86,24 +74,7 @@ public partial class ShipyardNode : PanelContainer
 
 			ClearStatus();
 
-			for (int i = 0; i < Mathf.Min(shipsList.GetChildCount(), ships.Length); i++)
-			{
-				var ship = shipsList.GetChild<ShipyardShipNode>(i);
-				ship.Ship = ships[i];
-			}
-
-			for (int i = Mathf.Min(shipsList.GetChildCount(), ships.Length); i < ships.Length; i++)
-			{
-				var ship = shipScene.Instantiate<ShipyardShipNode>();
-				ship.Ready += () => ship.Ship = ships[i];
-
-				shipsList.AddChild(ship);
-			}
-
-			for (int i = ships.Length; i < shipsList.GetChildCount(); i++)
-			{
-				shipsList.GetChild(i).QueueFree();
-			}
+			RenderList(shipsList, shipScene, ships);
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

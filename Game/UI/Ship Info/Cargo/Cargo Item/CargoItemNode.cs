@@ -4,20 +4,8 @@ using System.Threading.Tasks;
 
 namespace CosmosPeddler.Game;
 
-public partial class CargoItemNode : HBoxContainer
+public partial class CargoItemNode : ReactiveUI<(ShipNav, ShipCargoItem)>
 {
-	private (ShipNav, ShipCargoItem) _cargoItemInfo = (null!, null!);
-
-	public (ShipNav, ShipCargoItem) CargoItemInfo
-	{
-		get => _cargoItemInfo;
-		set
-		{
-			_cargoItemInfo = value;
-			UpdateCargoItem();
-		}
-	}
-
 	private Label units = null!;
 	private Label name = null!;
 	private Button buy = null!;
@@ -31,9 +19,9 @@ public partial class CargoItemNode : HBoxContainer
 		sell = GetNode<Button>("%Sell");
 	}
 
-	private void UpdateCargoItem()
+	public override void UpdateUI()
 	{
-		var (nav, cargo) = CargoItemInfo;
+		var (nav, cargo) = Data;
 
 		units.Text = $"{cargo.Units}x";
 		name.Text = cargo.Name;

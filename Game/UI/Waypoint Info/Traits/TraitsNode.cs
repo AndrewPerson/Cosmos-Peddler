@@ -4,20 +4,8 @@ using System.Linq;
 
 namespace CosmosPeddler.Game;
 
-public partial class TraitsNode : PanelContainer
+public partial class TraitsNode : ReactiveUI<IList<WaypointTrait>>
 {
-	private IList<WaypointTrait> _traits = null!;
-
-	public IList<WaypointTrait> Traits
-	{
-		get => _traits;
-		set
-		{
-			_traits = value;
-			UpdateTraits();
-		}
-	}
-
 	private Node traitsList = null!;
 
 	public override void _EnterTree()
@@ -27,8 +15,11 @@ public partial class TraitsNode : PanelContainer
 
 	private void UpdateTraits()
 	{
-		var trimmedTraits = _traits.Where(t => t.Symbol != WaypointTraitSymbol.MARKETPLACE && t.Symbol != WaypointTraitSymbol.SHIPYARD)
-								   .ToList();
+		var trimmedTraits = Data.Where(t =>
+									t.Symbol != WaypointTraitSymbol.MARKETPLACE &&
+									t.Symbol != WaypointTraitSymbol.SHIPYARD
+								)
+								.ToList();
 
 		if (trimmedTraits.Count == 0)
 		{
@@ -42,28 +33,18 @@ public partial class TraitsNode : PanelContainer
 			);
 		}
 
-		for (int i = 0; i < Mathf.Min(traitsList.GetChildCount(), trimmedTraits.Count); i++)
-		{
-			var trait = traitsList.GetChild<Label>(i);
-			trait.Text = $"• {trimmedTraits[i].Name}";
-			trait.TooltipText = trimmedTraits[i].Description;
-		}
-
-		for (int i = Mathf.Min(traitsList.GetChildCount(), trimmedTraits.Count); i <  trimmedTraits.Count; i++)
-		{
-            var trait = new Label
-            {
-                Text = $"• {trimmedTraits[i].Name}",
-				TooltipText = trimmedTraits[i].Description,
+		RenderList(
+			traitsList,
+			trimmedTraits,
+			(trait, label) =>
+			{
+				label.Text = $"• {trait.Name}";
+				label.TooltipText = trait.Description;
+			},
+			() => new Label()
+			{
 				MouseFilter = MouseFilterEnum.Pass
-            };
-
-            traitsList.AddChild(trait);
-		}
-
-		for (int i = trimmedTraits.Count; i < traitsList.GetChildCount(); i++)
-		{
-			traitsList.GetChild(i).QueueFree();
-		}
+			}
+		);
 	}
 }

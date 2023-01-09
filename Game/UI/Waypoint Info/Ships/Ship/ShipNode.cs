@@ -2,20 +2,8 @@ using Godot;
 
 namespace CosmosPeddler.Game;
 
-public partial class ShipNode : HBoxContainer
+public partial class ShipNode : ReactiveUI<Ship>
 {
-	private Ship _ship = null!;
-
-	public Ship Ship
-	{
-		get => _ship;
-		set
-		{
-			_ship = value;
-			UpdateShipInfo();
-		}
-	}
-
 	private Label name = null!;
 	
 	public override void _EnterTree()
@@ -23,14 +11,14 @@ public partial class ShipNode : HBoxContainer
 		name = GetNode<Label>("%Name");
 	}
 
-	private void UpdateShipInfo()
+	public override void UpdateUI()
 	{
-		name.Text = Ship.Symbol.Replace('_', ' ');
-		name.TooltipText = Ship.Symbol;
+		name.Text = Data.Symbol.Replace('_', ' ');
+		name.TooltipText = Data.Symbol;
 	}
 
 	public void ShowShipInfo()
 	{
-		ShipInfoNode.Show(Ship);
+		ShipInfoNode.Show(Data);
 	}
 }

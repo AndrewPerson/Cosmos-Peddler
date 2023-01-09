@@ -1,22 +1,9 @@
 using Godot;
-using System;
 
 namespace CosmosPeddler.Game;
 
-public partial class CrewNode : PanelContainer
+public partial class CrewNode : ReactiveUI<ShipCrew>
 {
-	private ShipCrew _crew = null!;
-
-	public ShipCrew Crew
-	{
-		get => _crew;
-		set
-		{
-			_crew = value;
-			UpdateCrewInfo();
-		}
-	}
-
 	private Label crewCount = null!;
 	private Label maxCrew = null!;
 	private Label requiredCrew = null!;
@@ -36,18 +23,18 @@ public partial class CrewNode : PanelContainer
 
 	private void UpdateCrewInfo()
 	{
-		crewCount.Text = _crew.Current.ToString();
-		if (_crew.Current < _crew.Required) crewCount.LabelSettings.FontColor = Colors.Red;
+		crewCount.Text = Data.Current.ToString();
+		if (Data.Current < Data.Required) crewCount.LabelSettings.FontColor = Colors.Red;
 		else crewCount.LabelSettings.FontColor = Colors.White;
 
-		maxCrew.Text = _crew.Capacity.ToString();
+		maxCrew.Text = Data.Capacity.ToString();
 
-		requiredCrew.Text = _crew.Required.ToString();
-		if (_crew.Current < _crew.Required) requiredCrew.LabelSettings.FontColor = Colors.Red;
+		requiredCrew.Text = Data.Required.ToString();
+		if (Data.Current < Data.Required) requiredCrew.LabelSettings.FontColor = Colors.Red;
 		else requiredCrew.LabelSettings.FontColor = Colors.White;
 
-		morale.Text = $"{_crew.Morale}%";
-		rotation.Text = _crew.Rotation.ToString();
-		wages.Text = _crew.Wages.ToString();
+		morale.Text = $"{Data.Morale}%";
+		rotation.Text = Data.Rotation.ToString();
+		wages.Text = Data.Wages.ToString();
 	}
 }
