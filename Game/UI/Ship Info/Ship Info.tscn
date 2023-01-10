@@ -5,7 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://dwkn36r3smmmg" path="res://Game/UI/Ship Info/Cargo/Cargo.tscn" id="2_l0hik"]
 [ext_resource type="PackedScene" uid="uid://2gytlhuenjw2" path="res://Game/UI/Ship Info/Crew/Crew.tscn" id="4_o2aka"]
 
-[node name="Ship Info" type="PanelContainer"]
+[node name="Ship Info" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_5j1go")
+
+[node name="Panel" type="PanelContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,20 +25,19 @@ offset_right = -150.0
 offset_bottom = -150.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_5j1go")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="Panel"]
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 850.0
 offset_bottom = 346.0
 
-[node name="Header" type="PanelContainer" parent="VBox"]
+[node name="Header" type="PanelContainer" parent="Panel/VBox"]
 offset_right = 848.0
 offset_bottom = 29.0
 theme_override_styles/panel = ExtResource("2_a5vt4")
 
-[node name="Name" type="Label" parent="VBox/Header"]
+[node name="Name" type="Label" parent="Panel/VBox/Header"]
 unique_name_in_owner = true
 offset_left = 423.0
 offset_top = 5.0
@@ -36,7 +45,7 @@ offset_right = 424.0
 offset_bottom = 24.0
 size_flags_horizontal = 4
 
-[node name="Info Margin" type="MarginContainer" parent="VBox"]
+[node name="Info Margin" type="MarginContainer" parent="Panel/VBox"]
 offset_top = 33.0
 offset_right = 848.0
 offset_bottom = 344.0
@@ -46,7 +55,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Info Grid" type="GridContainer" parent="VBox/Info Margin"]
+[node name="Info Grid" type="GridContainer" parent="Panel/VBox/Info Margin"]
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 843.0
@@ -56,32 +65,32 @@ theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
 columns = 3
 
-[node name="Cargo" parent="VBox/Info Margin/Info Grid" instance=ExtResource("2_l0hik")]
+[node name="Cargo" parent="Panel/VBox/Info Margin/Info Grid" instance=ExtResource("2_l0hik")]
 unique_name_in_owner = true
 offset_right = 276.0
 offset_bottom = 150.0
 
-[node name="Crew" parent="VBox/Info Margin/Info Grid" instance=ExtResource("4_o2aka")]
+[node name="Crew" parent="Panel/VBox/Info Margin/Info Grid" instance=ExtResource("4_o2aka")]
 unique_name_in_owner = true
 offset_left = 281.0
 offset_right = 557.0
 offset_bottom = 150.0
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBox/Info Margin/Info Grid"]
+[node name="PanelContainer2" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
 offset_left = 562.0
 offset_right = 838.0
 offset_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBox/Info Margin/Info Grid"]
+[node name="PanelContainer3" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
 offset_top = 155.0
 offset_right = 276.0
 offset_bottom = 301.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer4" type="PanelContainer" parent="VBox/Info Margin/Info Grid"]
+[node name="PanelContainer4" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
 offset_left = 281.0
 offset_top = 155.0
 offset_right = 557.0
@@ -89,7 +98,7 @@ offset_bottom = 301.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer5" type="PanelContainer" parent="VBox/Info Margin/Info Grid"]
+[node name="PanelContainer5" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
 offset_left = 562.0
 offset_top = 155.0
 offset_right = 838.0
