@@ -39,7 +39,6 @@ public partial class UINode : Control
 		{
 			if (hovering && mouseButton.ButtonIndex == MouseButton.Left)
 			{
-				GD.Print(mouseButton.Pressed);
 				if (mouseButton.Pressed)
 				{
 					mouseDown = true;
