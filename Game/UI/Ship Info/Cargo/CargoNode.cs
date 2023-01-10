@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CosmosPeddler.Game;
 
-public partial class CargoNode : ReactiveUI<(ShipNav, ShipCargo)>
+public partial class CargoNode : ReactiveUI<(ShipCargo, ShipNav)>
 {
 	[Export]
 	public PackedScene cargoItemScene = null!;
@@ -19,12 +19,12 @@ public partial class CargoNode : ReactiveUI<(ShipNav, ShipCargo)>
 
     public override void UpdateUI()
 	{
-		var (nav, cargo) = Data;
+		var (cargo, nav) = Data;
 
 		header.Text = $"Cargo - {cargo.Units}/{cargo.Capacity}";
 
 		var items = cargo.Inventory.ToArray();
 
-		RenderList(cargoItems, cargoItemScene, items.Select(i => (nav, i)).ToArray());
+		RenderList(cargoItems, cargoItemScene, items.Select(i => (i, nav)).ToArray());
 	}
 }

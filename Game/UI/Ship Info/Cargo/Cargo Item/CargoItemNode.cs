@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CosmosPeddler.Game;
 
-public partial class CargoItemNode : ReactiveUI<(ShipNav, ShipCargoItem)>
+public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 {
 	private Label units = null!;
 	private Label name = null!;
@@ -21,7 +21,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipNav, ShipCargoItem)>
 
 	public override void UpdateUI()
 	{
-		var (nav, cargo) = Data;
+		var (cargo, nav) = Data;
 
 		units.Text = $"{cargo.Units}x";
 		name.Text = cargo.Name;
@@ -66,7 +66,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipNav, ShipCargoItem)>
 				return;
 			}
 
-			var marketGood = goods.FirstOrDefault(i => i.Symbol == cargo.Symbol);
+			var marketGood = goods.FirstOrDefault(i => i.Symbol.ToString() == cargo.Symbol);
 
 			if (marketGood == null)
 			{

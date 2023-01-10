@@ -21,7 +21,7 @@ public partial class ShipInfoNode : PopupUI<Ship>
 		if (Data.Symbol == Data.Registration.Name) name.Text = $"{Data.Symbol} - {Data.Registration.Role}";
 		else name.Text = $"{Data.Symbol} ({Data.Registration.Name}) - {Data.Registration.Role}";
 
-		cargo.Data = (Data.Nav, Data.Cargo);
+		cargo.Data = (Data.Cargo, Data.Nav);
 		crew.Data = Data.Crew;
 		// engine.Engine = _ship.Engine;
 		// engine.Fuel = _ship.Fuel;
