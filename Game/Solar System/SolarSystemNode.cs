@@ -65,11 +65,11 @@ public partial class SolarSystemNode : Node3D
 
 	public void InstantiateWaypoints()
 	{
-		InstantiateWaypointsAsync().ContinueWith(task =>
+		InstantiateWaypointsAsync().ContinueWith(t =>
 		{
-			if (task.IsFaulted)
+			if (t.IsFaulted)
 			{
-				GD.PrintErr(task.Exception);
+				GD.PrintErr(t.Exception);
 			}
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());

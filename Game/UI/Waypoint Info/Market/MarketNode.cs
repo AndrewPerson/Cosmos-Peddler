@@ -42,16 +42,16 @@ public partial class MarketNode : ReactiveUI<Waypoint>
 
 		SetStatus("Loading...");
 
-		Data.GetMarket().ContinueWith(task =>
+		Data.GetMarket().ContinueWith(t =>
 		{
-			if (task.IsFaulted)
+			if (t.IsFaulted)
 			{
-				GD.PrintErr(task.Exception);
-				SetStatus(task.Exception?.Message ?? "Unknown error");
+				GD.PrintErr(t.Exception);
+				SetStatus(t.Exception?.Message ?? "Unknown error");
 				return;
 			}
 
-			var market = task.Result;
+			var market = t.Result;
 
 			if (market == null)
 			{
