@@ -1,0 +1,83 @@
+[gd_scene load_steps=4 format=3 uid="uid://buufjbdppsvsf"]
+
+[ext_resource type="Script" path="res://Game/UI/Market Order/PurchaseOrderNode.cs" id="1_uddft"]
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_c8cup"]
+[ext_resource type="PackedScene" uid="uid://dmf20to0b3jac" path="res://Game/UI/Market Order/Market Order.tscn" id="3_tdsb7"]
+
+[node name="Purchase Order" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_uddft")
+
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -250.0
+offset_right = 150.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 298.0
+offset_bottom = 498.0
+theme_override_constants/separation = 0
+
+[node name="Header" type="PanelContainer" parent="Panel/VBox"]
+offset_right = 296.0
+offset_bottom = 32.0
+theme_override_styles/panel = ExtResource("2_c8cup")
+
+[node name="Name" type="Label" parent="Panel/VBox/Header"]
+unique_name_in_owner = true
+offset_left = 89.0
+offset_top = 5.0
+offset_right = 207.0
+offset_bottom = 27.0
+size_flags_horizontal = 4
+text = "Purchase GOLD"
+
+[node name="Market Order" parent="Panel/VBox" instance=ExtResource("3_tdsb7")]
+offset_top = 32.0
+offset_right = 296.0
+offset_bottom = 447.0
+
+[node name="Buttons Margin" type="MarginContainer" parent="Panel/VBox"]
+offset_top = 447.0
+offset_right = 296.0
+offset_bottom = 496.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBox/Buttons Margin"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 291.0
+offset_bottom = 44.0
+
+[node name="Cancel" type="Button" parent="Panel/VBox/Buttons Margin/Buttons"]
+offset_right = 92.0
+offset_bottom = 39.0
+size_flags_horizontal = 0
+text = "Cancel"
+
+[node name="Purchase" type="Button" parent="Panel/VBox/Buttons Margin/Buttons"]
+offset_left = 178.0
+offset_right = 286.0
+offset_bottom = 39.0
+size_flags_horizontal = 10
+text = "Purchase"

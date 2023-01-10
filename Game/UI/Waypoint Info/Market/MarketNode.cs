@@ -75,7 +75,7 @@ public partial class MarketNode : ReactiveUI<Waypoint>
 
 			ClearStatus();
 
-			RenderList(marketItems, marketItemScene, items);
+			RenderList(marketItems, marketItemScene, items.Select(item => (item, market)).ToArray());
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

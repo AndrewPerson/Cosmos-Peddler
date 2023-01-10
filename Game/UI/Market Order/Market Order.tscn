@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmf20to0b3jac"]
+
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_8s03k"]
+[ext_resource type="Script" path="res://Game/UI/Market Order/MarketOrderNode.cs" id="2_qr2xn"]
+
+[node name="Market Order" type="PanelContainer"]
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_8s03k")
+script = ExtResource("2_qr2xn")
+
+[node name="Order Margin" type="MarginContainer" parent="."]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 259.0
+offset_bottom = 97.0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Order" type="GridContainer" parent="Order Margin"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 249.0
+offset_bottom = 87.0
+columns = 3
+
+[node name="Ship Label" type="Label" parent="Order Margin/Order"]
+offset_top = 8.0
+offset_right = 58.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+text = "Ship"
+
+[node name="Ships" type="OptionButton" parent="Order Margin/Order"]
+unique_name_in_owner = true
+offset_left = 62.0
+offset_right = 163.0
+offset_bottom = 39.0
+item_count = 1
+selected = 0
+popup/item_0/text = "AP2-1"
+popup/item_0/id = 0
+
+[node name="View Ship" type="Button" parent="Order Margin/Order"]
+unique_name_in_owner = true
+offset_left = 167.0
+offset_right = 244.0
+offset_bottom = 39.0
+text = "View"
+
+[node name="Amount Label" type="Label" parent="Order Margin/Order"]
+offset_top = 51.0
+offset_right = 58.0
+offset_bottom = 73.0
+text = "Amount"
+
+[node name="Amount" type="SpinBox" parent="Order Margin/Order"]
+unique_name_in_owner = true
+offset_left = 62.0
+offset_top = 43.0
+offset_right = 163.0
+offset_bottom = 82.0
+rounded = true
+allow_greater = true
+
+[node name="Cost" type="Label" parent="Order Margin/Order"]
+unique_name_in_owner = true
+offset_left = 167.0
+offset_top = 51.0
+offset_right = 244.0
+offset_bottom = 73.0
+text = "$2000"
+horizontal_alignment = 2

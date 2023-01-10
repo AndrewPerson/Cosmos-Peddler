@@ -13,7 +13,7 @@ public enum MarketItemTradeType
 public class MarketItem
 {
     public MarketItemTradeType TradeType { get; set; }
-    public string Symbol { get; set; } = "";
+    public TradeSymbol Symbol { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public int TradeVolume { get; set; }

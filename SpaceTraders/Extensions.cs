@@ -112,9 +112,9 @@ public partial class Market
             items[i] = new MarketItem
             {
                 TradeType = tradeType,
-                Symbol = goods[i].Symbol,
-                Name = import?.Name ?? export?.Name ?? goods[i].Symbol,
-                Description = import?.Description ?? export?.Description ?? "",
+                Symbol = (import ?? export ?? exchange)!.Symbol,
+                Name = (import ?? export ?? exchange)!.Name,
+                Description = (import ?? export ?? exchange)!.Description,
                 TradeVolume = goods[i].TradeVolume,
                 Supply = goods[i].Supply,
                 PurchasePrice = goods[i].PurchasePrice,

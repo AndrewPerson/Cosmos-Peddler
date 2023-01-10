@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfhxd2ashfj2o"]
+[gd_scene load_steps=11 format=3 uid="uid://bfhxd2ashfj2o"]
 
 [ext_resource type="Script" path="res://Game/WorldNode.cs" id="1_drfwb"]
 [ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_rmgst"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Game/UI/UINode.cs" id="4_h7rjt"]
 [ext_resource type="PackedScene" uid="uid://ce5mawdnc3fpb" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
 [ext_resource type="PackedScene" uid="uid://d3xoniddnoqq" path="res://Game/UI/Waypoint Info/Waypoint Info.tscn" id="5_mtryu"]
+[ext_resource type="PackedScene" uid="uid://buufjbdppsvsf" path="res://Game/UI/Market Order/Purchase Order.tscn" id="7_7tkb1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bvkj"]
 
@@ -60,7 +61,6 @@ sky_mode = 1
 unique_name_in_owner = true
 
 [node name="UI" type="Control" parent="."]
-unique_name_in_owner = true
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -68,16 +68,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("4_h7rjt")
 
-[node name="Waypoint Info" parent="UI" instance=ExtResource("5_mtryu")]
+[node name="Hidden UI" type="Control" parent="UI"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Ship Info" parent="UI" instance=ExtResource("5_amhjw")]
-unique_name_in_owner = true
-visible = false
+[node name="Ship Info" parent="UI/Hidden UI" instance=ExtResource("5_amhjw")]
+
+[node name="Purchase Order" parent="UI/Hidden UI" instance=ExtResource("7_7tkb1")]
+
+[node name="Waypoint Info" parent="UI/Hidden UI" instance=ExtResource("5_mtryu")]
+mouse_filter = 2
 
 [connection signal="mouse_entered" from="UI" to="UI" method="MouseEnter"]
 [connection signal="mouse_exited" from="UI" to="UI" method="MouseExit"]

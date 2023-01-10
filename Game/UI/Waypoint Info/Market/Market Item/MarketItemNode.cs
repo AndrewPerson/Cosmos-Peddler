@@ -2,7 +2,7 @@ using Godot;
 
 namespace CosmosPeddler.Game;
 
-public partial class MarketItemNode : ReactiveUI<MarketItem>
+public partial class MarketItemNode : ReactiveUI<(MarketItem, Market)>
 {
 	private Label name = null!;
 	private Button buy = null!;
@@ -17,13 +17,20 @@ public partial class MarketItemNode : ReactiveUI<MarketItem>
 
 	public override void UpdateUI()
 	{
-		name.Text = Data.Symbol.Replace('_', ' ');
-		name.TooltipText = Data.Description;
+		var good = Data.Item1;
 
-		buy.Text = $"Buy - ${Data.PurchasePrice}";
-		buy.Disabled = !Data.TradeType.HasFlag(MarketItemTradeType.Export);
+		name.Text = good.Symbol.ToString().Replace('_', ' ');
+		name.TooltipText = good.Description;
 
-		sell.Text = $"Sell - ${Data.SellPrice}";
-		sell.Disabled = !Data.TradeType.HasFlag(MarketItemTradeType.Import);
+		buy.Text = $"Buy - ${good.PurchasePrice}";
+		buy.Disabled = !good.TradeType.HasFlag(MarketItemTradeType.Export);
+
+		sell.Text = $"Sell - ${good.SellPrice}";
+		sell.Disabled = !good.TradeType.HasFlag(MarketItemTradeType.Import);
+	}
+
+	public void OpenPurchaseUI()
+	{
+		PurchaseOrderNode.Show((Data.Item1.Symbol, Data.Item2));
 	}
 }
