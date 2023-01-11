@@ -2,8 +2,9 @@ using Godot;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CosmosPeddler.Game.UI.ShipInfo;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.MarketOrder;
 
 public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Waypoint)>
 {

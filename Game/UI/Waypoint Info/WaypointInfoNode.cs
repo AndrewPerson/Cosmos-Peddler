@@ -1,7 +1,7 @@
 using Godot;
 using System.Linq;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class WaypointInfoNode : PopupUI<Waypoint>
 {

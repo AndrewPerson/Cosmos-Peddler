@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Stars;
 
 public partial class StarNode : Node3D
 {

@@ -1,6 +1,7 @@
 using Godot;
+using CosmosPeddler.Game.UI.MarketOrder;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class MarketItemNode : ReactiveUI<(MarketItem, Waypoint)>
 {

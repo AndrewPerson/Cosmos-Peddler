@@ -1,4 +1,4 @@
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI;
 
 public partial class PopupUI<DataT> : ReactiveUI<DataT>
 {

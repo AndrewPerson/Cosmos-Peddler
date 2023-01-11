@@ -1,6 +1,7 @@
 using Godot;
+using CosmosPeddler.Game.UI.ShipInfo;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class ShipNode : ReactiveUI<Ship>
 {

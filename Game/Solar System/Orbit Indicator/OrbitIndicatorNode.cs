@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.OrbitIndicator;
 
 [Tool]
 public partial class OrbitIndicatorNode : Node3D

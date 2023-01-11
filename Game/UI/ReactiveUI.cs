@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI;
 
 public partial class ReactiveUI<DataT> : Control
 {

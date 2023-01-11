@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem;
 
 public interface IDimensionedObject
 {

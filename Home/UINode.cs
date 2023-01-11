@@ -1,5 +1,7 @@
 using Godot;
 
+namespace CosmosPeddler.Home;
+
 public partial class UINode : Control
 {
 	private Control home = null!;

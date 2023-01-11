@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.UI;
 
 public partial class Billboard : Node3D
 {

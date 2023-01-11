@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Stars.OrangeStar;
 
 public partial class OrangeStarNode : MeshInstance3D, IDimensionedObject
 {

@@ -2,7 +2,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class ShipyardNode : ReactiveUI<Waypoint>
 {

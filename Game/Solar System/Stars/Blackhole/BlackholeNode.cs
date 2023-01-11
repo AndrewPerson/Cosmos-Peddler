@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Stars.Blackhole;
 
 public partial class BlackholeNode : MeshInstance3D, IDimensionedObject
 {

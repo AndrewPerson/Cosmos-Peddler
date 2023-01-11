@@ -1,6 +1,7 @@
 using Godot;
+using CosmosPeddler.UI;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Waypoints.Visualisations;
 
 public partial class UnknownNode : Billboard, IWaypointVisualiser
 {

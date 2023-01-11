@@ -2,8 +2,10 @@ using Godot;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CosmosPeddler.Game.SolarSystem.Stars;
+using CosmosPeddler.Game.SolarSystem.Waypoints;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem;
 
 public partial class SolarSystemNode : Node3D
 {
@@ -13,7 +15,7 @@ public partial class SolarSystemNode : Node3D
 	[Export]
 	public PackedScene waypointScene = null!;
 
-	public SolarSystem system = null!;
+	public CosmosPeddler.SolarSystem system = null!;
 
 	public float mapScale = 1.0f;
 

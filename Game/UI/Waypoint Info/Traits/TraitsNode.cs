@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class TraitsNode : ReactiveUI<IList<WaypointTrait>>
 {

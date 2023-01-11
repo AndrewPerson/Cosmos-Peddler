@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.ShipInfo;
 
 public partial class CrewNode : ReactiveUI<ShipCrew>
 {

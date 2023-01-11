@@ -2,8 +2,11 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using CosmosPeddler.Game.UI;
+using CosmosPeddler.Game.UI.WaypointInfo;
+using CosmosPeddler.Game.SolarSystem.OrbitIndicator;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Waypoints;
 
 public partial class WaypointNode : Node3D
 {

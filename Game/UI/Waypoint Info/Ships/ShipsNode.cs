@@ -1,7 +1,7 @@
 using Godot;
 using System.Threading.Tasks;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.WaypointInfo;
 
 public partial class ShipsNode : AsyncReactiveUI<Waypoint>
 {

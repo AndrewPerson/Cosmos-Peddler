@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Waypoints.Visualisations;
 
 public partial class PlanetNode : MeshInstance3D, IWaypointVisualiser
 {

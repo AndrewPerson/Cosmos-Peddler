@@ -1,6 +1,6 @@
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.SolarSystem.Waypoints.Visualisations;
 
 public partial class OrbitalStationNode : MeshInstance3D, IWaypointVisualiser
 {

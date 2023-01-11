@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI;
 
 public partial class UINode : Control
 {

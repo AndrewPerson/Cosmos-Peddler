@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.ShipInfo;
 
 public partial class ShipInfoNode : PopupUI<Ship>
 {

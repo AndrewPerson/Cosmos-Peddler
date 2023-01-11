@@ -1,5 +1,6 @@
 using Godot;
 using System.Threading.Tasks;
+using CosmosPeddler.Game.SolarSystem;
 
 namespace CosmosPeddler.Game;
 

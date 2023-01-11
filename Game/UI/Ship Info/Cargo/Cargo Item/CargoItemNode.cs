@@ -1,8 +1,9 @@
 using Godot;
 using System.Linq;
 using System.Threading.Tasks;
+using CosmosPeddler.Game.UI.MarketOrder;
 
-namespace CosmosPeddler.Game;
+namespace CosmosPeddler.Game.UI.ShipInfo;
 
 public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 {
