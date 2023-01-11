@@ -252,28 +252,17 @@ bbcode_enabled = true
 text = "[center][outline_size=3][outline_color=black]A [color=lightblue][url=https://spacetraders.io]Space Traders[/url][/color] client created by [color=lightblue][url=https://github.com/AndrewPerson]AP[/url][/color][/outline_color][/outline_size][/center]"
 fit_content_height = true
 
-[node name="License Heading" type="RichTextLabel" parent="UI/About"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 38.0
-offset_bottom = 57.0
-grow_horizontal = 2
-bbcode_enabled = true
-text = "[center][outline_size=3][outline_color=black]Godot License:[/outline_color][/outline_size][/center]"
-fit_content_height = true
-
 [node name="License" type="RichTextLabel" parent="UI/About"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-offset_top = 57.0
-offset_bottom = 57.0
+anchor_bottom = 0.5
+offset_bottom = 250.0
 grow_horizontal = 2
+grow_vertical = 2
 bbcode_enabled = true
-fit_content_height = true
 
 [connection signal="pressed" from="UI/Home Button" to="UI" method="ShowHome"]
 [connection signal="pressed" from="UI/Home/Login" to="UI" method="ShowLogin"]
