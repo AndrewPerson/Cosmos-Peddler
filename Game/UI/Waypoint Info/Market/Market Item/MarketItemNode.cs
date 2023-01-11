@@ -2,7 +2,7 @@ using Godot;
 
 namespace CosmosPeddler.Game;
 
-public partial class MarketItemNode : ReactiveUI<(MarketItem, Market)>
+public partial class MarketItemNode : ReactiveUI<(MarketItem, Waypoint)>
 {
 	private Label name = null!;
 	private Button buy = null!;
@@ -31,6 +31,11 @@ public partial class MarketItemNode : ReactiveUI<(MarketItem, Market)>
 
 	public void OpenPurchaseUI()
 	{
-		PurchaseOrderNode.Show((Data.Item1.Symbol, Data.Item2));
+		MarketOrderNode.Show((Data.Item1, MarketOrderType.Purchase, Data.Item2));
+	}
+
+	public void OpenSellUI()
+	{
+		MarketOrderNode.Show((Data.Item1, MarketOrderType.Sell, Data.Item2));
 	}
 }

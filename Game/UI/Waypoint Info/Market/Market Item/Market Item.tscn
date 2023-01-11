@@ -28,4 +28,4 @@ layout_mode = 2
 text = "Sell - $"
 
 [connection signal="pressed" from="Buy" to="." method="OpenPurchaseUI"]
-[connection signal="pressed" from="Buy" to="Buy" method="emit_signal" binds= ["mouse_exited"]]
+[connection signal="pressed" from="Sell" to="." method="OpenSellUI"]

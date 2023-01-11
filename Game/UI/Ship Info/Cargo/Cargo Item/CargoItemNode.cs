@@ -6,6 +6,8 @@ namespace CosmosPeddler.Game;
 
 public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 {
+	private MarketItem? marketItem;
+
 	private Label units = null!;
 	private Label name = null!;
 	private Button buy = null!;
@@ -66,9 +68,9 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 				return;
 			}
 
-			var marketGood = goods.FirstOrDefault(i => i.Symbol.ToString() == cargo.Symbol);
+			marketItem = goods.FirstOrDefault(i => i.Symbol.ToString() == cargo.Symbol);
 
-			if (marketGood == null)
+			if (marketItem == null)
 			{
 				buy.Text = "Unavailable";
 				buy.Disabled = true;
@@ -78,10 +80,64 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 				return;
 			}
 
-			buy.Text = $"Buy {marketGood.PurchasePrice}";
-			buy.Disabled = !marketGood.TradeType.HasFlag(MarketItemTradeType.Export);
-			sell.Text = $"Sell {marketGood.SellPrice}";
-			sell.Disabled = !marketGood.TradeType.HasFlag(MarketItemTradeType.Import);
+			buy.Text = $"Buy - ${marketItem.PurchasePrice}";
+			buy.Disabled = !marketItem.TradeType.HasFlag(MarketItemTradeType.Export);
+			sell.Text = $"Sell - ${marketItem.SellPrice}";
+			sell.Disabled = !marketItem.TradeType.HasFlag(MarketItemTradeType.Import);
+		},
+		TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	public void OpenPurchaseUI()
+	{
+		//TODO Add null handling
+		if (marketItem == null) return;
+
+		var nav = Data.Item2;
+
+		buy.Text = "Loading...";
+		buy.Disabled = true;
+
+		SpaceTradersClient.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
+		{
+			buy.Text = $"Buy - ${marketItem.PurchasePrice}";
+			buy.Disabled = false;
+
+			if (t.IsFaulted)
+			{
+				//TODO Show error
+				GD.PrintErr(t.Exception);
+				return;
+			}
+
+			MarketOrderNode.Show((marketItem, MarketOrderType.Purchase, t.Result));
+		},
+		TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	public void OpenSellUI()
+	{
+		//TODO Add null handling
+		if (marketItem == null) return;
+
+		var nav = Data.Item2;
+
+		sell.Text = "Loading...";
+		sell.Disabled = true;
+
+		SpaceTradersClient.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
+		{
+			sell.Text = $"Sell - ${marketItem.SellPrice}";
+			sell.Disabled = false;
+
+			if (t.IsFaulted)
+			{
+				//TODO Show error
+				GD.PrintErr(t.Exception);
+				return;
+			}
+
+			MarketOrderNode.Show((marketItem, MarketOrderType.Sell, t.Result));
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

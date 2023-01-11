@@ -390,9 +390,17 @@ public partial class SpaceTradersClient
         ))).Data;
     }
 
-    public static async Task<Data16> SellCargo(SellCargoRequest request, string shipSymbol)
+    public static async Task<Data16> SellCargo(string tradeSymbol, int units, string shipSymbol)
     {
-        return (await retry429Policy.ExecuteAsync<Response31>(() => _client.SellCargoAsync(request, shipSymbol))).Data;
+        return (await retry429Policy.ExecuteAsync<Response31>(() => _client.SellCargoAsync
+        (
+            new SellCargoRequest()
+            {
+                Symbol = tradeSymbol,
+                Units = units
+            },
+            shipSymbol
+        ))).Data;
     }
 
     public static async Task<Data17> CreateShipSystemScan(string shipSymbol)
