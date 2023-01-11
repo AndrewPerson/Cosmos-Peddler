@@ -48,8 +48,6 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, -1.51833, 15.2442, 8.6311)
 script = ExtResource("3_j1hyy")
 speed = 1.0
-mouseSpeed = null
-zoomSpeed = null
 minZoom = 2.0
 maxZoom = 40.0
 
@@ -77,17 +75,20 @@ script = ExtResource("4_h7rjt")
 [node name="Hidden UI" type="Control" parent="UI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Waypoint Info" parent="UI/Hidden UI" instance=ExtResource("5_mtryu")]
+layout_mode = 1
 mouse_filter = 2
 
 [node name="Ship Info" parent="UI/Hidden UI" instance=ExtResource("5_amhjw")]
+layout_mode = 1
 
 [node name="Purchase Order" parent="UI/Hidden UI" instance=ExtResource("7_7tkb1")]
+layout_mode = 1
 
 [connection signal="mouse_entered" from="UI" to="UI" method="MouseEnter"]
 [connection signal="mouse_exited" from="UI" to="UI" method="MouseExit"]
