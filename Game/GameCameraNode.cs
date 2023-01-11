@@ -50,8 +50,6 @@ public partial class GameCameraNode : Camera3D
 
 	public override void _Process(double delta)
 	{
-		base._Process(delta);
-
 		if (forcedZoom) return;
 
 		float forwards = Input.GetActionStrength("backwards") - Input.GetActionStrength("forwards");
@@ -74,8 +72,6 @@ public partial class GameCameraNode : Camera3D
 
 	public override void _Input(InputEvent @event)
 	{
-		base._Input(@event);
-
 		if (forcedZoom) return;
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))

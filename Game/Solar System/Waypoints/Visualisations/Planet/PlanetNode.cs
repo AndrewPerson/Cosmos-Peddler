@@ -13,8 +13,6 @@ public partial class PlanetNode : MeshInstance3D, IWaypointVisualiser
 
     public override void _Ready()
     {
-        base._Ready();
-
         ocean = GetNode<MeshInstance3D>("%Ocean");
 
         var seed = (float)GD.RandRange(0f, 10f);
