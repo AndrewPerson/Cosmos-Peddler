@@ -13,7 +13,7 @@ public partial class TraitsNode : ReactiveUI<IList<WaypointTrait>>
 		traitsList = GetNode("%Traits");
 	}
 
-	private void UpdateTraits()
+	public override void UpdateUI()
 	{
 		var trimmedTraits = Data.Where(t =>
 									t.Symbol != WaypointTraitSymbol.MARKETPLACE &&
