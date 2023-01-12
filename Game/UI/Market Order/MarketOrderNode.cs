@@ -154,12 +154,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		{
 			complete.Text = "Purchasing...";
 
-			SpaceTradersClient.PurchaseCargo(
-				Data.Item1.Symbol.ToString(),
-				(int)amount.Value,
-				ships[shipSelection.Selected].Symbol
-			)
-			.ContinueWith(t =>
+			ships[shipSelection.Selected].PurchaseCargo(Data.Item1.Symbol.ToString(), (int)amount.Value).ContinueWith(t =>
 			{
 				if (t.IsFaulted)
 				{
@@ -179,12 +174,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		{
 			complete.Text = "Selling...";
 
-			SpaceTradersClient.SellCargo(
-				Data.Item1.Symbol.ToString(),
-				(int)amount.Value,
-				ships[shipSelection.Selected].Symbol
-			)
-			.ContinueWith(t =>
+			ships[shipSelection.Selected].SellCargo(Data.Item1.Symbol.ToString(), (int)amount.Value).ContinueWith(t =>
 			{
 				if (t.IsFaulted)
 				{

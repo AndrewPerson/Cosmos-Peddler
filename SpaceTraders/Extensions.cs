@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -137,10 +136,21 @@ public partial class Market
         return items.OrderByDescending(i => i.TradeType).ThenBy(i => i.Name).ToArray();
     }
 }
+
 public partial class Ship
 {
     public Task<Data19> Refuel()
     {
         return SpaceTradersClient.RefuelShip(Symbol);
+    }
+
+    public Task<Data20> PurchaseCargo(string tradeSymbol, int units)
+    {
+        return SpaceTradersClient.PurchaseCargo(tradeSymbol, units, Symbol);
+    }
+
+    public Task<Data16> SellCargo(string tradeSymbol, int units)
+    {
+        return SpaceTradersClient.SellCargo(tradeSymbol, units, Symbol);
     }
 }
