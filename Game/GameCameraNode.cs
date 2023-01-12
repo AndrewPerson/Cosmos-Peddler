@@ -53,9 +53,9 @@ public partial class GameCameraNode : Camera3D
 		if (forcedZoom) return;
 
 		float forwards = Input.GetActionStrength("backwards") - Input.GetActionStrength("forwards");
-		float left = Input.GetActionStrength("right") - Input.GetActionStrength("left");
+		float right = Input.GetActionStrength("right") - Input.GetActionStrength("left");
 
-		mapPosition += new Vector2(left, forwards) * (float)delta * speed * zoom;
+		mapPosition += new Vector2(right, forwards) * (float)delta * speed * zoom;
 
 		Position = new Vector3(mapPosition.x, 0, mapPosition.y) + Transform.basis.z * zoom;
 	}
