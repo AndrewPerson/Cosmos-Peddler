@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ce5mawdnc3fpb"]
+[gd_scene load_steps=8 format=3 uid="uid://bu32xat3nm5hn"]
 
 [ext_resource type="Script" path="res://Game/UI/Ship Info/ShipInfoNode.cs" id="1_5j1go"]
-[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_a5vt4"]
-[ext_resource type="PackedScene" uid="uid://dwkn36r3smmmg" path="res://Game/UI/Ship Info/Cargo/Cargo.tscn" id="2_l0hik"]
-[ext_resource type="PackedScene" uid="uid://2gytlhuenjw2" path="res://Game/UI/Ship Info/Crew/Crew.tscn" id="4_o2aka"]
+[ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_b6d8t"]
+[ext_resource type="Script" path="res://UI/AutosizeSubviewport.cs" id="3_1vepn"]
+[ext_resource type="World3D" uid="uid://cnh7cj0sq2j87" path="res://Game/UI/Ship Info/Ship.tres" id="3_trhte"]
+[ext_resource type="PackedScene" uid="uid://bc5vhb4jnaw5x" path="res://Game/Ships/Ship.tscn" id="4_eohdm"]
+[ext_resource type="Script" path="res://Game/UI/Ship Info/MouseGimbalNode.cs" id="6_me8sc"]
+[ext_resource type="PackedScene" uid="uid://m15tw4wxi7kv" path="res://Game/UI/Ship Info/Fuel/Fuel.tscn" id="7_b4xe7"]
 
 [node name="Ship Info" type="Control"]
 layout_mode = 3
@@ -21,9 +24,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 150.0
-offset_top = 150.0
+offset_top = 100.0
 offset_right = -150.0
-offset_bottom = -150.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -32,7 +35,7 @@ layout_mode = 2
 
 [node name="Header" type="PanelContainer" parent="Panel/VBox"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_a5vt4")
+theme_override_styles/panel = ExtResource("2_b6d8t")
 
 [node name="Name" type="Label" parent="Panel/VBox/Header"]
 unique_name_in_owner = true
@@ -47,37 +50,60 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Info Grid" type="GridContainer" parent="Panel/VBox/Info Margin"]
+[node name="HBox" type="HBoxContainer" parent="Panel/VBox/Info Margin"]
+layout_mode = 2
+
+[node name="Ship Container" type="SubViewportContainer" parent="Panel/VBox/Info Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="Ship" type="SubViewport" parent="Panel/VBox/Info Margin/HBox/Ship Container"]
+own_world_3d = true
+world_3d = ExtResource("3_trhte")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(695, 401)
+render_target_update_mode = 4
+script = ExtResource("3_1vepn")
+
+[node name="Ship" parent="Panel/VBox/Info Margin/HBox/Ship Container/Ship" instance=ExtResource("4_eohdm")]
+
+[node name="Gimbal" type="Node3D" parent="Panel/VBox/Info Margin/HBox/Ship Container/Ship"]
+script = ExtResource("6_me8sc")
+
+[node name="Camera3D" type="Camera3D" parent="Panel/VBox/Info Margin/HBox/Ship Container/Ship/Gimbal"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0.4, 0.5, 0.4)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Panel/VBox/Info Margin/HBox/Ship Container/Ship/Gimbal/Camera3D"]
+light_energy = 5.0
+
+[node name="Info Container" type="VBoxContainer" parent="Panel/VBox/Info Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Fuel Container" type="AspectRatioContainer" parent="Panel/VBox/Info Margin/HBox/Info Container"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 3
+alignment_horizontal = 2
 
-[node name="Cargo" parent="Panel/VBox/Info Margin/Info Grid" instance=ExtResource("2_l0hik")]
+[node name="Fuel" parent="Panel/VBox/Info Margin/HBox/Info Container/Fuel Container" instance=ExtResource("7_b4xe7")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Crew" parent="Panel/VBox/Info Margin/Info Grid" instance=ExtResource("4_o2aka")]
-unique_name_in_owner = true
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="Panel/VBox/Info Margin/HBox/Info Container"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment_horizontal = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/VBox/Info Margin/HBox/Info Container/AspectRatioContainer2"]
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
+[node name="AspectRatioContainer3" type="AspectRatioContainer" parent="Panel/VBox/Info Margin/HBox/Info Container"]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment_horizontal = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
+[node name="PanelContainer" type="PanelContainer" parent="Panel/VBox/Info Margin/HBox/Info Container/AspectRatioContainer3"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer4" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer5" type="PanelContainer" parent="Panel/VBox/Info Margin/Info Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

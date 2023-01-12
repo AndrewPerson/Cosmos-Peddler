@@ -125,3 +125,10 @@ public partial class Market
         return items.OrderByDescending(i => i.TradeType).ThenBy(i => i.Name).ToArray();
     }
 }
+public partial class Ship
+{
+    public Task<Data19> Refuel()
+    {
+        return SpaceTradersClient.RefuelShip(Symbol);
+    }
+}
