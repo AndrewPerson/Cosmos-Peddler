@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://d3xoniddnoqq"]
 
 [ext_resource type="Script" path="res://Game/UI/Waypoint Info/WaypointInfoNode.cs" id="1_3wcqu"]
-[ext_resource type="PackedScene" uid="uid://tbry2w156gs6" path="res://Game/UI/Waypoint Info/Traits/Traits.tscn" id="1_7hny2"]
-[ext_resource type="PackedScene" uid="uid://dryqhwoyqpm1u" path="res://Game/UI/Waypoint Info/Market/Market.tscn" id="3_gyyst"]
-[ext_resource type="PackedScene" uid="uid://dkr8ds15lfdkj" path="res://Game/UI/Waypoint Info/Ships/Ships.tscn" id="3_vs8l8"]
-[ext_resource type="PackedScene" uid="uid://dvyrav6wu6f03" path="res://Game/UI/Waypoint Info/Shipyard/Shipyard.tscn" id="4_y2ufd"]
+[ext_resource type="PackedScene" uid="uid://ddqtnhp4ysovr" path="res://Game/UI/Waypoint Info/Traits/Traits.tscn" id="1_7hny2"]
+[ext_resource type="PackedScene" path="res://Game/UI/Waypoint Info/Market/Market.tscn" id="3_gyyst"]
+[ext_resource type="PackedScene" path="res://Game/UI/Waypoint Info/Ships/Ships.tscn" id="3_vs8l8"]
+[ext_resource type="PackedScene" path="res://Game/UI/Waypoint Info/Shipyard/Shipyard.tscn" id="4_y2ufd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mau6s"]
 font_size = 32
@@ -63,7 +63,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Left Margin" type="MarginContainer" parent="Split Container"]
-offset_right = 568.0
+offset_right = 574.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 100
@@ -74,24 +74,24 @@ theme_override_constants/margin_bottom = 100
 [node name="Left" type="VBoxContainer" parent="Split Container/Left Margin"]
 offset_left = 100.0
 offset_top = 100.0
-offset_right = 168.0
+offset_right = 174.0
 offset_bottom = 548.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 100
 
 [node name="Traits" parent="Split Container/Left Margin/Left" instance=ExtResource("1_7hny2")]
 unique_name_in_owner = true
-offset_right = 68.0
+offset_right = 74.0
 offset_bottom = 174.0
 
 [node name="Ships" parent="Split Container/Left Margin/Left" instance=ExtResource("3_vs8l8")]
 unique_name_in_owner = true
 offset_top = 274.0
-offset_right = 68.0
+offset_right = 74.0
 offset_bottom = 448.0
 
 [node name="Right Margin" type="MarginContainer" parent="Split Container"]
-offset_left = 572.0
+offset_left = 578.0
 offset_right = 1152.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
@@ -103,17 +103,17 @@ theme_override_constants/margin_bottom = 100
 [node name="Right" type="VBoxContainer" parent="Split Container/Right Margin"]
 offset_left = 400.0
 offset_top = 100.0
-offset_right = 480.0
+offset_right = 474.0
 offset_bottom = 548.0
 theme_override_constants/separation = 100
 
 [node name="Market" parent="Split Container/Right Margin/Right" instance=ExtResource("3_gyyst")]
 unique_name_in_owner = true
-offset_right = 80.0
+offset_right = 74.0
 offset_bottom = 174.0
 
 [node name="Shipyard" parent="Split Container/Right Margin/Right" instance=ExtResource("4_y2ufd")]
 unique_name_in_owner = true
 offset_top = 274.0
-offset_right = 80.0
+offset_right = 74.0
 offset_bottom = 448.0

@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_rmgst"]
 [ext_resource type="Script" path="res://Game/GameCameraNode.cs" id="3_j1hyy"]
 [ext_resource type="Script" path="res://Game/UI/UINode.cs" id="4_h7rjt"]
-[ext_resource type="PackedScene" uid="uid://ce5mawdnc3fpb" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
+[ext_resource type="PackedScene" uid="uid://bu32xat3nm5hn" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
 [ext_resource type="PackedScene" uid="uid://d3xoniddnoqq" path="res://Game/UI/Waypoint Info/Waypoint Info.tscn" id="5_mtryu"]
-[ext_resource type="PackedScene" uid="uid://buufjbdppsvsf" path="res://Game/UI/Market Order/Market Order.tscn" id="7_7tkb1"]
+[ext_resource type="PackedScene" path="res://Game/UI/Market Order/Market Order.tscn" id="7_7tkb1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bvkj"]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://tbry2w156gs6"]
+[gd_scene load_steps=3 format=3 uid="uid://ddqtnhp4ysovr"]
 
 [ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="1_d2ese"]
 [ext_resource type="Script" path="res://Game/UI/Waypoint Info/Traits/TraitsNode.cs" id="1_j0jij"]
