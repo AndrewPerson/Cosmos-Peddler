@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc5vhb4jnaw5x"]
+
+[ext_resource type="Script" path="res://Game/Ships/ShipNode.cs" id="1_i1jer"]
+[ext_resource type="ArrayMesh" uid="uid://coo7yo24pnqbn" path="res://Game/Ships/Ship.obj" id="2_mq3xb"]
+[ext_resource type="Material" uid="uid://beio6v8t3vfjc" path="res://Game/Ships/Metal.material" id="3_0ymhs"]
+[ext_resource type="Material" uid="uid://c26s1svl24lm4" path="res://Game/Ships/Black Metal.material" id="4_5fqh0"]
+[ext_resource type="Material" uid="uid://drq0lq1gdc8dw" path="res://Game/Ships/Glow.material" id="5_gmqen"]
+
+[node name="Ship" type="Node3D"]
+script = ExtResource("1_i1jer")
+
+[node name="Ship" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_mq3xb")
+surface_material_override/0 = ExtResource("3_0ymhs")
+surface_material_override/1 = ExtResource("4_5fqh0")
+surface_material_override/2 = ExtResource("5_gmqen")
+surface_material_override/3 = ExtResource("5_gmqen")
+surface_material_override/8 = ExtResource("5_gmqen")
