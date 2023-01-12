@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CosmosPeddler.Game.UI;
 using CosmosPeddler.Game.UI.WaypointInfo;
 using CosmosPeddler.Game.SolarSystem.OrbitIndicator;
@@ -148,6 +149,23 @@ public partial class WaypointNode : Node3D
 
 		UINode.Instance.UIAppear += HideIndicators;
 		UINode.Instance.UIDisappear += ShowIndicators;
+
+		waypoint.HasShips().ContinueWith(t =>
+		{
+			if (t.IsFaulted)
+			{
+				//TODO Show error
+				GD.PrintErr(t.Exception);
+				return;
+			}
+
+			SetIndicators(
+				ships: t.Result,
+				market: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
+				shipyard: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
+			);
+		},
+		TaskScheduler.FromCurrentSynchronizationContext());
 #endregion
 	}
 

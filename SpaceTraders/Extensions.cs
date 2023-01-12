@@ -83,6 +83,18 @@ public partial class Waypoint
             }
         }
     }
+
+    public async Task<bool> HasShips(int pageSize = 100)
+    {
+        var hasShip = false;
+        await foreach (var _ in GetShips(pageSize))
+        {
+            hasShip = true;
+            break;
+        }
+
+        return hasShip;
+    }
 }
 
 public partial class Market
