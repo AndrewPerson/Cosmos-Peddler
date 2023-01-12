@@ -56,6 +56,7 @@ public partial class AsyncReactiveUI<DataT> : ReactiveUI<DataT>
         {
             if (t.IsFaulted)
             {
+                //TODO Show error
                 GD.PrintErr(t.Exception);
                 return;
             }

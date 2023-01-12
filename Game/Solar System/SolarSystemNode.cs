@@ -71,6 +71,7 @@ public partial class SolarSystemNode : Node3D
 		{
 			if (t.IsFaulted)
 			{
+				//TODO Show error
 				GD.PrintErr(t.Exception);
 			}
 		},
