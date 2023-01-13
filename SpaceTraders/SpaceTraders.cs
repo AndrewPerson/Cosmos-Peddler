@@ -58,19 +58,22 @@ public partial class SpaceTradersClient
 
     public static async Task<bool> ValidToken(string token)
     {
-        var existingToken = SpaceTradersClient.token;
-
-        SpaceTradersClient.token = token;
+        using var testClient = new HttpClient()
+        {
+            DefaultRequestHeaders =
+            {
+                Authorization = new AuthenticationHeaderValue("Bearer", token)
+            }
+        };
 
         try
         {
-            await retry429Policy.ExecuteAsync(_client.GetMyAgentAsync); 
-            SpaceTradersClient.token = existingToken;
-            return true;
+            var result = await retry429Policy.ExecuteAsync(() => testClient.GetAsync(_client.BaseUrl.TrimEnd('/') + "/my/agent"));
+            if (result != null && result.IsSuccessStatusCode) return true;
+            else return false;
         }
         catch
         {
-            SpaceTradersClient.token = existingToken;
             return false;
         }
     }
