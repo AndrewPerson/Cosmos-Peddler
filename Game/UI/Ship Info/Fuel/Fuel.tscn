@@ -54,3 +54,5 @@ offset_right = 88.0
 offset_bottom = 66.0
 size_flags_vertical = 10
 text = "Refuel"
+
+[connection signal="pressed" from="VBox/Info Container/Vbox/Refuel" to="." method="Refuel"]
