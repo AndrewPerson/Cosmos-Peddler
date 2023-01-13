@@ -1,7 +1,8 @@
 using Godot;
 using System.Linq;
 using System.Threading.Tasks;
-using CosmosPeddler.Game.UI.MarketOrder;
+using CosmosPeddler.Game.UI.PurchaseOrder;
+using CosmosPeddler.Game.UI.SellOrder;
 
 namespace CosmosPeddler.Game.UI.ShipInfo;
 
@@ -111,7 +112,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 				return;
 			}
 
-			MarketOrderNode.Show((marketItem, MarketOrderType.Purchase, t.Result));
+			PurchaseOrderNode.Show((marketItem, t.Result));
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}
@@ -138,7 +139,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 				return;
 			}
 
-			MarketOrderNode.Show((marketItem, MarketOrderType.Sell, t.Result));
+			SellOrderNode.Show((marketItem, t.Result));
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

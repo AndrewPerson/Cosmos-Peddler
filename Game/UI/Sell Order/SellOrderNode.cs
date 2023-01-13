@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CosmosPeddler.Game.UI.ShipInfo;
 
-namespace CosmosPeddler.Game.UI.MarketOrder;
+namespace CosmosPeddler.Game.UI.SellOrder;
 
-public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Waypoint)>
+public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint), SellOrderNode>
 {
 	private bool loadedShips = false;
 	private List<Ship> ships = null!;
@@ -16,7 +16,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 	private Button viewShip = null!;
 	private SpinBox amount = null!;
 	private Label price = null!;
-	private Button complete = null!;
+	private Button sell = null!;
 
 	public override void _EnterTree()
 	{
@@ -25,13 +25,12 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		viewShip = GetNode<Button>("%View Ship");
 		amount = GetNode<SpinBox>("%Amount");
 		price = GetNode<Label>("%Price");
-		complete = GetNode<Button>("%Complete");
+		sell = GetNode<Button>("%Sell");
 	}
 
 	public override void UpdateUI()
 	{
-		if (Data.Item2 == MarketOrderType.Purchase) name.Text = $"Purchase {Data.Item1.Symbol.ToString().Replace('_', ' ')}";
-		else name.Text = $"Sell {Data.Item1.Symbol.ToString().Replace('_', ' ')}";
+		name.Text = $"Sell {Data.Item1.Symbol.ToString().Replace('_', ' ')}";
 
 		loadedShips = false;
 		
@@ -43,8 +42,8 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		viewShip.Text = "Loading...";
 		viewShip.Disabled = true;
 
-		complete.Text = "Loading...";
-		complete.Disabled = true;
+		sell.Text = "Loading...";
+		sell.Disabled = true;
 
 		UpdateShips().ContinueWith(t =>
 		{
@@ -73,16 +72,8 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 				viewShip.Text = "View";
 				viewShip.Disabled = false;
 
-				if (Data.Item2 == MarketOrderType.Purchase)
-				{
-					complete.Text = "Purchase";
-					complete.Disabled = false;
-				}
-				else
-				{
-					complete.Text = "Sell";
-					complete.Disabled = false;
-				}
+				sell.Text = "Sell";
+				sell.Disabled = false;
 			}
 			else
 			{
@@ -91,7 +82,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 
 				viewShip.Text = "Unavailable";
 
-				complete.Text = "Unavailable";
+				sell.Text = "Unavailable";
 			}
 
 			UpdateMaxItems();
@@ -105,7 +96,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 	{
 		var ships = new List<Ship>();
 
-		await foreach (var ship in Data.Item3.GetShips())
+		await foreach (var ship in Data.Item2.GetShips())
 		{
 			if (ship.Nav.Status == ShipNavStatus.DOCKED)
 			{
@@ -122,14 +113,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		{
 			var ship = ships[shipSelection.Selected];
 
-			if (Data.Item2 == MarketOrderType.Purchase)
-			{
-				amount.MaxValue = ship.Cargo.Capacity - ship.Cargo.Units;
-			}
-			else
-			{
-				amount.MaxValue = ship.Cargo.Inventory.First(i => i.Symbol == Data.Item1.Symbol.ToString()).Units;
-			}
+			amount.MaxValue = ship.Cargo.Inventory.First(i => i.Symbol == Data.Item1.Symbol.ToString()).Units;
 		}
 		else amount.MaxValue = 0;
 
@@ -138,8 +122,7 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 
 	public void UpdateCost()
 	{
-		if (Data.Item2 == MarketOrderType.Purchase) price.Text = $"${amount.Value * Data.Item1.PurchasePrice}";
-		else price.Text = $"${amount.Value * Data.Item1.SellPrice}";
+		price.Text = $"${amount.Value * Data.Item1.SellPrice}";
 	}
 
 	public void OpenShipUI()
@@ -147,49 +130,26 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 		ShipInfoNode.Show(ships[shipSelection.Selected]);
 	}
 
-	public void Complete()
+	public void Sell()
 	{
-		complete.Disabled = true;
-		if (Data.Item2 == MarketOrderType.Purchase)
+		sell.Disabled = true;
+		sell.Text = "Selling...";
+
+		ships[shipSelection.Selected].SellCargo(Data.Item1.Symbol.ToString(), (int)amount.Value).ContinueWith(t =>
 		{
-			complete.Text = "Purchasing...";
-
-			ships[shipSelection.Selected].PurchaseCargo(Data.Item1.Symbol.ToString(), (int)amount.Value).ContinueWith(t =>
+			if (t.IsFaulted)
 			{
-				if (t.IsFaulted)
-				{
-					//TODO Show error
-					GD.PrintErr(t.Exception);
-					return;
-				}
+				//TODO Show error
+				GD.PrintErr(t.Exception);
+				return;
+			}
 
-				complete.Text = "Purchase";
-				complete.Disabled = false;
+			sell.Text = "Sell";
+			sell.Disabled = false;
 
-				Close();
-			},
-			TaskScheduler.FromCurrentSynchronizationContext());
-		}
-		else
-		{
-			complete.Text = "Selling...";
-
-			ships[shipSelection.Selected].SellCargo(Data.Item1.Symbol.ToString(), (int)amount.Value).ContinueWith(t =>
-			{
-				if (t.IsFaulted)
-				{
-					//TODO Show error
-					GD.PrintErr(t.Exception);
-					return;
-				}
-
-				complete.Text = "Sell";
-				complete.Disabled = false;
-
-				Close();
-			},
-			TaskScheduler.FromCurrentSynchronizationContext());
-		}
+			Close();
+		},
+		TaskScheduler.FromCurrentSynchronizationContext());
 	}
 
 	public void Close()
@@ -198,8 +158,3 @@ public partial class MarketOrderNode : PopupUI<(MarketItem, MarketOrderType, Way
 	}
 }
 
-public enum MarketOrderType
-{
-	Purchase,
-	Sell
-}

@@ -1,5 +1,6 @@
 using Godot;
-using CosmosPeddler.Game.UI.MarketOrder;
+using CosmosPeddler.Game.UI.PurchaseOrder;
+using CosmosPeddler.Game.UI.SellOrder;
 
 namespace CosmosPeddler.Game.UI.WaypointInfo;
 
@@ -32,11 +33,11 @@ public partial class MarketItemNode : ReactiveUI<(MarketItem, Waypoint)>
 
 	public void OpenPurchaseUI()
 	{
-		MarketOrderNode.Show((Data.Item1, MarketOrderType.Purchase, Data.Item2));
+		PurchaseOrderNode.Show((Data.Item1, Data.Item2));
 	}
 
 	public void OpenSellUI()
 	{
-		MarketOrderNode.Show((Data.Item1, MarketOrderType.Sell, Data.Item2));
+		SellOrderNode.Show((Data.Item1, Data.Item2));
 	}
 }
