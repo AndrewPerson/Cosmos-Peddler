@@ -18,7 +18,7 @@ public partial class SpaceTradersClient
 
     private static string token = "";
 
-    private static readonly SpaceTradersClient _client = new(new HttpClient());
+    private static readonly SpaceTradersClient _client = new(new HttpClient(new SpaceTradersHandler(new HttpClientHandler())));
 
     private static readonly AsyncRetryPolicy retry429Policy = Policy.Handle<ApiException>(e => e.StatusCode == 429)
                                                                     .WaitAndRetryForeverAsync
@@ -31,7 +31,7 @@ public partial class SpaceTradersClient
                                                                             }
                                                                             else return TimeSpan.FromSeconds(2);
                                                                         },
-                                                                        onRetryAsync: (_, _, time, _) =>
+                                                                        onRetryAsync: (exception, _, time, _) =>
                                                                         {
                                                                             Godot.GD.Print($"429 received, retrying in {time.TotalSeconds} seconds");
                                                                             return Task.CompletedTask;
