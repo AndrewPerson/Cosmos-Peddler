@@ -149,7 +149,6 @@ public partial class Ship
 {
     public Task<Data19> Refuel()
     {
-        throw new System.Exception("Sike! This is a test! Really really really really really long text to simulate an error message.");
         return SpaceTradersClient.RefuelShip(Symbol);
     }
 
