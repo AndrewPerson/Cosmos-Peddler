@@ -15,7 +15,7 @@ public partial class ShipyardShipNode : ReactiveUI<ShipyardShip>
 
 	public override void UpdateUI()
 	{
-		name.Text = Data.Name.Replace('_', ' ');
+		name.Text = Data.Name.ToHuman();
 		name.TooltipText = Data.Description;
 
 		buy.Text = $"Buy - ${Data.PurchasePrice}";

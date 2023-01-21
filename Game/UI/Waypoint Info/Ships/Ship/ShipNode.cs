@@ -14,7 +14,7 @@ public partial class ShipNode : ReactiveUI<Ship>
 
 	public override void UpdateUI()
 	{
-		name.Text = Data.Symbol.Replace('_', ' ');
+		name.Text = Data.Symbol.ToHuman();
 		name.TooltipText = Data.Symbol;
 	}
 

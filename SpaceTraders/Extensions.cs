@@ -6,9 +6,17 @@ namespace CosmosPeddler;
 
 public static class StringExtensions
 {
-    public static string ToSnakeCase(this string str)
+    public static string ToHuman(this string str)
     {
-        return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
+        return str.Split('_')
+        .Where(s => s.Length > 0)
+        .Select
+        (
+            s => s.Length == 1 ?
+                    s.ToUpper() :
+                    $"{char.ToUpper(s[0])}{s[1..].ToLower()}"
+        )
+        .Aggregate((a, b) => a + " " + b);
     }
 }
 
@@ -141,6 +149,7 @@ public partial class Ship
 {
     public Task<Data19> Refuel()
     {
+        throw new System.Exception("Sike! This is a test! Really really really really really long text to simulate an error message.");
         return SpaceTradersClient.RefuelShip(Symbol);
     }
 

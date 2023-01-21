@@ -26,7 +26,7 @@ public partial class WaypointInfoNode : PopupUI<Waypoint>
 	public override void UpdateUI()
 	{
 		name.Text = Data.Symbol;
-		extraInfo.Text = $"{Data.Type.ToString().Replace('_', ' ')} - {Data.Faction?.Symbol.Replace('_', ' ') ?? "NO FACTION"}";
+		extraInfo.Text = $"{Data.Type.ToString().ToHuman()} - {Data.Faction?.Symbol.ToHuman() ?? "No Faction"}";
 
 		traits.Data = Data.Traits.ToArray();
 		ships.Data = Data;

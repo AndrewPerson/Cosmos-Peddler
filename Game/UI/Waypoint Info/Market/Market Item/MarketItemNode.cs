@@ -21,7 +21,7 @@ public partial class MarketItemNode : ReactiveUI<(MarketItem, Waypoint)>
 	{
 		var good = Data.Item1;
 
-		name.Text = good.Symbol.ToString().Replace('_', ' ');
+		name.Text = good.Symbol.ToString().ToHuman();
 		name.TooltipText = good.Description;
 
 		buy.Text = $"Buy - ${good.PurchasePrice}";

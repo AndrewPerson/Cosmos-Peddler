@@ -29,7 +29,7 @@ public partial class PurchaseOrderNode : DifferentiatedPopupUI<(MarketItem, Wayp
 
 	public override void UpdateUI()
 	{
-		name.Text = $"Purchase {Data.Item1.Symbol.ToString().Replace('_', ' ')}";
+		name.Text = $"Purchase {Data.Item1.Symbol.ToString().ToHuman()}";
 
 		loadedShips = false;
 		

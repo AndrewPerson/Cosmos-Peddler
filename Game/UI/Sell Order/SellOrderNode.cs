@@ -30,7 +30,7 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 
 	public override void UpdateUI()
 	{
-		name.Text = $"Sell {Data.Item1.Symbol.ToString().Replace('_', ' ')}";
+		name.Text = $"Sell {Data.Item1.Symbol.ToString().ToHuman()}";
 
 		loadedShips = false;
 		
