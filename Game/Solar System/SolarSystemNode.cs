@@ -71,8 +71,8 @@ public partial class SolarSystemNode : Node3D
 		{
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to instantiate waypoints. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 			}
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());

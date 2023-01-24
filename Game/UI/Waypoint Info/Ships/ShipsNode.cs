@@ -32,35 +32,27 @@ public partial class ShipsNode : AsyncReactiveUI<Waypoint>
 
 	public override async Task UpdateUIAsync()
 	{
-		try
+		SetStatus("Loading...");
+
+		for (int i = 0; i < shipsList.GetChildCount(); i++)
 		{
-			SetStatus("Loading...");
-
-			for (int i = 0; i < shipsList.GetChildCount(); i++)
-			{
-				shipsList.GetChild(i).QueueFree();
-			}
-
-			bool noShips = true;
-			await foreach (var ship in Data.GetShips())
-			{
-				noShips = false;
-				ClearStatus();
-
-				var shipNode = shipScene.Instantiate<ShipNode>();
-				shipNode.Ready += () => shipNode.Data = ship;
-				shipsList.AddChild(shipNode);
-			}
-
-			if (noShips)
-			{
-				SetStatus("No ships");
-			}
+			shipsList.GetChild(i).QueueFree();
 		}
-		catch (System.Exception e)
+
+		bool noShips = true;
+		await foreach (var ship in Data.GetShips())
 		{
-			GD.PrintErr(e);
-			SetStatus(e.Message);
+			noShips = false;
+			ClearStatus();
+
+			var shipNode = shipScene.Instantiate<ShipNode>();
+			shipNode.Ready += () => shipNode.Data = ship;
+			shipsList.AddChild(shipNode);
+		}
+
+		if (noShips)
+		{
+			SetStatus("No ships");
 		}
 	}
 }

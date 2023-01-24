@@ -92,8 +92,11 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 	public void OpenPurchaseUI()
 	{
-		//TODO Add null handling
-		if (marketItem == null) return;
+		if (marketItem == null)
+		{
+			PopupCreatorNode.CreatePopup(PopupType.Error, "Market item is null. Failed to open purchase UI.");
+			return;
+		}
 
 		var nav = Data.Item2;
 
@@ -107,8 +110,8 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to fetch waypoint. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 
@@ -119,8 +122,11 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 	public void OpenSellUI()
 	{
-		//TODO Add null handling
-		if (marketItem == null) return;
+		if (marketItem == null)
+		{
+			PopupCreatorNode.CreatePopup(PopupType.Error, "Market item is null. Failed to open purchase UI.");
+			return;
+		}
 
 		var nav = Data.Item2;
 
@@ -134,8 +140,8 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to fetch waypoint. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 

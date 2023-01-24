@@ -154,8 +154,8 @@ public partial class WaypointNode : Node3D
 		{
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to fetch ships. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 

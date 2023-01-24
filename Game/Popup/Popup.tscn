@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://7vpg21lqbc4u"]
+
+[ext_resource type="StyleBox" uid="uid://dm4o6anxmr58c" path="res://Game/Popup/Popup Panel.tres" id="1_6o1nx"]
+[ext_resource type="Texture2D" uid="uid://mur0xt2ysmcx" path="res://Game/Popup/close.svg" id="1_tn0tf"]
+[ext_resource type="Script" path="res://Game/Popup/PopupNode.cs" id="2_bp0vo"]
+[ext_resource type="Texture2D" uid="uid://c5wbkgd0bstro" path="res://Game/Popup/success.svg" id="3_afrg4"]
+[ext_resource type="Texture2D" uid="uid://dq35fp73h188c" path="res://Game/Popup/error.svg" id="4_ciavn"]
+[ext_resource type="Texture2D" uid="uid://cnek37npwpdd7" path="res://Game/Popup/info.svg" id="4_fy23b"]
+[ext_resource type="Texture2D" uid="uid://dtpoe14m8s5wq" path="res://Game/Popup/warning.svg" id="5_aogh5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0h66b"]
+load_path = "res://.godot/imported/error.png-826f1147949fa4c0c0da985d1bd51c86.ctex"
+
+[node name="Popup" type="PanelContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_bottom = 36.0
+grow_horizontal = 0
+theme_override_styles/panel = ExtResource("1_6o1nx")
+script = ExtResource("2_bp0vo")
+successTex = ExtResource("3_afrg4")
+successCol = Color(0, 1, 0, 1)
+infoTex = ExtResource("4_fy23b")
+infoCol = Color(0.333333, 0.537255, 1, 1)
+warningTex = ExtResource("5_aogh5")
+warningCol = Color(1, 0.788235, 0, 1)
+errorTex = ExtResource("4_ciavn")
+errorCol = Color(1, 0, 0, 1)
+
+[node name="Colour Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = -2
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -2
+
+[node name="Colour" type="ColorRect" parent="Colour Margin"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(1, 0, 0, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBOX" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="Aspect Ratio" type="AspectRatioContainer" parent="Margin/HBOX"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Margin/HBOX/Aspect Ratio"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_0h66b")
+ignore_texture_size = true
+
+[node name="Text" type="Label" parent="Margin/HBOX"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "ERROR!"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Close Margin" type="MarginContainer" parent="Margin/HBOX"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 10
+
+[node name="Close" type="TextureButton" parent="Margin/HBOX/Close Margin"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("1_tn0tf")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="Margin/HBOX/Close Margin/Close" to="." method="Close"]

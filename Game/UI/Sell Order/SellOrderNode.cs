@@ -49,8 +49,8 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 		{
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to purchase. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 
@@ -139,8 +139,8 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 		{
 			if (t.IsFaulted)
 			{
-				//TODO Show error
-				GD.PrintErr(t.Exception);
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to sell. Check the log for errors.");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 

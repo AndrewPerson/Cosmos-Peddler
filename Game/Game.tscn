@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dujjxwyugi2st"]
+[gd_scene load_steps=14 format=3 uid="uid://dujjxwyugi2st"]
 
 [ext_resource type="Script" path="res://Game/WorldNode.cs" id="1_drfwb"]
 [ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_rmgst"]
@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bu32xat3nm5hn" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
 [ext_resource type="PackedScene" uid="uid://d3xoniddnoqq" path="res://Game/UI/Waypoint Info/Waypoint Info.tscn" id="5_mtryu"]
 [ext_resource type="PackedScene" uid="uid://dmbxjqp2s1yod" path="res://Game/UI/Purchase Order/Purchase Order.tscn" id="7_433bh"]
-[ext_resource type="PackedScene" uid="uid://ds765tr5my7y6" path="res://Game/Popup/Popup.tscn" id="8_b74q2"]
 [ext_resource type="PackedScene" uid="uid://bmkb7ryhtnmu4" path="res://Game/UI/Sell Order/Sell Order.tscn" id="8_h180h"]
+[ext_resource type="Script" path="res://Game/Popup/PopupCreatorNode.cs" id="9_7nuh0"]
+[ext_resource type="PackedScene" uid="uid://7vpg21lqbc4u" path="res://Game/Popup/Popup.tscn" id="10_61h20"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bvkj"]
 
@@ -78,45 +79,42 @@ script = ExtResource("4_h7rjt")
 [node name="Hidden UI" type="Control" parent="UI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Waypoint Info" parent="UI/Hidden UI" instance=ExtResource("5_mtryu")]
+layout_mode = 1
 mouse_filter = 2
 
 [node name="Ship Info" parent="UI/Hidden UI" instance=ExtResource("5_amhjw")]
+layout_mode = 1
 
 [node name="Purchase Order" parent="UI/Hidden UI" instance=ExtResource("7_433bh")]
+layout_mode = 1
 
 [node name="Sell Order" parent="UI/Hidden UI" instance=ExtResource("8_h180h")]
+layout_mode = 1
 
 [node name="Popups" type="MarginContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -400.0
+offset_left = -299.0
 offset_bottom = 46.0
 grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="Popups" type="VBoxContainer" parent="Popups"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 395.0
-offset_bottom = 41.0
-
-[node name="Popup" parent="Popups/Popups" instance=ExtResource("8_b74q2")]
-anchors_preset = 0
-anchor_left = 0.0
-anchor_right = 0.0
-offset_left = 270.0
-offset_right = 390.0
-grow_horizontal = 1
+layout_mode = 2
+script = ExtResource("9_7nuh0")
+popup = ExtResource("10_61h20")
 
 [connection signal="mouse_entered" from="UI" to="UI" method="MouseEnter"]
 [connection signal="mouse_exited" from="UI" to="UI" method="MouseExit"]

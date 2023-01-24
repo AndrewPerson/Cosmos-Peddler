@@ -46,8 +46,8 @@ public partial class MarketNode : ReactiveUI<Waypoint>
 		{
 			if (t.IsFaulted)
 			{
-				GD.PrintErr(t.Exception);
-				SetStatus(t.Exception?.Message ?? "Unknown error");
+				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
+				SetStatus("Failed to fetch market. Check the log for errors.");
 				return;
 			}
 
