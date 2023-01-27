@@ -6,19 +6,19 @@ instance uniform float dash_count = 2;
 instance uniform float time_scale = 0.0278;
 
 void fragment() {
-	vec2 adjustedUV = UV - vec2(.5);
+	vec2 adjusted_uv = UV - vec2(.5);
 	
-	if (adjustedUV.y < 0.) {
+	if (adjusted_uv.y < 0.) {
 		discard;
 	}
 	
-	if (abs(adjustedUV.x) > line_width / 2.) {
+	if (abs(adjusted_uv.x) > line_width / 2.) {
 		discard;
 	}
 	
-	adjustedUV.y -= TIME * time_scale;
+	adjusted_uv.y -= TIME * time_scale;
 	
-	if (mod(adjustedUV.y, .5 / dash_count) < .25 / dash_count) {
+	if (mod(adjusted_uv.y, .5 / dash_count) < .25 / dash_count) {
 		discard;
 	}
 }

@@ -23,7 +23,7 @@ uint hash(uint x) {
 	return x;
 }
 
-mat3 rotationMatrix(vec3 angles) {
+mat3 rotation_matrix(vec3 angles) {
 	mat3 X = mat3(
 		vec3(cos(angles.x), -sin(angles.x), 0),
 		vec3(sin(angles.x), cos(angles.x), 0),
@@ -45,8 +45,8 @@ mat3 rotationMatrix(vec3 angles) {
 	return X * Y * Z;
 }
 
-vec3 pointInSphere(vec3 angles, float dist) {
-	return rotationMatrix(angles) * vec3(0, 1, 0) * dist;
+vec3 point_in_sphere(vec3 angles, float dist) {
+	return rotation_matrix(angles) * vec3(0, 1, 0) * dist;
 }
 
 void process() {
@@ -65,21 +65,21 @@ void process() {
 	
 	float sizeScale = 50. * (dist + 0.1);
 	
-	mat3 transformMatrix = rotationMatrix(angles) / sizeScale;
+	mat3 transform_matrix = rotation_matrix(angles) / sizeScale;
 	
-	vec3 xAxis = vec3(1., 0., 0.) * transformMatrix;
-	vec3 yAxis = vec3(0., 1., 0.) * transformMatrix;
-	vec3 zAxis = vec3(0., 0., 1.) * transformMatrix;
+	vec3 x_axis = vec3(1., 0., 0.) * transform_matrix;
+	vec3 y_axis = vec3(0., 1., 0.) * transform_matrix;
+	vec3 z_axis = vec3(0., 0., 1.) * transform_matrix;
 	
 	TRANSFORM = mat4(
-		vec4(xAxis, 0),
-		vec4(yAxis, 0),
-		vec4(zAxis, 0),
+		vec4(x_axis, 0),
+		vec4(y_axis, 0),
+		vec4(z_axis, 0),
 		TRANSFORM[3]
 	);
 	
 	if (RESTART) {
-		vec3 position = pointInSphere(
+		vec3 position = point_in_sphere(
 			vec3(
 				rand_from_seed(alt_seed1) * 360.,
 				rand_from_seed(alt_seed2) * 360.,

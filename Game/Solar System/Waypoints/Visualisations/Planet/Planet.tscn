@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://bwk12two2n2id"]
 
 [ext_resource type="Material" uid="uid://b2qtjortciibh" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Land.material" id="1_wdyov"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Planet/PlanetNode.cs" id="2_g2y14"]

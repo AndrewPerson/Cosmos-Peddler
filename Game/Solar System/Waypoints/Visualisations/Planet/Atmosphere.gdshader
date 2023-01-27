@@ -1,12 +1,12 @@
 shader_type fog;
 
-uniform float atmosphereDensity = 1.;
-uniform sampler2D atmosphereColourGrad;
+uniform float atmosphere_density = 1.;
+uniform sampler2D atmosphere_colour_grad;
 
 void fog() {
-	vec4 colour = texture(atmosphereColourGrad, vec2(length((WORLD_POSITION - OBJECT_POSITION) / EXTENTS), 0.));
+	vec4 colour = texture(atmosphere_colour_grad, vec2(length((WORLD_POSITION - OBJECT_POSITION) / EXTENTS), 0.));
 	
-	DENSITY = atmosphereDensity * colour.a;
+	DENSITY = atmosphere_density * colour.a;
 	
 	ALBEDO = colour.rgb;
 	EMISSION = colour.rgb * 3.;

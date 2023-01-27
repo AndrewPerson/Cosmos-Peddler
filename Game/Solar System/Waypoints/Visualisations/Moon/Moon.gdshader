@@ -7,10 +7,6 @@ instance uniform float seed = 1.;
 instance uniform float rotation;
 
 float rand(vec2 coord) {
-	// land has to be tiled (or the contintents on this planet have to be changing very fast)
-	// tiling only works for integer values, thus the rounding
-	// it would probably be better to only allow integer sizes
-	// multiply by vec2(2,1) to simulate planet having another side
 	coord = mod(coord, vec2(2.,1.) * float(size));
 	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
 }
@@ -88,9 +84,9 @@ vec3 rotate(vec3 v, vec3 n, float angle) {
 }
 
 void fragment() {
-	vec3 fragPos = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
+	vec3 frag_pos = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
 
-	float height = triplanar_texture(fragPos, fragPos, 10.).x;
+	float height = triplanar_texture(frag_pos, frag_pos, 10.).x;
 	height += 0.1;
 	height /= 1.1;
 	ALBEDO = vec3(height);

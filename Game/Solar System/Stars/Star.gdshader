@@ -1,23 +1,16 @@
 shader_type spatial;
-render_mode unshaded;
 
-uniform vec3 Sun_Color : source_color;
-
-uniform float waveSpeed : hint_range(0,1) = 0.1;
+uniform vec3 sun_colour : source_color;
+uniform float wave_speed : hint_range(0,1) = 0.1;
 uniform float fresnel : hint_range(0,2) = 1.;
+uniform float emission_strength = 10;
 
 instance uniform float seed : hint_range(1, 10) = 1;
-instance uniform float Glow_Power = 3;
 
 const float size = 30.;
 const int octaves = 4;
 
 float rand(vec2 coord) {
-	// land has to be tiled (or the contintents on this planet have to be changing very fast)
-	// tiling only works for integer values, thus the rounding
-	// it would probably be better to only allow integer sizes
-	// multiply by vec2(2,1) to simulate planet having another side
-	coord = mod(coord, vec2(2.,1.) * size);
 	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
 }
 
@@ -65,14 +58,14 @@ float height(vec2 uv) {
 }
 
 float triplanar_height(vec3 uv) {	
-	float heightX = height(uv.yz);
-	float heightY = height(uv.xz + vec2(0.1));
-	float heightZ = height(uv.xy + vec2(0.2));
+	float height_x = height(uv.yz);
+	float height_y = height(uv.xz + vec2(0.1));
+	float height_z = height(uv.xy + vec2(0.2));
 
 	vec3 blend_weight = pow(abs(uv), vec3(1.));
 	blend_weight /= blend_weight.x + blend_weight.y + blend_weight.z;
 
-	float height = blend_weight.x * heightX + blend_weight.y * heightY + blend_weight.z * heightZ;
+	float height = blend_weight.x * height_x + blend_weight.y * height_y + blend_weight.z * height_z;
 	
 	return height;
 }
@@ -81,15 +74,15 @@ void fragment() {
 	// Fresnel
 	float fresnel_out = pow(fresnel - clamp(dot(NORMAL, VIEW), 0., fresnel), fresnel);
 
-	vec2 waveOffsetA = vec2(TIME * waveSpeed, TIME * waveSpeed * 0.8);
-	vec2 waveOffsetB = vec2(TIME * waveSpeed * - 0.8, TIME * waveSpeed * -0.3);
-	vec2 result_offset = waveOffsetA + waveOffsetB;
+	vec2 wave_offset_a = vec2(TIME * wave_speed, TIME * wave_speed * 0.8);
+	vec2 wave_offset_b = vec2(TIME * wave_speed * - 0.8, TIME * wave_speed * -0.3);
+	vec2 result_offset = wave_offset_a + wave_offset_b;
 
-	vec3 fragPos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD;
-	vec3 fragNormal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.)).xyz;
+	vec3 frag_pos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD;
+	vec3 frag_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.)).xyz;
 
-	float noise_tex = triplanar_height(fragPos + vec3(TIME * waveSpeed));
+	float noise_tex = triplanar_height(frag_pos + vec3(TIME * wave_speed));
 
-	EMISSION = vec3(fresnel_out) * noise_tex * Sun_Color * Glow_Power;
+	EMISSION = vec3(fresnel_out) * noise_tex * sun_colour * emission_strength;
 	ALBEDO = EMISSION * noise_tex * 1.5;
 }

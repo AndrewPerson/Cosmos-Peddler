@@ -112,8 +112,7 @@ void vertex() {
 }
 
 void fragment() {
-	vec3 fragPos = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
-	vec3 uv = fragPos;
+	vec3 uv = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
 
 	float height = triplanar_height(uv);
 	ALBEDO = texture(height_colours, vec2(height, 0.)).rgb;

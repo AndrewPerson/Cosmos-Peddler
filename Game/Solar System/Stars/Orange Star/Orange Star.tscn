@@ -7,6 +7,6 @@
 
 [node name="Orange Star" type="MeshInstance3D"]
 material_override = ExtResource("1_n2opj")
-instance_shader_parameters/Glow_Power = 3.0
+instance_shader_parameters/seed = 1.0
 mesh = SubResource("SphereMesh_5exie")
 script = ExtResource("2_vkm35")

@@ -6,10 +6,6 @@ instance uniform float seed : hint_range(1, 10) = 1;
 instance uniform float emission_strength = 2.;
 
 float rand(vec2 coord) {
-	// land has to be tiled (or the contintents on this planet have to be changing very fast)
-	// tiling only works for integer values, thus the rounding
-	// it would probably be better to only allow integer sizes
-	// multiply by vec2(2,1) to simulate planet having another side
 	coord = mod(coord, vec2(2.,1.) * 4.);
 	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
 }
