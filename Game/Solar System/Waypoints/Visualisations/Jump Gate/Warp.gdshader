@@ -11,6 +11,8 @@ uniform vec4 BackColor1 : source_color;
 uniform vec4 BackColor2 : source_color;
 uniform float Brightness;
 
+uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap;
+
 void vertex() {
 	vec2 wobble1SamplePos = vec2(VERTEX.z + TIME * wobbleTimeScale, 0);
 	float wobble1Sample = (texture(wobble, wobble1SamplePos).x - .7) * (VERTEX.z - .2) / 2. * wobbleScale;
@@ -129,7 +131,7 @@ void fragment() {
 	vec3 n_out59p0;
 	float n_out59p1;
 	{
-		vec4 SCREEN_TEXTURE_tex_read = texture(SCREEN_TEXTURE, n_out63p0.xy);
+		vec4 SCREEN_TEXTURE_tex_read = texture(screen_texture, n_out63p0.xy);
 		n_out59p0 = SCREEN_TEXTURE_tex_read.rgb;
 		n_out59p1 = SCREEN_TEXTURE_tex_read.a;
 	}

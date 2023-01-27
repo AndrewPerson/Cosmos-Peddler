@@ -67,7 +67,7 @@ public partial class GameCameraNode : Camera3D
 		var from = ProjectRayOrigin(mouse);
 		var dir = ProjectRayNormal(mouse);
 
-		return plane.IntersectRay(from, dir);
+		return plane.IntersectsRay(from, dir);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -120,7 +120,7 @@ public partial class GameCameraNode : Camera3D
 			0
 		)) * Vector3.Forward * distance;
 
-		var finalRotation = new Quaternion(new Transform3D(Quaternion.FromEuler(preZoomRotation), finalPosition).LookingAt(position, Vector3.Up).basis).GetEuler();
+		var finalRotation = new Quaternion(new Transform3D(new Basis(Quaternion.FromEuler(preZoomRotation)), finalPosition).LookingAt(position, Vector3.Up).basis).GetEuler();
 
 		zoomTween = CreateTween();
 

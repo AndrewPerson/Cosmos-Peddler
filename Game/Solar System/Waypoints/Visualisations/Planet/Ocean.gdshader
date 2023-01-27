@@ -6,6 +6,8 @@ uniform float oceanHeightMultiplier = 1.;
 uniform sampler2D oceanGradient;
 uniform float time_scale = 0.1;
 
+uniform sampler2D depth_texture: hint_depth_texture, filter_linear_mipmap;
+
 const int size = 50;
 const int octaves = 5;
 
@@ -118,7 +120,7 @@ void vertex() {
 }
 
 void fragment() {
-	float nonLinearDepth = texture(DEPTH_TEXTURE, SCREEN_UV).x;
+	float nonLinearDepth = texture(depth_texture, SCREEN_UV).x;
 	vec3 ndc = vec3(SCREEN_UV * 2. - 1., nonLinearDepth);
 	vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.);
 	view.xyz /= view.w;

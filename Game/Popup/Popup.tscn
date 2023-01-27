@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://dtpoe14m8s5wq" path="res://Game/Popup/warning.svg" id="5_aogh5"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0h66b"]
-load_path = "res://.godot/imported/error.png-826f1147949fa4c0c0da985d1bd51c86.ctex"
 
 [node name="Popup" type="PanelContainer"]
 anchors_preset = 1
@@ -61,7 +60,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
 texture = SubResource("CompressedTexture2D_0h66b")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="Text" type="Label" parent="Margin/HBOX"]
 unique_name_in_owner = true
