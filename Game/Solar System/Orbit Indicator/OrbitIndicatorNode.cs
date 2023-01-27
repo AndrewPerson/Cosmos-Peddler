@@ -2,7 +2,6 @@ using Godot;
 
 namespace CosmosPeddler.Game.SolarSystem.OrbitIndicator;
 
-[Tool]
 public partial class OrbitIndicatorNode : Node3D
 {
 	private float _orbitRadius = 1;

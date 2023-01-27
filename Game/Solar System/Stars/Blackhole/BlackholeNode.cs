@@ -12,13 +12,4 @@ public partial class BlackholeNode : MeshInstance3D, IDimensionedObject
 		var seed = (float)GD.RandRange(0f, 10f);
 		SetInstanceShaderParameter("seed", seed);
 	}
-
-	public override void _Process(double delta)
-	{
-		var dist = Position.DistanceTo(GetViewport().GetCamera3d().Position);
-
-		float brightness = 3 * Mathf.Log(Mathf.Max(dist * 2, 3));
-
-		SetInstanceShaderParameter("emission_strength", brightness);
-	}
 }
