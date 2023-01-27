@@ -57,9 +57,6 @@ right={
 
 [rendering]
 
-lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
-lights_and_shadows/positional_shadow/soft_shadow_filter_quality=4
-global_illumination/voxel_gi/quality=1
 scaling_3d/mode=1
 limits/global_shader_variables/buffer_size=131072
 environment/volumetric_fog/volume_depth=512
