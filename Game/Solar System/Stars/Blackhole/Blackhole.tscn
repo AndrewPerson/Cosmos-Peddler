@@ -11,4 +11,3 @@ instance_shader_parameters/emission_strength = 2.0
 instance_shader_parameters/seed = 1.0
 mesh = SubResource("SphereMesh_ady3t")
 script = ExtResource("3_x7p6d")
-Dimensions = null

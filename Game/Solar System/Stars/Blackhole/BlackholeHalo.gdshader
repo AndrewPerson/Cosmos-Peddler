@@ -32,7 +32,7 @@ float fbm(vec2 coord){
 	float value = 0.;
 	float scale = 0.5;
 
-	for(int i = 0; i < 2; i++){
+	for(int i = 0; i < 5; i++){
 		value += noise(coord) * scale;
 		coord *= 2.;
 		scale *= 0.5;
@@ -56,7 +56,7 @@ void fragment() {
 	
 	float height = fbm(polar_coordinates(NORMAL.xy - VIEW.xy).xy * 4. + vec2(TIME));
 	
-	if (dist - .05 < height) {
+	if (dist < height) {
 		vec3 colour = texture(colours, vec2(height, 0.)).rgb;
 		ALBEDO = colour;
 		EMISSION = colour * emission_strength;
