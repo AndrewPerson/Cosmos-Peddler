@@ -43,7 +43,7 @@ public partial class GameCameraNode : Camera3D
 	public override void _Ready()
 	{
 		zoom = maxZoom;
-		mapPosition = new Vector2(Position.x, Position.z);
+		mapPosition = new Vector2(Position.X, Position.Z);
 
 		preZoomRotation = GlobalRotation;
 	}
@@ -57,7 +57,7 @@ public partial class GameCameraNode : Camera3D
 
 		mapPosition += new Vector2(right, forwards) * (float)delta * speed * zoom;
 
-		Position = new Vector3(mapPosition.x, 0, mapPosition.y) + Transform.basis.z * zoom;
+		Position = new Vector3(mapPosition.X, 0, mapPosition.Y) + Transform.Basis.Z * zoom;
 	}
 
 	private Vector3? GetMouseWorldPosition(Vector2 mouse)
@@ -85,7 +85,7 @@ public partial class GameCameraNode : Camera3D
 				{
 					var delta = currentWorldPosition.Value - oldWorldPosition.Value;
 
-					mapPosition -= new Vector2(delta.x * mouseSpeed, delta.z * mouseSpeed);
+					mapPosition -= new Vector2(delta.X * mouseSpeed, delta.Z * mouseSpeed);
 				}
 			}
 		}
@@ -111,7 +111,7 @@ public partial class GameCameraNode : Camera3D
 		zoomTween?.Kill();
 		zoomTween?.Dispose();
 
-		var size = Mathf.Sqrt(dimensions.x * dimensions.x + dimensions.y * dimensions.y + dimensions.z * dimensions.z);
+		var size = Mathf.Sqrt(dimensions.X * dimensions.X + dimensions.Y * dimensions.Y + dimensions.Z * dimensions.Z);
 
 		var distance = size / objectZoomSize / Mathf.Tan(Mathf.DegToRad(Fov / 2));
 		var finalPosition = position + Quaternion.FromEuler(new Vector3(
@@ -120,7 +120,7 @@ public partial class GameCameraNode : Camera3D
 			0
 		)) * Vector3.Forward * distance;
 
-		var finalRotation = new Quaternion(new Transform3D(new Basis(Quaternion.FromEuler(preZoomRotation)), finalPosition).LookingAt(position, Vector3.Up).basis).GetEuler();
+		var finalRotation = new Quaternion(new Transform3D(new Basis(Quaternion.FromEuler(preZoomRotation)), finalPosition).LookingAt(position, Vector3.Up).Basis).GetEuler();
 
 		zoomTween = CreateTween();
 

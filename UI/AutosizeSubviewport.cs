@@ -7,7 +7,7 @@ public partial class AutosizeSubviewport : SubViewport
 	{
         if (GetParent() is Control parent)
         {
-            Size = (Vector2i)parent.Size;
+            Size = (Vector2I)parent.Size;
         }
     }
 }

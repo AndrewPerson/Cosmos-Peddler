@@ -116,12 +116,12 @@ public partial class AdvancedLineEdit : LineEdit
         DrawString(ThemeDB.FallbackFont, new Vector2(0, -ThemeDB.FallbackFontSize / 3), _label, fontSize: ThemeDB.FallbackFontSize + 2);
         DrawStringOutline(ThemeDB.FallbackFont, new Vector2(0, -ThemeDB.FallbackFontSize / 3), _label, fontSize: ThemeDB.FallbackFontSize + 2, size: 2, modulate: new Color(0, 0, 0));
 
-        if (ValidationState == State.Invalid) DrawString(ThemeDB.FallbackFont, new Vector2(0, Size.y + ThemeDB.FallbackFontSize), _validationMessage, fontSize: ThemeDB.FallbackFontSize, modulate: new Color(1, 0, 0));
+        if (ValidationState == State.Invalid) DrawString(ThemeDB.FallbackFont, new Vector2(0, Size.Y + ThemeDB.FallbackFontSize), _validationMessage, fontSize: ThemeDB.FallbackFontSize, modulate: new Color(1, 0, 0));
     }
 
     private void SetState(State state)
     {
-        var height = Mathf.FloorToInt(Size.y) - 20;
+        var height = Mathf.FloorToInt(Size.Y) - 20;
 
         switch (state)
         {

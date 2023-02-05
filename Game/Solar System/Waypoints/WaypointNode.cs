@@ -106,7 +106,7 @@ public partial class WaypointNode : Node3D
 		{
 			var rotation = 360 * orbitalTarget.waypoint.Orbitals.Select(x => x.Symbol).ToList().IndexOf(waypoint.Symbol) / (orbitalTarget.waypoint.Orbitals.Count < 3 ? 3 : orbitalTarget.waypoint.Orbitals.Count);
 			
-			var startingPosition = new Vector3(orbitalTarget.dimensions.x, 0, orbitalTarget.dimensions.z) / 2 + dimensions / 2;
+			var startingPosition = new Vector3(orbitalTarget.dimensions.X, 0, orbitalTarget.dimensions.Z) / 2 + dimensions / 2;
 
 			Position = orbitalTarget.Position + startingPosition.Rotated(new Vector3(0, 1, 0), Mathf.DegToRad(rotation));
 		}
@@ -116,16 +116,16 @@ public partial class WaypointNode : Node3D
 		if (orbitalTarget == null)
 		{
 			orbitIndicator.GlobalPosition = solarSystemCenter;
-			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.x - solarSystemCenter.x, GlobalPosition.z - solarSystemCenter.z), 0);
+			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - solarSystemCenter.X, GlobalPosition.Z - solarSystemCenter.Z), 0);
 
-			orbitIndicator.OrbitRadius = solarSystemCenter.DistanceTo(new Vector3(GlobalPosition.x, 0, GlobalPosition.z));
+			orbitIndicator.OrbitRadius = solarSystemCenter.DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));
 		}
 		else
 		{
 			orbitIndicator.GlobalPosition = orbitalTarget.GlobalPosition;
-			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.x - orbitalTarget.GlobalPosition.x, GlobalPosition.z - orbitalTarget.GlobalPosition.z), 0);
+			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - orbitalTarget.GlobalPosition.X, GlobalPosition.Z - orbitalTarget.GlobalPosition.Z), 0);
 
-			orbitIndicator.OrbitRadius = new Vector3(orbitalTarget.GlobalPosition.x, 0, orbitalTarget.GlobalPosition.z).DistanceTo(new Vector3(GlobalPosition.x, 0, GlobalPosition.z));			
+			orbitIndicator.OrbitRadius = new Vector3(orbitalTarget.GlobalPosition.X, 0, orbitalTarget.GlobalPosition.Z).DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));			
 		}
 
 		orbitIndicator.Scale /= Scale;
@@ -133,12 +133,12 @@ public partial class WaypointNode : Node3D
 
 #region Name
 		name.Text = waypoint.Symbol;
-		name.Position = new Vector3(0, new Vector2(dimensions.z / 2, dimensions.y / 2).Length(), 0) / Scale;
+		name.Position = new Vector3(0, new Vector2(dimensions.Z / 2, dimensions.Y / 2).Length(), 0) / Scale;
 		name.Scale /= Scale;
 #endregion
 
 #region Indicators
-		indicators.Position = new Vector3(0, -new Vector2(dimensions.z / 2, dimensions.y / 2).Length(), 0) / Scale;
+		indicators.Position = new Vector3(0, -new Vector2(dimensions.Z / 2, dimensions.Y / 2).Length(), 0) / Scale;
 		indicators.Scale /= Scale;
 
 		SetIndicators(
@@ -254,13 +254,13 @@ public partial class WaypointNode : Node3D
 
 		if (activeIndicators.Count > 0)
 		{
-			var indicatorWidth = activeIndicators.Sum(x => x.Texture.GetSize().x) - activeIndicators[0].Texture.GetSize().x / 2 - activeIndicators[^1].Texture.GetSize().x / 2;
+			var indicatorWidth = activeIndicators.Sum(x => x.Texture.GetSize().X) - activeIndicators[0].Texture.GetSize().X / 2 - activeIndicators[^1].Texture.GetSize().X / 2;
 			var indicatorOffset = indicatorWidth / -2;
 
 			foreach (var indicator in activeIndicators)
 			{
-				indicator.Offset = new Vector2(indicatorOffset, indicator.Offset.y);
-				indicatorOffset += indicator.Texture.GetSize().x;
+				indicator.Offset = new Vector2(indicatorOffset, indicator.Offset.Y);
+				indicatorOffset += indicator.Texture.GetSize().X;
 			}
 		}
 	}

@@ -54,7 +54,7 @@ public partial class SolarSystemNode : Node3D
 		var centre = (min - max) / 2;
 		var size = max - min;
 
-		visibilityNotifier.Aabb = new AABB(new Vector3(centre.x, 0, centre.y), new Vector3(size.x, .5f, size.y));
+		visibilityNotifier.Aabb = new Aabb(new Vector3(centre.X, 0, centre.Y), new Vector3(size.X, .5f, size.Y));
 	}
 
 	public override void _ExitTree()
