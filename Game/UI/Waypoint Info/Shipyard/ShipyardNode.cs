@@ -7,7 +7,7 @@ namespace CosmosPeddler.Game.UI.WaypointInfo;
 public partial class ShipyardNode : ReactiveUI<Waypoint>
 {
 	[Export]
-	public PackedScene shipScene = null!;
+	public PackedScene ShipScene { get; set; } = null!;
 
 	private Label status = null!;
 	private Control shipsList = null!;
@@ -74,7 +74,7 @@ public partial class ShipyardNode : ReactiveUI<Waypoint>
 
 			ClearStatus();
 
-			RenderList(shipsList, shipScene, ships);
+			RenderList(shipsList, ShipScene, ships);
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

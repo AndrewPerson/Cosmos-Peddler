@@ -6,7 +6,7 @@ namespace CosmosPeddler.Game.UI.ShipInfo;
 public partial class CargoNode : ReactiveUI<(ShipCargo, ShipNav)>
 {
 	[Export]
-	public PackedScene cargoItemScene = null!;
+	public PackedScene CargoItemScene { get; set; } = null!;
 
 	private Label name = null!;
 	private Node cargoItems = null!;
@@ -25,6 +25,6 @@ public partial class CargoNode : ReactiveUI<(ShipCargo, ShipNav)>
 
 		var items = cargo.Inventory.ToArray();
 
-		RenderList(cargoItems, cargoItemScene, items.Select(i => (i, nav)).ToArray());
+		RenderList(cargoItems, CargoItemScene, items.Select(i => (i, nav)).ToArray());
 	}
 }

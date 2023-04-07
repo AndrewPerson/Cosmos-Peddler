@@ -1,16 +1,25 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://bfxh4u0inqvm0"]
 
 [ext_resource type="Shader" path="res://Game/Solar System/Waypoints/Visualisations/Moon/Moon.gdshader" id="1_6rxh0"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Moon/MoonNode.cs" id="2_pkug6"]
 
+[sub_resource type="Curve" id="Curve_84dw3"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.053719, 0.645455), 0.0536585, 0.0536585, 0, 0, Vector2(0.309917, 0), -0.0879999, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_u2lqb"]
+curve = SubResource("Curve_84dw3")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ttkg2"]
 render_priority = 0
 shader = ExtResource("1_6rxh0")
+shader_parameter/crater_height_map = SubResource("CurveTexture_u2lqb")
 
 [sub_resource type="SphereMesh" id="SphereMesh_ojj82"]
-material = SubResource("ShaderMaterial_ttkg2")
 radius = 0.25
 height = 0.5
+radial_segments = 256
+rings = 128
 
 [sub_resource type="Animation" id="Animation_o0l66"]
 length = 0.001
@@ -51,6 +60,7 @@ _data = {
 }
 
 [node name="Moon" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_ttkg2")
 instance_shader_parameters/rotation = 0.0
 instance_shader_parameters/seed = 1.0
 mesh = SubResource("SphereMesh_ojj82")

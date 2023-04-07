@@ -34,6 +34,8 @@ public partial class FuelNode : ReactiveUI<Ship>
 			refuel.Text = "Refuel";
 			refuel.Disabled = false;
 
+            UpdateUI();
+
 			if (t.IsFaulted)
 			{
 				PopupCreatorNode.CreatePopup(PopupType.Error, $"Failed to refuel ship. Check the log for errors.");

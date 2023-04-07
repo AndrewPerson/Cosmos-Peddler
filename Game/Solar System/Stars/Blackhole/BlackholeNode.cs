@@ -4,7 +4,6 @@ namespace CosmosPeddler.Game.SolarSystem.Stars.Blackhole;
 
 public partial class BlackholeNode : MeshInstance3D, IDimensionedObject
 {
-	[Export]
 	public Vector3 Dimensions { get; private set; } = new Vector3(1, 1, 1);
 
 	public override void _Ready()

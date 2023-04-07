@@ -26,7 +26,7 @@ public partial class RegisterNode : Control
 			{
 				var faction = factionInput.Selected;
 
-				token = (await SpaceTradersClient.Register(Enum.GetValues<BodyFaction>()[faction], name)).Token;
+				token = await SpaceTradersClient.Register(Enum.GetValues<BodyFaction>()[faction], name);
 
 				return null;
 			}
@@ -64,9 +64,8 @@ public partial class RegisterNode : Control
 			{
 				await SpaceTradersClient.Login(token);
 				await SpaceTradersClient.Save(OS.GetUserDataDir());
-				GetTree().ChangeSceneToFile("res://Game/Game.tscn");
+				ThreadSafe.Run(() => GetTree().ChangeSceneToFile("res://Game/Game.tscn"));
 			}
-		},
-		TaskScheduler.FromCurrentSynchronizationContext());
+		});
 	}
 }

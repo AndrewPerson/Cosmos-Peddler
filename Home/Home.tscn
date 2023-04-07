@@ -41,6 +41,7 @@ script = ExtResource("1_1dtef")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8)
 
 [node name="Blackhole" parent="Background" instance=ExtResource("1_41snd")]
+Dimensions = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Background"]
 environment = SubResource("Environment_cw1fq")
@@ -70,7 +71,6 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/normal_font_size = 56
 bbcode_enabled = true
 text = "[center]Cosmos Peddler[/center]"
-fit_content_height = true
 
 [node name="Home Button" type="Button" parent="UI"]
 unique_name_in_owner = true
@@ -95,7 +95,7 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_wis2y")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="Home" type="VBoxContainer" parent="UI"]
 unique_name_in_owner = true
@@ -151,6 +151,12 @@ size_flags_horizontal = 3
 script = ExtResource("5_qfjrs")
 Label = "Token"
 ValidationMessage = "Invalid Token"
+_validationState = 0
+_label = "Token"
+_validationMessage = "Invalid Token"
+loadingIconTexture = null
+validIconTexture = null
+invalidIconTexture = null
 
 [node name="Login" type="Button" parent="UI/Login"]
 layout_mode = 2
@@ -181,6 +187,12 @@ layout_mode = 2
 script = ExtResource("5_qfjrs")
 Label = "Name"
 ValidationMessage = "Problem"
+_validationState = 0
+_label = "Name"
+_validationMessage = "Problem"
+loadingIconTexture = null
+validIconTexture = null
+invalidIconTexture = null
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Register"]
 layout_mode = 2
@@ -250,7 +262,6 @@ offset_bottom = 19.0
 grow_horizontal = 2
 bbcode_enabled = true
 text = "[center][outline_size=3][outline_color=black]A [color=lightblue][url=https://spacetraders.io]Space Traders[/url][/color] client created by [color=lightblue][url=https://github.com/AndrewPerson]AP[/url][/color][/outline_color][/outline_size][/center]"
-fit_content_height = true
 
 [node name="License" type="RichTextLabel" parent="UI/About"]
 unique_name_in_owner = true

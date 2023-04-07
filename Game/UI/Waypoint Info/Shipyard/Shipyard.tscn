@@ -7,7 +7,7 @@
 [node name="Shipyard" type="PanelContainer"]
 size_flags_vertical = 3
 script = ExtResource("1_r6ry6")
-shipScene = ExtResource("2_5tbke")
+ShipScene = ExtResource("2_5tbke")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2

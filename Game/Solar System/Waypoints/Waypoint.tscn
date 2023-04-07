@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bimbj5blpk5gt"]
+[gd_scene load_steps=14 format=3 uid="uid://bimbj5blpk5gt"]
 
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/WaypointNode.cs" id="1_bs3ml"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Planet.tscn" id="2_wgufh"]
+[ext_resource type="PackedScene" uid="uid://bwk12two2n2id" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Planet.tscn" id="2_wgufh"]
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Gas Giant.tscn" id="3_of86b"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Moon/Moon.tscn" id="4_t5gil"]
+[ext_resource type="PackedScene" uid="uid://bfxh4u0inqvm0" path="res://Game/Solar System/Waypoints/Visualisations/Moon/Moon.tscn" id="4_t5gil"]
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Orbital Station.tscn" id="5_53csh"]
 [ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Jump Gate/Jump Gate.tscn" id="6_s1p24"]
 [ext_resource type="PackedScene" uid="uid://b8qu5w1xh7iqo" path="res://Game/Solar System/Orbit Indicator/Orbit Indicator.tscn" id="7_l0xfe"]
@@ -14,16 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://dq3wwmtyc2l32" path="res://Game/Solar System/Waypoints/Icons/rocket-outline.svg" id="11_20swo"]
 [ext_resource type="Texture2D" uid="uid://bl5xfag8sjkgw" path="res://Game/Solar System/Waypoints/Icons/storefront-outline.svg" id="12_eeytj"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_e0il1"]
-
 [node name="Waypoint" type="Area3D"]
 script = ExtResource("1_bs3ml")
-waypointTypeNames = [&"PLANET", &"GAS_GIANT", &"MOON", &"ORBITAL_STATION", &"JUMP_GATE", &"ASTEROID_FIELD", &"UNKNOWN"]
-waypointTypeScenes = [ExtResource("2_wgufh"), ExtResource("3_of86b"), ExtResource("4_t5gil"), ExtResource("5_53csh"), ExtResource("6_s1p24"), ExtResource("7_oqeue"), ExtResource("8_qy72g")]
+WaypointTypeNames = [&"PLANET", &"GAS_GIANT", &"MOON", &"ORBITAL_STATION", &"JUMP_GATE", &"ASTEROID_FIELD", &"UNKNOWN"]
+WaypointTypeScenes = [ExtResource("2_wgufh"), ExtResource("3_of86b"), ExtResource("4_t5gil"), ExtResource("5_53csh"), ExtResource("6_s1p24"), ExtResource("7_oqeue"), ExtResource("8_qy72g")]
 
 [node name="Bounds" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true
-shape = SubResource("BoxShape3D_e0il1")
 
 [node name="Orbit Indicator" parent="." instance=ExtResource("7_l0xfe")]
 unique_name_in_owner = true

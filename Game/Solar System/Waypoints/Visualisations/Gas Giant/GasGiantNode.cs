@@ -14,7 +14,7 @@ public partial class GasGiantNode : MeshInstance3D, IWaypointVisualiser
 	public override void _Ready()
 	{
 		rings = GetNode<MeshInstance3D>("%Rings");
-		CallDeferred("look_at", OrbitCentre);
+        LookAt(OrbitCentre);
 
 		var seed = (float)GD.RandRange(0f, 10f);
         SetSeed(seed);

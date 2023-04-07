@@ -9,7 +9,7 @@ offset_right = 67.0
 offset_bottom = 50.0
 size_flags_vertical = 3
 script = ExtResource("1_qirdg")
-marketItemScene = ExtResource("2_nrt8r")
+MarketItemScene = ExtResource("2_nrt8r")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2

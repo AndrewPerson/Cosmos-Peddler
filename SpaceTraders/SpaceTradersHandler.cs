@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,18 +15,20 @@ namespace CosmosPeddler;
 
 public class SpaceTradersHandler : DelegatingHandler
 {
-    private readonly ConcurrentDictionary<string, Task<HttpResponseMessage>> requests = new();
+    private readonly ConcurrentDictionary<HttpRequestMessage, Task<HttpResponseMessage>> requests = new(new HttpRequestEqualityComparer());
     private static readonly RetryPolicy retryHttpClonePolicy = Policy.Handle<Exception>().Retry(5, (e, i) => Godot.GD.Print($"Attempt {i} at cloning HTTP response failed"));
 
     public SpaceTradersHandler(HttpMessageHandler innerHandler) : base(innerHandler) { }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        if (request.RequestUri != null && requests.TryGetValue(request.RequestUri.ToString(), out var cachedResponse))
+        Godot.GD.Print($"Sending request to {request.RequestUri}");
+
+        if (requests.TryGetValue(request, out var cachedResponse))
         {
             if (cachedResponse.IsCompleted)
             {
-                requests.TryRemove(new KeyValuePair<string, Task<HttpResponseMessage>>(request.RequestUri.ToString(), cachedResponse));
+                requests.TryRemove(new KeyValuePair<HttpRequestMessage, Task<HttpResponseMessage>>(request, cachedResponse));
             }
             else
             {
@@ -35,15 +39,12 @@ public class SpaceTradersHandler : DelegatingHandler
 
         var response = base.SendAsync(request, cancellationToken).ContinueWith(t =>
         {
-            if (request.RequestUri != null && requests.ContainsKey(request.RequestUri.ToString()))
-            {
-                requests.TryRemove(new KeyValuePair<string, Task<HttpResponseMessage>>(request.RequestUri.ToString(), t));
-            }
+            requests.TryRemove(new KeyValuePair<HttpRequestMessage, Task<HttpResponseMessage>>(request, t));
 
             return t.Result;
         });
 
-        if (request.RequestUri != null && !requests.ContainsKey(request.RequestUri.ToString())) requests.TryAdd(request.RequestUri.ToString(), response);
+        requests.TryAdd(request, response);
 
         return CloneHttpResponseMessage(await response);
     }
@@ -95,5 +96,67 @@ public class SpaceTradersHandler : DelegatingHandler
 
             return clone;
         });
+    }
+}
+
+class HttpRequestEqualityComparer : IEqualityComparer<HttpRequestMessage>
+{
+    public bool Equals(HttpRequestMessage? x, HttpRequestMessage? y)
+    {
+        if (x is null && y is null) return true;
+        if (x is null || y is null) return false;
+
+        return x.RequestUri == y.RequestUri &&
+            x.Method == y.Method &&
+            ContentsEqual(x.Content, y.Content) &&
+            HeadersEqual(x.Headers, y.Headers);
+    }
+
+    private static bool ContentsEqual(HttpContent? x, HttpContent? y)
+    {
+        if (x == null && y == null)
+            return true;
+
+        if (x == null || y == null)
+            return false;
+
+        return x.ReadAsStringAsync().Result == y.ReadAsStringAsync().Result;
+    }
+
+    private static bool HeadersEqual(HttpRequestHeaders x, HttpRequestHeaders y)
+    {
+        foreach (var header in x)
+        {
+            if (!y.TryGetValues(header.Key, out var values) || !header.Value.SequenceEqual(values))
+                return false;
+        }
+
+        return true;
+    }
+
+    public int GetHashCode(HttpRequestMessage obj)
+    {
+        return (obj.RequestUri?.GetHashCode() ?? 0) ^
+            obj.Method.GetHashCode() ^
+            (obj.Content == null ? 0 : GetContentHashCode(obj.Content)) ^
+            GetHeadersHashCode(obj.Headers);
+    }
+
+    private static int GetContentHashCode(HttpContent content)
+    {
+        return content.ReadAsStringAsync().Result.GetHashCode();
+    }
+
+    private static int GetHeadersHashCode(HttpRequestHeaders headers)
+    {
+        var hash = 0;
+
+        foreach (var header in headers)
+        {
+            hash ^= header.Key.GetHashCode();
+            hash ^= header.Value.GetHashCode();
+        }
+
+        return hash;
     }
 }

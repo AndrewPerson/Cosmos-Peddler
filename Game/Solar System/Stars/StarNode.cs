@@ -4,23 +4,17 @@ using System.Collections.Generic;
 
 namespace CosmosPeddler.Game.SolarSystem.Stars;
 
-public partial class StarNode : Node3D
+public partial class StarNode : Area3D
 {
 	private static Dictionary<string, PackedScene>? starTypes = null;
 
-	[Signal]
-	public delegate void MouseEnterEventHandler();
-
-	[Signal]
-	public delegate void MouseExitEventHandler();
-
-	public SystemType systemType;
+	public SystemType SystemType { get; set; }
 
 	[Export]
-	public StringName[] starTypeNames = Array.Empty<StringName>();
+	public StringName[] StarTypeNames { get; set; } = Array.Empty<StringName>();
 
 	[Export]
-	public PackedScene[] starTypeScenes = Array.Empty<PackedScene>();
+	public PackedScene[] StarTypeScenes { get; set; } = Array.Empty<PackedScene>();
 
 	private CollisionShape3D bounds = null!;
 
@@ -37,36 +31,32 @@ public partial class StarNode : Node3D
 
 			lock (starTypes)
 			{
-				for (int i = 0; i < starTypeNames.Length; i++)
+				for (int i = 0; i < StarTypeNames.Length; i++)
 				{
-					starTypes.Add(starTypeNames[i], starTypeScenes[i]);
+					starTypes.Add(StarTypeNames[i], StarTypeScenes[i]);
 				}
 			}
 		}
 
-		if (starTypes.TryGetValue(systemType.ToString(), out var scene))
+		if (starTypes.TryGetValue(SystemType.ToString(), out var scene))
 		{
 			var starInstance = scene.Instantiate();
 			AddChild(starInstance);
 
-			((BoxShape3D)bounds.Shape).Size = ((IDimensionedObject)starInstance).Dimensions / Scale;
+            bounds.Shape = new BoxShape3D()
+            {
+                Size = ((IDimensionedObject)starInstance).Dimensions
+            };
 		}
 		else
 		{
 			var starInstance = starTypes["UNKNOWN"].Instantiate();
 			AddChild(starInstance);
 
-			((BoxShape3D)bounds.Shape).Size = ((IDimensionedObject)starInstance).Dimensions / Scale;
+            bounds.Shape = new BoxShape3D()
+            {
+                Size = ((IDimensionedObject)starInstance).Dimensions
+            };
 		}
-	}
-
-	private void _MouseEnter()
-	{
-		EmitSignal(SignalName.MouseEnter);
-	}
-
-	private void _MouseExit()
-	{
-		EmitSignal(SignalName.MouseExit);
 	}
 }

@@ -5,28 +5,28 @@ namespace CosmosPeddler.Game;
 
 public partial class PopupNode : PanelContainer
 {
-	public PopupType type;
-	public string text = null!;
+	public PopupType Type { get; set; }
+	public string Text { get; set; } = "";
 
 	[Export]
-	public Texture2D successTex = null!;
+	public Texture2D SuccessTex { get; set; } = null!;
 	[Export]
-	public Color successCol;
+	public Color SuccessCol { get; set; }
 	
 	[Export]
-	public Texture2D infoTex = null!;
+	public Texture2D InfoTex { get; set; } = null!;
 	[Export]
-	public Color infoCol;
+	public Color InfoCol { get; set; }
 	
 	[Export]
-	public Texture2D warningTex = null!;
+	public Texture2D WarningTex { get; set; } = null!;
 	[Export]
-	public Color warningCol;
+	public Color WarningCol { get; set; }
 	
 	[Export]
-	public Texture2D errorTex = null!;
+	public Texture2D ErrorTex { get; set; } = null!;
 	[Export]
-	public Color errorCol;
+	public Color ErrorCol { get; set; }
 
 	private ColorRect colour = null!;
 	private TextureRect icon = null!;
@@ -38,25 +38,25 @@ public partial class PopupNode : PanelContainer
 		icon = GetNode<TextureRect>("%Icon");
 		textLabel = GetNode<Label>("%Text");
 
-		colour.Modulate = type switch
+		colour.Modulate = Type switch
 		{
-			PopupType.Success => successCol,
-			PopupType.Info => infoCol,
-			PopupType.Warning => warningCol,
-			PopupType.Error => errorCol,
+			PopupType.Success => SuccessCol,
+			PopupType.Info => InfoCol,
+			PopupType.Warning => WarningCol,
+			PopupType.Error => ErrorCol,
 			_ => throw new ArgumentOutOfRangeException()
 		};
 
-		icon.Texture = type switch
+		icon.Texture = Type switch
 		{
-			PopupType.Success => successTex,
-			PopupType.Info => infoTex,
-			PopupType.Warning => warningTex,
-			PopupType.Error => errorTex,
+			PopupType.Success => SuccessTex,
+			PopupType.Info => InfoTex,
+			PopupType.Warning => WarningTex,
+			PopupType.Error => ErrorTex,
 			_ => throw new ArgumentOutOfRangeException()
 		};
 
-		textLabel.Text = text;
+		textLabel.Text = Text;
 	}
 
 	public void Close()

@@ -58,11 +58,12 @@ public partial class AsyncReactiveUI<DataT> : ReactiveUI<DataT>
             {
                 PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to update UI. Check the log for errors.");
 				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
-                return;
             }
         },
         TaskScheduler.FromCurrentSynchronizationContext());
     }
 
+    #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public virtual async Task UpdateUIAsync() { }
+    #pragma warning restore CS1998
 }

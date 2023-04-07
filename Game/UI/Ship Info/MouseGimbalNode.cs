@@ -5,16 +5,16 @@ namespace CosmosPeddler.Game.UI.ShipInfo;
 public partial class MouseGimbalNode : Node3D
 {
 	[Export]
-	public float mouseSpeed = 0.01f;
+	public float MouseSpeed { get; set; } = 0.01f;
 
 	[Export]
-	public float keyboardSpeed = 0.1f;
+	public float KeyboardSpeed { get; set; } = 0.1f;
 
 	public override void _Process(double delta)
 	{
 		float right = Input.GetActionStrength("right") - Input.GetActionStrength("left");
 
-		Rotation += new Vector3(0, -right * keyboardSpeed, 0);
+		Rotation += new Vector3(0, -right * KeyboardSpeed, 0);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -27,7 +27,7 @@ public partial class MouseGimbalNode : Node3D
 
 				if (viewport.GetVisibleRect().HasPoint(mouseMotion.Position))
 				{
-					Rotation += new Vector3(0, -mouseMotion.Relative.X * mouseSpeed, 0);
+					Rotation += new Vector3(0, -mouseMotion.Relative.X * MouseSpeed, 0);
 				}
 			}
 		}

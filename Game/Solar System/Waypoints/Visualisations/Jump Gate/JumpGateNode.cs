@@ -11,6 +11,6 @@ public partial class JumpGateNode : MeshInstance3D, IWaypointVisualiser
 
     public override void _Ready()
     {
-        CallDeferred("look_at", OrbitCentre);
+        LookAt(OrbitCentre);
     }
 }

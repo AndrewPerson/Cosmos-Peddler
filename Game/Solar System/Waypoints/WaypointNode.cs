@@ -13,18 +13,18 @@ public partial class WaypointNode : Node3D
 {
 	private static Dictionary<string, PackedScene>? waypointTypes = null;
 
-	public Waypoint waypoint = null!;
-	public Vector3 solarSystemCenter;
-	public float mapScale = 1.0f;
-	public WaypointNode? orbitalTarget;
+	public Waypoint Waypoint { get; set; } = null!;
+	public Vector3 SolarSystemCenter { get; set; }
+	public WaypointNode? OrbitalTarget { get; set; }
 
-	public Vector3 dimensions;
+	public Vector3 Dimensions { get; private set; }
+
+    // TODO Find a more elegant way of making these static.
+	[Export]
+	public StringName[] WaypointTypeNames { get; set; } = Array.Empty<StringName>();
 
 	[Export]
-	public StringName[] waypointTypeNames = Array.Empty<StringName>();
-
-	[Export]
-	public PackedScene[] waypointTypeScenes = Array.Empty<PackedScene>();
+	public PackedScene[] WaypointTypeScenes { get; set; } = Array.Empty<PackedScene>();
 
 	private bool hovering = false;
 	private bool focused = false;
@@ -46,9 +46,9 @@ public partial class WaypointNode : Node3D
 
 			lock(waypointTypes)
 			{
-				for (int i = 0; i < waypointTypeNames.Length; i++)
+				for (int i = 0; i < WaypointTypeNames.Length; i++)
 				{
-					waypointTypes.Add(waypointTypeNames[i], waypointTypeScenes[i]);
+					waypointTypes.Add(WaypointTypeNames[i], WaypointTypeScenes[i]);
 				}
 			}
 		}
@@ -67,11 +67,15 @@ public partial class WaypointNode : Node3D
 
     public override void _Ready()
 	{
+		#if DEBUG
+		Name = Waypoint.Symbol;
+		#endif
+
 #region Create Waypoint
-		if (orbitalTarget != null) Scale = new Vector3(0.5f, 0.5f, 0.5f);
+		if (OrbitalTarget != null) Scale = new Vector3(0.5f, 0.5f, 0.5f);
 
 		Node3D waypointInstance;
-		if (waypointTypes!.TryGetValue(waypoint.Type.ToString(), out var scene))
+		if (waypointTypes!.TryGetValue(Waypoint.Type.ToString(), out var scene))
 		{
 			waypointInstance = scene.Instantiate<Node3D>();
 		}
@@ -82,75 +86,71 @@ public partial class WaypointNode : Node3D
 
 		var waypointVisualiser = (IWaypointVisualiser)waypointInstance;
 
-		waypointVisualiser.Waypoint = waypoint;
-		waypointVisualiser.OrbitCentre = orbitalTarget == null ? solarSystemCenter : orbitalTarget.GlobalPosition;
+		waypointVisualiser.Waypoint = Waypoint;
+		waypointVisualiser.OrbitCentre = OrbitalTarget == null ? SolarSystemCenter : OrbitalTarget.GlobalPosition;
 
-		waypointInstance.Visible = false;
-		Ready += () => waypointInstance.SetDeferred("visible", true);
+		CallDeferred("add_child", waypointInstance);
 
-		AddChild(waypointInstance);
-
-		dimensions = waypointVisualiser.Dimensions * Scale;
+		Dimensions = waypointVisualiser.Dimensions * Scale;
 #endregion
 
 #region Create Bounds
-		((BoxShape3D)bounds.Shape).Size = dimensions / Scale;
+		bounds.Shape = new BoxShape3D()
+        {
+            Size = Dimensions / Scale
+        };
 #endregion
 
 #region Position (And scale if in orbit)
-		if (orbitalTarget == null)
+		if (OrbitalTarget != null)
 		{
-			Position = new Vector3(waypoint.X, 0, waypoint.Y) * mapScale;
-		}
-		else
-		{
-			var rotation = 360 * orbitalTarget.waypoint.Orbitals.Select(x => x.Symbol).ToList().IndexOf(waypoint.Symbol) / (orbitalTarget.waypoint.Orbitals.Count < 3 ? 3 : orbitalTarget.waypoint.Orbitals.Count);
+			var rotation = 360 * OrbitalTarget.Waypoint.Orbitals.Select(x => x.Symbol).ToList().IndexOf(Waypoint.Symbol) / (OrbitalTarget.Waypoint.Orbitals.Count < 3 ? 3 : OrbitalTarget.Waypoint.Orbitals.Count);
 			
-			var startingPosition = new Vector3(orbitalTarget.dimensions.X, 0, orbitalTarget.dimensions.Z) / 2 + dimensions / 2;
+			var startingPosition = new Vector3(OrbitalTarget.Dimensions.X, 0, OrbitalTarget.Dimensions.Z) / 2 + Dimensions / 2;
 
-			Position = orbitalTarget.Position + startingPosition.Rotated(new Vector3(0, 1, 0), Mathf.DegToRad(rotation));
+			Position += startingPosition.Rotated(new Vector3(0, 1, 0), Mathf.DegToRad(rotation));
 		}
 #endregion
 
 #region Orbit Indicator
-		if (orbitalTarget == null)
+		if (OrbitalTarget == null)
 		{
-			orbitIndicator.GlobalPosition = solarSystemCenter;
-			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - solarSystemCenter.X, GlobalPosition.Z - solarSystemCenter.Z), 0);
+			orbitIndicator.GlobalPosition = SolarSystemCenter;
+			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - SolarSystemCenter.X, GlobalPosition.Z - SolarSystemCenter.Z), 0);
 
-			orbitIndicator.OrbitRadius = solarSystemCenter.DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));
+			orbitIndicator.OrbitRadius = SolarSystemCenter.DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));
 		}
 		else
 		{
-			orbitIndicator.GlobalPosition = orbitalTarget.GlobalPosition;
-			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - orbitalTarget.GlobalPosition.X, GlobalPosition.Z - orbitalTarget.GlobalPosition.Z), 0);
+			orbitIndicator.GlobalPosition = OrbitalTarget.GlobalPosition;
+			orbitIndicator.GlobalRotation = new Vector3(0, Mathf.Atan2(GlobalPosition.X - OrbitalTarget.GlobalPosition.X, GlobalPosition.Z - OrbitalTarget.GlobalPosition.Z), 0);
 
-			orbitIndicator.OrbitRadius = new Vector3(orbitalTarget.GlobalPosition.X, 0, orbitalTarget.GlobalPosition.Z).DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));			
+			orbitIndicator.OrbitRadius = new Vector3(OrbitalTarget.GlobalPosition.X, 0, OrbitalTarget.GlobalPosition.Z).DistanceTo(new Vector3(GlobalPosition.X, 0, GlobalPosition.Z));			
 		}
 
 		orbitIndicator.Scale /= Scale;
 #endregion
 
 #region Name
-		name.Text = waypoint.Symbol;
-		name.Position = new Vector3(0, new Vector2(dimensions.Z / 2, dimensions.Y / 2).Length(), 0) / Scale;
+		name.Text = Waypoint.Symbol;
+		name.Position = new Vector3(0, new Vector2(Dimensions.Z / 2, Dimensions.Y / 2).Length(), 0) / Scale;
 		name.Scale /= Scale;
 #endregion
 
 #region Indicators
-		indicators.Position = new Vector3(0, -new Vector2(dimensions.Z / 2, dimensions.Y / 2).Length(), 0) / Scale;
+		indicators.Position = new Vector3(0, -new Vector2(Dimensions.Z / 2, Dimensions.Y / 2).Length(), 0) / Scale;
 		indicators.Scale /= Scale;
 
 		SetIndicators(
 			ships: false,
-			market: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
-			shipyard: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
+			market: Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
+			shipyard: Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
 		);
 
 		UINode.Instance.UIAppear += HideIndicators;
 		UINode.Instance.UIDisappear += ShowIndicators;
 
-		waypoint.HasShips().ContinueWith(t =>
+		Waypoint.HasShips().ContinueWith(t =>
 		{
 			if (t.IsFaulted)
 			{
@@ -161,11 +161,11 @@ public partial class WaypointNode : Node3D
 
 			SetIndicators(
 				ships: t.Result,
-				market: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
-				shipyard: waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
-			);
+				market: Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.MARKETPLACE),
+				shipyard: Waypoint.Traits.Select(t => t.Symbol).Contains(WaypointTraitSymbol.SHIPYARD)
+            );
 		},
-		TaskScheduler.FromCurrentSynchronizationContext());
+        TaskScheduler.FromCurrentSynchronizationContext());
 #endregion
 	}
 
@@ -178,10 +178,10 @@ public partial class WaypointNode : Node3D
 				if (hovering)
 				{
 					focused = true;
-					GameCameraNode.Instance.ZoomTo(GlobalPosition, dimensions);
+					GameCameraNode.Instance.ZoomTo(GlobalPosition, Dimensions);
 					UINode.Instance.UIDisappear += EndUIZoom;
 
-					WaypointInfoNode.Show(waypoint);
+					WaypointInfoNode.Show(Waypoint);
 
 					MouseExit();
 				}
@@ -206,7 +206,7 @@ public partial class WaypointNode : Node3D
 		orbitIndicator.Visible = true;
 		name.Visible = true;
 
-		orbitalTarget?.ShowOrbit();
+		OrbitalTarget?.ShowOrbit();
 	}
 
 	public void HideOrbit()
@@ -214,7 +214,7 @@ public partial class WaypointNode : Node3D
 		orbitIndicator.Visible = false;
 		name.Visible = false;
 
-		orbitalTarget?.HideOrbit();
+		OrbitalTarget?.HideOrbit();
 	}
 
 	public void EndUIZoom()

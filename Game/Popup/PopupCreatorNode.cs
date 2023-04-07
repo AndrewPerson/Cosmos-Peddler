@@ -7,13 +7,18 @@ public partial class PopupCreatorNode : Node
 	private static PopupCreatorNode instance = null!;
 
 	[Export]
-	public PackedScene popup = null!;
+	public PackedScene Popup { get; set; } = null!;
+
+    public static void CreatePopupThreadSafe(PopupType type, string text)
+    {
+        ThreadSafe.Run(d => CreatePopup(d.type, d.text), (type, text));
+    }
 
 	public static void CreatePopup(PopupType type, string text)
 	{
-		var popup = instance.popup.Instantiate<PopupNode>();
-		popup.type = type;
-		popup.text = text;
+		var popup = instance.Popup.Instantiate<PopupNode>();
+		popup.Type = type;
+		popup.Text = text;
 		instance.AddChild(popup);
 	}
 

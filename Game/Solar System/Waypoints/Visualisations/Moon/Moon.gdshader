@@ -1,71 +1,47 @@
 shader_type spatial;
 
-const int size = 5;
-const int octaves = 5;
+uniform sampler2D crater_height_map;
 
-instance uniform float seed = 1.;
+instance uniform float seed: hint_range(1, 10) = 1.;
 instance uniform float rotation;
 
-float rand(vec2 coord) {
-	coord = mod(coord, vec2(2.,1.) * float(size));
-	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
+vec2 hash( float n )
+{
+    float sn = sin(n);
+    return fract(vec2(sn,sn*42125.13)*seed);
 }
 
-float noise(vec2 coord){
-	vec2 i = floor(coord);
-	vec2 f = fract(coord);
-		
-	float a = rand(i);
-	float b = rand(i + vec2(1., 0.));
-	float c = rand(i + vec2(0., 1.));
-	float d = rand(i + vec2(1., 1.));
-
-	vec2 cubic = f * f * (3. - 2. * f);
-
-	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1. - cubic.x) + (d - b) * cubic.x * cubic.y;
-}
-
-float fbm(vec2 coord){
-	float value = 0.;
-	float scale = 0.5;
-
-	for(int i = 0; i < octaves ; i++){
-		value += noise(coord) * scale;
-		coord *= 2.;
-		scale *= 0.5;
-	}
-
-	return value;
+float circleNoise(vec2 uv, float radius)
+{
+    float uv_y = floor(uv.y);
+    uv.x += uv_y * PI;
+    vec2 f = fract(uv);
+    vec2 h = hash(floor(uv.x) * uv_y);
+    float m = (length(f - .25 - (h.x * .5)));
+    float r = h.y * radius;
+	return ((m - r) * (1. - smoothstep(r-.10*r,r,m)));
 }
 
 float height(vec2 uv) {
-	vec2 base_fbm_uv = uv * float(size);
-	
-	// use multiple fbm's at different places so we can determine what color land gets
-	float fbm1 = fbm(base_fbm_uv);
-	float fbm2 = fbm(base_fbm_uv - fbm1);
-	float fbm3 = fbm(base_fbm_uv - 1.5 * fbm1);
-	float fbm4 = fbm(base_fbm_uv - 2. * fbm1);
-	
-	float river_fbm = fbm(base_fbm_uv + fbm1 * 6.);
-	
-	float height = clamp((fbm1 + fbm2 + fbm3 + fbm4 - river_fbm) / 4., 0.01, 1.);
-	
-	return height;
+	return (circleNoise(uv * 3., .4) + 3.) / 4.;
 }
 
-vec3 triplanar_texture(vec3 position, vec3 normal, float blendSharpness) {
-	vec3 colX = vec3(height(position.zy));
-	vec3 colY = vec3(height(position.xz + vec2(.1)));
-	vec3 colZ = vec3(height(position.yx + vec2(.2)));
+float triplanar_height(vec3 uv) {
+	float height_x = texture(crater_height_map, vec2(1. - height(uv.zy), 0)).x;
+	float height_y = texture(crater_height_map, vec2(1. - height(uv.xz + vec2(.1)), 0)).x;
+	float height_z = texture(crater_height_map, vec2(1. - height(uv.yx + vec2(.2)), 0)).x;
 	
-	vec3 blendWeight = abs(normal);
-	blendWeight = vec3(pow(blendWeight.x, blendSharpness), pow(blendWeight.y, blendSharpness), pow(blendWeight.z, blendSharpness));
-	blendWeight /= (blendWeight.x + blendWeight.y + blendWeight.z);
+	vec3 blend_weight = pow(abs(uv), vec3(10.));
+	blend_weight /= (blend_weight.x + blend_weight.y + blend_weight.z);
 	
-	return colX * blendWeight.x + colY * blendWeight.y + colZ * blendWeight.z;
+	return height_x * blend_weight.x + height_y * blend_weight.y + height_z * blend_weight.z;
 }
 
+vec3 perpendicular(vec3 v) {
+	float sz = sign(v.z) * length(v);
+	
+	return vec3(sz * (v.z + sz) - v.x * v.x, -v.x * v.y, -v.x * (v.z + sz));
+}
 
 vec3 rotate(vec3 v, vec3 n, float angle) {
 	mat3 w = mat3(
@@ -83,11 +59,39 @@ vec3 rotate(vec3 v, vec3 n, float angle) {
 	return v * (I + w * sin(angle) + w * w * (1. - cos(angle)));
 }
 
-void fragment() {
-	vec3 frag_pos = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
+vec3 normal(vec3 a, vec3 b, vec3 c) {
+	vec3 v = b - a;
+	vec3 w = c - a;
+	
+	return normalize(vec3((v.y * w.z) - (v.z * w.y), (v.z * w.x) - (v.x * w.z), (v.x * w.y) - (v.y * w.x)));
+}
 
-	float height = triplanar_texture(frag_pos, frag_pos, 10.).x;
-	height += 0.1;
-	height /= 1.1;
-	ALBEDO = vec3(height);
+void fragment() {
+	vec3 frag_pos = normalize((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD);
+	vec3 uv = rotate(frag_pos, vec3(0, 1, 0), rotation);
+
+	float height = triplanar_height(uv);
+	//ALBEDO = vec3(height);
+	
+	vec3 p = normalize(perpendicular(uv));
+	
+	vec3 uva = rotate(uv, p, radians(.01));
+	vec3 uvb = rotate(uv, rotate(p, uv, radians(60)), radians(-.01));
+	vec3 uvc = rotate(uv, rotate(p, uv, radians(-60)), radians(-.01));
+
+	float a = triplanar_height(uva);
+	float b = triplanar_height(uvb);
+	float c = triplanar_height(uvc);
+
+	NORMAL = normalize(
+		NORMAL + rotate((
+			VIEW_MATRIX * vec4(
+				normal(
+					uva + uva * a,
+					uvb + uvb * b,
+					uvc + uvc * c
+				),
+				0.
+			)).xyz, vec3(0, 1, 0), -rotation)
+	);
 }

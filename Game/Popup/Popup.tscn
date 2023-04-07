@@ -19,14 +19,14 @@ offset_bottom = 36.0
 grow_horizontal = 0
 theme_override_styles/panel = ExtResource("1_6o1nx")
 script = ExtResource("2_bp0vo")
-successTex = ExtResource("3_afrg4")
-successCol = Color(0, 1, 0, 1)
-infoTex = ExtResource("4_fy23b")
-infoCol = Color(0.333333, 0.537255, 1, 1)
-warningTex = ExtResource("5_aogh5")
-warningCol = Color(1, 0.788235, 0, 1)
-errorTex = ExtResource("4_ciavn")
-errorCol = Color(1, 0, 0, 1)
+SuccessTex = ExtResource("3_afrg4")
+SuccessCol = Color(0, 1, 0, 1)
+InfoTex = ExtResource("4_fy23b")
+InfoCol = Color(0.333333, 0.537255, 1, 1)
+WarningTex = ExtResource("5_aogh5")
+WarningCol = Color(1, 0.788235, 0, 1)
+ErrorTex = ExtResource("4_ciavn")
+ErrorCol = Color(1, 0, 0, 1)
 
 [node name="Colour Margin" type="MarginContainer" parent="."]
 layout_mode = 2

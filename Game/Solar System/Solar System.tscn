@@ -1,19 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://conlqrvbv55bp"]
 
 [ext_resource type="Script" path="res://Game/Solar System/SolarSystemNode.cs" id="1_76rxu"]
-[ext_resource type="PackedScene" uid="uid://i32ffov68o0f" path="res://Game/Solar System/Waypoints/Waypoint.tscn" id="2_dv1bu"]
-[ext_resource type="PackedScene" uid="uid://ir6rove4ulvx" path="res://Game/Solar System/Stars/Star.tscn" id="3_y085j"]
+[ext_resource type="PackedScene" uid="uid://ir6rove4ulvx" path="res://Game/Solar System/Stars/Star.tscn" id="2_gkdu3"]
+[ext_resource type="PackedScene" uid="uid://bimbj5blpk5gt" path="res://Game/Solar System/Waypoints/Waypoint.tscn" id="3_0q1fa"]
 
 [node name="Solar System" type="Node3D"]
 script = ExtResource("1_76rxu")
-starScene = ExtResource("3_y085j")
-waypointScene = ExtResource("2_dv1bu")
+StarScene = ExtResource("2_gkdu3")
+WaypointScene = ExtResource("3_0q1fa")
 
 [node name="Waypoints" type="Node3D" parent="."]
 unique_name_in_owner = true
-
-[node name="Visibility Notifier" type="VisibleOnScreenEnabler3D" parent="."]
-unique_name_in_owner = true
-aabb = AABB(0, 0, 0, 0, 0, 0)
-
-[connection signal="screen_entered" from="Visibility Notifier" to="." method="InstantiateWaypoints" flags=6]

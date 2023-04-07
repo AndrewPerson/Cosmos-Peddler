@@ -35,29 +35,20 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 		sell.Text = "Loading...";
 		sell.Disabled = true;
 
-		SpaceTradersClient.GetMarket(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
+		Market.GetMarket(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
 		{
-			if (t.IsFaulted)
+			var market = t.Result;
+
+			if (market == null)
 			{
-				if (t.Exception == null) return;
+                buy.Text = "Unavailable";
+                buy.Disabled = true;
+                sell.Text = "Unavailable";
+                sell.Disabled = true;
 
-				if (t.Exception.InnerException is ApiException e)
-				{
-					if (e.StatusCode == 404)
-					{
-						buy.Text = "Unavailable";
-						buy.Disabled = true;
-						sell.Text = "Unavailable";
-						sell.Disabled = true;
-
-						return;
-					}
-				}
-
-				throw t.Exception;
+                return;
 			}
 
-			var market = t.Result;
 			var goods = market.GetMarketItems();
 
 			if (goods == null)
@@ -103,7 +94,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 		buy.Text = "Loading...";
 		buy.Disabled = true;
 
-		SpaceTradersClient.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
+		Waypoint.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
 		{
 			buy.Text = $"Buy - ${marketItem.PurchasePrice}";
 			buy.Disabled = false;
@@ -133,7 +124,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 		sell.Text = "Loading...";
 		sell.Disabled = true;
 
-		SpaceTradersClient.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
+		Waypoint.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
 		{
 			sell.Text = $"Sell - ${marketItem.SellPrice}";
 			sell.Disabled = false;

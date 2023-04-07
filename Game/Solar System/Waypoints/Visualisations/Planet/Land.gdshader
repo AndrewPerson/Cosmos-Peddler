@@ -1,6 +1,7 @@
 shader_type spatial;
 
 uniform float height_scale = 1.;
+uniform float uv_height_scale = 2.;
 uniform sampler2D height_colours;
 
 const int size = 5;
@@ -106,13 +107,14 @@ vec3 normal(vec3 a, vec3 b, vec3 c) {
 void vertex() {
 	vec3 uv = VERTEX;
 
-	float k = triplanar_height(uv);
+	float height = triplanar_height(uv);
 
-	VERTEX = VERTEX + VERTEX * k * height_scale;
+	VERTEX = VERTEX + VERTEX * height * height_scale;
 }
 
 void fragment() {
-	vec3 uv = rotate((INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD, vec3(0, 1, 0), rotation);
+	vec3 frag_pos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.)).xyz - NODE_POSITION_WORLD;
+	vec3 uv = rotate(frag_pos, vec3(0, 1, 0), rotation);
 
 	float height = triplanar_height(uv);
 	ALBEDO = texture(height_colours, vec2(height, 0.)).rgb;
@@ -127,5 +129,15 @@ void fragment() {
 	float b = triplanar_height(uvb);
 	float c = triplanar_height(uvc);
 
-	NORMAL = normalize(NORMAL + rotate((VIEW_MATRIX * vec4(normal(uva * a, uvb * b, uvc * c), 0.)).xyz, vec3(0, 1, 0), -rotation));
+	NORMAL = normalize(
+		NORMAL + rotate((
+			VIEW_MATRIX * vec4(
+				normal(
+					uva + uva * a * height_scale * uv_height_scale,
+					uvb + uvb * b * height_scale * uv_height_scale,
+					uvc + uvc * c * height_scale * uv_height_scale
+				),
+				0.
+			)).xyz, vec3(0, 1, 0), -rotation)
+	);
 }

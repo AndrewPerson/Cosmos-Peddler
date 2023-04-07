@@ -7,24 +7,24 @@ public partial class GameCameraNode : Camera3D
 	public static GameCameraNode Instance { get; private set; } = null!;
 
 	[Export]
-	public float speed = 500;
+	public float Speed { get; set; } = 1;
 
 	[Export]
-	public float mouseSpeed = 1;
+	public float MouseSpeed { get; set; } = 1;
 
 	[Export]
-	public float zoomSpeed = 1;
+	public float ZoomSpeed { get; set; } = 1;
 
 	[Export]
-	public float minZoom = 1;
+	public float MinZoom { get; set; } = 1;
 
 	[Export]
-	public float maxZoom = 5;
+	public float MaxZoom { get; set; } = 5;
 
 	private Vector3 preZoomPosition;
 	private Vector3 preZoomRotation;
 
-	public Vector2 mapPosition;
+	public Vector2 MapPosition { get; set; }
 	private float zoom;
 
 	private Tween? zoomTween;
@@ -35,15 +35,15 @@ public partial class GameCameraNode : Camera3D
 	//Don't know how it actually relates to % of screen taken up.
 	private const float objectZoomSize = 1.5f;
 
-	override public void _EnterTree()
+	public override void _EnterTree()
 	{
 		Instance = this;
 	}
 
 	public override void _Ready()
 	{
-		zoom = maxZoom;
-		mapPosition = new Vector2(Position.X, Position.Z);
+		zoom = MaxZoom;
+		MapPosition = new Vector2(Position.X, Position.Z);
 
 		preZoomRotation = GlobalRotation;
 	}
@@ -55,9 +55,9 @@ public partial class GameCameraNode : Camera3D
 		float forwards = Input.GetActionStrength("backwards") - Input.GetActionStrength("forwards");
 		float right = Input.GetActionStrength("right") - Input.GetActionStrength("left");
 
-		mapPosition += new Vector2(right, forwards) * (float)delta * speed * zoom;
+		MapPosition += new Vector2(right, forwards) * (float)delta * Speed * zoom;
 
-		Position = new Vector3(mapPosition.X, 0, mapPosition.Y) + Transform.Basis.Z * zoom;
+		Position = new Vector3(MapPosition.X, 0, MapPosition.Y) + Transform.Basis.Z * zoom;
 	}
 
 	private Vector3? GetMouseWorldPosition(Vector2 mouse)
@@ -85,7 +85,7 @@ public partial class GameCameraNode : Camera3D
 				{
 					var delta = currentWorldPosition.Value - oldWorldPosition.Value;
 
-					mapPosition -= new Vector2(delta.X * mouseSpeed, delta.Z * mouseSpeed);
+					MapPosition -= new Vector2(delta.X * MouseSpeed, delta.Z * MouseSpeed);
 				}
 			}
 		}
@@ -95,9 +95,9 @@ public partial class GameCameraNode : Camera3D
 			{
 				float zoomMovement = (mouseButton.ButtonIndex == MouseButton.WheelUp ? -1 :
 							 mouseButton.ButtonIndex == MouseButton.WheelDown ? 1 :
-							 0) * zoomSpeed;
+							 0) * ZoomSpeed;
 
-				zoom = Mathf.Clamp(zoomMovement + zoom, minZoom, maxZoom);
+				zoom = Mathf.Clamp(zoomMovement + zoom, MinZoom, MaxZoom);
 			}
 		}
 	}

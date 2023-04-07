@@ -6,7 +6,7 @@ namespace CosmosPeddler.Game.UI.WaypointInfo;
 public partial class ShipsNode : AsyncReactiveUI<Waypoint>
 {
 	[Export]
-	public PackedScene shipScene = null!;
+	public PackedScene ShipScene { get; set; } = null!;
 
 	private Label status = null!;
 	private Control shipsList = null!;
@@ -45,7 +45,7 @@ public partial class ShipsNode : AsyncReactiveUI<Waypoint>
 			noShips = false;
 			ClearStatus();
 
-			var shipNode = shipScene.Instantiate<ShipNode>();
+			var shipNode = ShipScene.Instantiate<ShipNode>();
 			shipNode.Ready += () => shipNode.Data = ship;
 			shipsList.AddChild(shipNode);
 		}

@@ -32,34 +32,34 @@ jobs:
           
       - name: Download Godot
         if: steps.godot-cache.outputs.cache-hit != 'true'
-        run: wget https://downloads.tuxfamily.org/godotengine/4.0/beta16/mono/Godot_v4.0-beta16_mono_linux_x86_64.zip
+        run: wget "https://github.com/godotengine/godot/releases/download/4.0.1-stable/Godot_v4.0.1-stable_mono_linux_x86_64.zip"
         
       - name: Extract Godot
         if: steps.godot-cache.outputs.cache-hit != 'true'
-        run: unzip ./Godot_v4.0-beta16_mono_linux_x86_64.zip
+        run: unzip ./Godot_v4.0.1-stable_mono_linux_x86_64.zip
         
       - name: Cache Export Templates
         id: templates-cache
         uses: actions/cache@v3.2.2
         with:
-          path: /home/runner/.local/share/godot/export_templates/4.0.beta16.mono/
+          path: /home/runner/.local/share/godot/export_templates/4.0.1.stable.mono/
           key: templates-beta16-cache
           
       - name: Download Export Templates
         if: steps.templates-cache.outputs.cache-hit != 'true'
-        run: wget https://downloads.tuxfamily.org/godotengine/4.0/beta16/mono/Godot_v4.0-beta16_mono_export_templates.tpz
+        run: wget "https://github.com/godotengine/godot/releases/download/4.0.1-stable/Godot_v4.0.1-stable_mono_export_templates.tpz"
         
       - name: Extract Export Templates
         if: steps.templates-cache.outputs.cache-hit != 'true'
-        run: unzip ./Godot_v4.0-beta16_mono_export_templates.tpz
+        run: unzip ./Godot_v4.0.1-stable_mono_export_templates.tpz
         
       - name: Create Export Template directory
         if: steps.templates-cache.outputs.cache-hit != 'true'
-        run: mkdir /home/runner/.local/share/godot/export_templates/4.0.beta16.mono --parents
+        run: mkdir /home/runner/.local/share/godot/export_templates/4.0.1.stable.mono --parents
         
       - name: Copy Export Templates
         if: steps.templates-cache.outputs.cache-hit != 'true'
-        run: cp ./templates/* /home/runner/.local/share/godot/export_templates/4.0.beta16.mono -r
+        run: cp ./templates/* /home/runner/.local/share/godot/export_templates/4.0.1.stable.mono -r
         
       - name: Remove old Export Templates
         if: steps.templates-cache.outputs.cache-hit != 'true'
@@ -69,7 +69,7 @@ jobs:
         run: mkdir "./Releases/${{ matrix.export.dir }}" --parents
       
       - name: Export for ${{ matrix.export.dir }} with Godot
-        run: "\"./Godot_v4.0-beta16_mono_linux_x86_64/Godot_v4.0-beta16_mono_linux.x86_64\" --headless --export-release \"${{ matrix.export.template }}\" \"./Releases/${{ matrix.export.dir }}/Cosmos-Peddler.${{ matrix.export.file }}\""
+        run: "\"./Godot_v4.0.1-stable_mono_linux_x86_64/Godot_v4.0.1-stable_mono_linux.x86_64\" --headless --export-release \"${{ matrix.export.template }}\" \"./Releases/${{ matrix.export.dir }}/Cosmos-Peddler.${{ matrix.export.file }}\""
 
       - name: Print directory
         run: ls "./Releases/${{ matrix.export.dir }}/"

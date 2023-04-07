@@ -7,7 +7,7 @@ namespace CosmosPeddler.Game.UI.WaypointInfo;
 public partial class MarketNode : ReactiveUI<Waypoint>
 {
 	[Export]
-	public PackedScene marketItemScene = null!;
+	public PackedScene MarketItemScene { get; set; } = null!;
 
 	private Label status = null!;
 	private Control marketItems = null!;
@@ -75,7 +75,7 @@ public partial class MarketNode : ReactiveUI<Waypoint>
 
 			ClearStatus();
 
-			RenderList(marketItems, marketItemScene, items.Select(i => (i, Data)).ToList());
+			RenderList(marketItems, MarketItemScene, items.Select(i => (i, Data)).ToList());
 		},
 		TaskScheduler.FromCurrentSynchronizationContext());
 	}

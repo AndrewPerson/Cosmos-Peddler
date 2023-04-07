@@ -10,43 +10,26 @@ namespace CosmosPeddler.Game.SolarSystem;
 public partial class SolarSystemNode : Node3D
 {
 	[Export]
-	public PackedScene starScene = null!;
+	public PackedScene StarScene { get; set; } = null!;
 
 	[Export]
-	public PackedScene waypointScene = null!;
+	public PackedScene WaypointScene { get; set; } = null!;
 
-	public CosmosPeddler.SolarSystem system = null!;
+	public CosmosPeddler.SolarSystem system { get; set; } = null!;
 
-	public float mapScale = 1.0f;
+	public float MapScale { get; set; }
 
-	public float waypointMapScale = 1.0f;
+	public float WaypointMapScale { get; set; }
 
 	private StarNode star = null!;
 	private Node waypointContainer = null!;
-	private VisibleOnScreenNotifier3D visibilityNotifier = null!;
 
-	public override void _EnterTree()
-	{
-		waypointContainer = GetNode("%Waypoints");
-		visibilityNotifier = GetNode<VisibleOnScreenNotifier3D>("%Visibility Notifier");
-	}
-
-	public override void _Ready()
-	{
-		Position = new Vector3(system.X, 0, system.Y) * mapScale;
-
-		star = starScene.Instantiate<StarNode>();
-
-		star.systemType = system.Type;
-		star.MouseEnter += ShowOrbits;
-		star.MouseExit += HideOrbits;
-
-		AddChild(star);
-
-		var maxX = system.Waypoints.Count == 0 ? 1 : system.Waypoints.Max(waypoint => waypoint.X) * waypointMapScale + 10;
-		var minX = system.Waypoints.Count == 0 ? -1 : system.Waypoints.Min(waypoint => waypoint.X) * waypointMapScale - 10;
-		var maxY = system.Waypoints.Count == 0 ? 1 : system.Waypoints.Max(waypoint => waypoint.Y) * waypointMapScale + 10;
-		var minY = system.Waypoints.Count == 0 ? -1 : system.Waypoints.Min(waypoint => waypoint.Y) * waypointMapScale - 10;
+    public static Aabb SystemExtents(CosmosPeddler.SolarSystem system, float waypointScale)
+    {
+        var maxX = system.Waypoints.Count == 0 ? 1 : system.Waypoints.Max(waypoint => waypoint.X) * waypointScale;
+		var minX = system.Waypoints.Count == 0 ? -1 : system.Waypoints.Min(waypoint => waypoint.X) * waypointScale;
+		var maxY = system.Waypoints.Count == 0 ? 1 : system.Waypoints.Max(waypoint => waypoint.Y) * waypointScale;
+		var minY = system.Waypoints.Count == 0 ? -1 : system.Waypoints.Min(waypoint => waypoint.Y) * waypointScale;
 
 		var max = new Vector2(maxX, maxY);
 		var min = new Vector2(minX, minY);
@@ -54,20 +37,29 @@ public partial class SolarSystemNode : Node3D
 		var centre = (min - max) / 2;
 		var size = max - min;
 
-		visibilityNotifier.Aabb = new Aabb(new Vector3(centre.X, 0, centre.Y), new Vector3(size.X, .5f, size.Y));
+        return new Aabb(new Vector3(centre.X, 0, centre.Y), new Vector3(size.X, .5f, size.Y));
+    }
+
+	public override void _EnterTree()
+	{
+		waypointContainer = GetNode("%Waypoints");
 	}
 
-	public override void _ExitTree()
+	public override void _Ready()
 	{
-		if (star == null) return;
+		#if DEBUG
+		Name = system.Symbol ?? "Unnamed System";
+		#endif
 
-		star.MouseEnter -= ShowOrbits;
-		star.MouseExit -= HideOrbits;
-	}
+		star = StarScene.Instantiate<StarNode>();
 
-	public void InstantiateWaypoints()
-	{
-		InstantiateWaypointsAsync().ContinueWith(t =>
+		star.SystemType = system.Type;
+		star.MouseEntered += ShowOrbits;
+		star.MouseExited += HideOrbits;
+
+		AddChild(star);
+
+        InstantiateWaypointsAsync().ContinueWith(t =>
 		{
 			if (t.IsFaulted)
 			{
@@ -75,7 +67,15 @@ public partial class SolarSystemNode : Node3D
 				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 			}
 		},
-		TaskScheduler.FromCurrentSynchronizationContext());
+        TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	public override void _ExitTree()
+	{
+		if (star == null) return;
+
+		star.MouseEntered -= ShowOrbits;
+		star.MouseExited -= HideOrbits;
 	}
 
 	private async Task InstantiateWaypointsAsync()
@@ -102,11 +102,12 @@ public partial class SolarSystemNode : Node3D
 
 		foreach (var (_, waypoint) in nonOrbitalWaypoints)
 		{
-			var waypointInstance = waypointScene.Instantiate<WaypointNode>();
+			var waypointInstance = WaypointScene.Instantiate<WaypointNode>();
 
-			waypointInstance.waypoint = waypoint;
-			waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
-			waypointInstance.mapScale = waypointMapScale;
+			waypointInstance.Waypoint = waypoint;
+			waypointInstance.SolarSystemCenter = new Vector3(system.X, 0, system.Y) * MapScale;
+
+            waypointInstance.Position = new Vector3(waypoint.X, 0, waypoint.Y) * WaypointMapScale;
 
 			waypointContainer.AddChild(waypointInstance);
 
@@ -115,13 +116,14 @@ public partial class SolarSystemNode : Node3D
 
 		foreach (var (waypoint, orbitalTarget) in orbitalWaypoints)
 		{
-			var waypointInstance = waypointScene.Instantiate<WaypointNode>();
+			var waypointInstance = WaypointScene.Instantiate<WaypointNode>();
 
-			waypointInstance.waypoint = waypoint;
-			waypointInstance.solarSystemCenter = new Vector3(system.X, 0, system.Y) * mapScale;
-			waypointInstance.mapScale = waypointMapScale;
+			waypointInstance.Waypoint = waypoint;
+			waypointInstance.SolarSystemCenter = new Vector3(system.X, 0, system.Y) * MapScale;
 
-			waypointInstance.orbitalTarget = waypointNodeDict[orbitalTarget];
+			waypointInstance.OrbitalTarget = waypointNodeDict[orbitalTarget];
+
+            waypointInstance.Position = new Vector3(waypoint.X, 0, waypoint.Y) * WaypointMapScale;
 
 			waypointContainer.AddChild(waypointInstance);
 		}

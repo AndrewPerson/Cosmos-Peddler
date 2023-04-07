@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu32xat3nm5hn"]
+[gd_scene load_steps=7 format=3 uid="uid://bu32xat3nm5hn"]
 
 [ext_resource type="Script" path="res://Game/UI/Ship Info/ShipInfoNode.cs" id="1_5j1go"]
 [ext_resource type="StyleBox" uid="uid://dqxjhr2mkgphf" path="res://UI/Theme/Panel Container Heading.tres" id="2_b6d8t"]
-[ext_resource type="Script" path="res://UI/AutosizeSubviewport.cs" id="3_1vepn"]
 [ext_resource type="World3D" uid="uid://cnh7cj0sq2j87" path="res://Game/UI/Ship Info/Ship.tres" id="3_trhte"]
 [ext_resource type="PackedScene" uid="uid://bc5vhb4jnaw5x" path="res://Game/Ships/Ship.tscn" id="4_eohdm"]
 [ext_resource type="Script" path="res://Game/UI/Ship Info/MouseGimbalNode.cs" id="6_me8sc"]
@@ -65,7 +64,6 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(695, 401)
 render_target_update_mode = 4
-script = ExtResource("3_1vepn")
 
 [node name="Ship" parent="Panel/VBox/Info Margin/HBox/Ship Container/Ship" instance=ExtResource("4_eohdm")]
 

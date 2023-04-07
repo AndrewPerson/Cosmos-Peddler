@@ -105,7 +105,7 @@ _data = {
 material_override = ExtResource("1_wdyov")
 gi_mode = 2
 instance_shader_parameters/rotation = 0.0
-instance_shader_parameters/seed = 1.0
+instance_shader_parameters/seed = 4.021
 mesh = SubResource("SphereMesh_ggtmf")
 script = ExtResource("2_g2y14")
 
