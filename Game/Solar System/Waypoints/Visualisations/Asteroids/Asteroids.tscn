@@ -1,14 +1,20 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://2ywrjv54ieo3"]
 
 [ext_resource type="Material" uid="uid://bes2dwkox4who" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/Asteroids.material" id="1_3n5y3"]
-[ext_resource type="ArrayMesh" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/asteroid.tres" id="2_ac0vf"]
+[ext_resource type="ArrayMesh" uid="uid://dh007qfi8jwpk" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/asteroid.tres" id="2_ac0vf"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/AsteroidsNode.cs" id="3_osap4"]
 
-[node name="Asteroids" type="GPUParticles3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_poy28"]
+radius = 0.6
+
+[node name="Asteroids" type="CollisionShape3D"]
+shape = SubResource("SphereShape3D_poy28")
+script = ExtResource("3_osap4")
+
+[node name="Asteroids" type="GPUParticles3D" parent="."]
 amount = 200
 explosiveness = 1.0
 visibility_aabb = AABB(-0.5, -0.5, -0.5, 1, 1, 1)
 local_coords = true
 process_material = ExtResource("1_3n5y3")
 draw_pass_1 = ExtResource("2_ac0vf")
-script = ExtResource("3_osap4")

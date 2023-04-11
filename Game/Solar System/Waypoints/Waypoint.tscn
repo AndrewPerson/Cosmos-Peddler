@@ -1,14 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://bimbj5blpk5gt"]
+[gd_scene load_steps=13 format=3 uid="uid://bimbj5blpk5gt"]
 
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/WaypointNode.cs" id="1_bs3ml"]
 [ext_resource type="PackedScene" uid="uid://bwk12two2n2id" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Planet.tscn" id="2_wgufh"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Gas Giant.tscn" id="3_of86b"]
+[ext_resource type="PackedScene" uid="uid://b01ibnkwra5sj" path="res://Game/Solar System/Waypoints/Visualisations/Gas Giant/Gas Giant.tscn" id="3_of86b"]
 [ext_resource type="PackedScene" uid="uid://bfxh4u0inqvm0" path="res://Game/Solar System/Waypoints/Visualisations/Moon/Moon.tscn" id="4_t5gil"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Orbital Station.tscn" id="5_53csh"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Jump Gate/Jump Gate.tscn" id="6_s1p24"]
-[ext_resource type="PackedScene" uid="uid://b8qu5w1xh7iqo" path="res://Game/Solar System/Orbit Indicator/Orbit Indicator.tscn" id="7_l0xfe"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/Asteroids.tscn" id="7_oqeue"]
-[ext_resource type="PackedScene" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/Unknown.tscn" id="8_qy72g"]
+[ext_resource type="PackedScene" uid="uid://dd6j58t70uvw0" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Orbital Station.tscn" id="5_53csh"]
+[ext_resource type="PackedScene" uid="uid://cjqo1ayqst4uv" path="res://Game/Solar System/Waypoints/Visualisations/Jump Gate/Jump Gate.tscn" id="6_s1p24"]
+[ext_resource type="PackedScene" uid="uid://2ywrjv54ieo3" path="res://Game/Solar System/Waypoints/Visualisations/Asteroids/Asteroids.tscn" id="7_oqeue"]
+[ext_resource type="PackedScene" uid="uid://cro7bb4oj7mfu" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/Unknown.tscn" id="8_qy72g"]
 [ext_resource type="Texture2D" uid="uid://dinvyvr8lt74l" path="res://Game/Solar System/Waypoints/Icons/hammer-outline.svg" id="10_igmog"]
 [ext_resource type="Script" path="res://UI/Billboard.cs" id="10_siyut"]
 [ext_resource type="Texture2D" uid="uid://dq3wwmtyc2l32" path="res://Game/Solar System/Waypoints/Icons/rocket-outline.svg" id="11_20swo"]
@@ -16,15 +15,8 @@
 
 [node name="Waypoint" type="Area3D"]
 script = ExtResource("1_bs3ml")
-WaypointTypeNames = [&"PLANET", &"GAS_GIANT", &"MOON", &"ORBITAL_STATION", &"JUMP_GATE", &"ASTEROID_FIELD", &"UNKNOWN"]
+WaypointTypeNames = PackedStringArray("PLANET", "GAS_GIANT", "MOON", "ORBITAL_STATION", "JUMP_GATE", "ASTEROID_FIELD", "UNKNOWN")
 WaypointTypeScenes = [ExtResource("2_wgufh"), ExtResource("3_of86b"), ExtResource("4_t5gil"), ExtResource("5_53csh"), ExtResource("6_s1p24"), ExtResource("7_oqeue"), ExtResource("8_qy72g")]
-
-[node name="Bounds" type="CollisionShape3D" parent="."]
-unique_name_in_owner = true
-
-[node name="Orbit Indicator" parent="." instance=ExtResource("7_l0xfe")]
-unique_name_in_owner = true
-visible = false
 
 [node name="UI Billboard" type="Node3D" parent="."]
 script = ExtResource("10_siyut")
@@ -71,6 +63,3 @@ no_depth_test = true
 fixed_size = true
 render_priority = 1
 texture = ExtResource("10_igmog")
-
-[connection signal="mouse_entered" from="." to="." method="MouseEnter"]
-[connection signal="mouse_exited" from="." to="." method="MouseExit"]

@@ -1,27 +1,34 @@
 using Godot;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CosmosPeddler.Game.SolarSystem.Stars;
 using CosmosPeddler.Game.SolarSystem.Waypoints;
 
 namespace CosmosPeddler.Game.SolarSystem;
 
-public partial class SolarSystemNode : Node3D
+public partial class SolarSystemNode : Area3D
 {
-	[Export]
-	public PackedScene StarScene { get; set; } = null!;
+	private static Dictionary<string, PackedScene>? starTypes = null;
+
+    [Signal]
+    public delegate void WaypointCreatedEventHandler(WaypointNode waypointNode);
 
 	[Export]
 	public PackedScene WaypointScene { get; set; } = null!;
 
-	public CosmosPeddler.SolarSystem system { get; set; } = null!;
+    [Export]
+	public string[] StarTypeNames { get; set; } = Array.Empty<string>();
+
+	[Export]
+	public PackedScene[] StarTypeScenes { get; set; } = Array.Empty<PackedScene>();
+
+	public CosmosPeddler.SolarSystem System { get; set; } = null!;
 
 	public float MapScale { get; set; }
 
 	public float WaypointMapScale { get; set; }
 
-	private StarNode star = null!;
 	private Node waypointContainer = null!;
 
     public static Aabb SystemExtents(CosmosPeddler.SolarSystem system, float waypointScale)
@@ -47,15 +54,14 @@ public partial class SolarSystemNode : Node3D
 
 	public override void _Ready()
 	{
+        starTypes ??= StarTypeNames.Zip(StarTypeScenes).ToDictionary(pair => pair.First, pair => pair.Second);
+
 		#if DEBUG
-		Name = system.Symbol ?? "Unnamed System";
+		Name = System.Symbol ?? "Unnamed System";
 		#endif
 
-		star = StarScene.Instantiate<StarNode>();
-
-		star.SystemType = system.Type;
-		star.MouseEntered += ShowOrbits;
-		star.MouseExited += HideOrbits;
+        var starScene = starTypes.TryGetValue(System.Type.ToString(), out var scene) ? scene : starTypes["UNKNOWN"];
+        var star = starScene.Instantiate();
 
 		AddChild(star);
 
@@ -70,18 +76,10 @@ public partial class SolarSystemNode : Node3D
         TaskScheduler.FromCurrentSynchronizationContext());
 	}
 
-	public override void _ExitTree()
-	{
-		if (star == null) return;
-
-		star.MouseEntered -= ShowOrbits;
-		star.MouseExited -= HideOrbits;
-	}
-
 	private async Task InstantiateWaypointsAsync()
 	{
 		var waypoints = new Dictionary<string, Waypoint>();
-		await foreach (var waypoint in system.GetWaypoints())
+		await foreach (var waypoint in System.GetWaypoints())
 		{
 			waypoints.Add(waypoint.Symbol, waypoint);
 		}
@@ -105,9 +103,11 @@ public partial class SolarSystemNode : Node3D
 			var waypointInstance = WaypointScene.Instantiate<WaypointNode>();
 
 			waypointInstance.Waypoint = waypoint;
-			waypointInstance.SolarSystemCenter = new Vector3(system.X, 0, system.Y) * MapScale;
+			waypointInstance.SolarSystemCenter = new Vector3(System.X, 0, System.Y) * MapScale;
 
             waypointInstance.Position = new Vector3(waypoint.X, 0, waypoint.Y) * WaypointMapScale;
+
+            EmitSignal(SignalName.WaypointCreated, waypointInstance);
 
 			waypointContainer.AddChild(waypointInstance);
 
@@ -119,29 +119,15 @@ public partial class SolarSystemNode : Node3D
 			var waypointInstance = WaypointScene.Instantiate<WaypointNode>();
 
 			waypointInstance.Waypoint = waypoint;
-			waypointInstance.SolarSystemCenter = new Vector3(system.X, 0, system.Y) * MapScale;
+			waypointInstance.SolarSystemCenter = new Vector3(System.X, 0, System.Y) * MapScale;
 
 			waypointInstance.OrbitalTarget = waypointNodeDict[orbitalTarget];
 
             waypointInstance.Position = new Vector3(waypoint.X, 0, waypoint.Y) * WaypointMapScale;
 
+            EmitSignal(SignalName.WaypointCreated, waypointInstance);
+
 			waypointContainer.AddChild(waypointInstance);
-		}
-	}
-
-	public void ShowOrbits()
-	{
-		foreach (var waypointNode in waypointContainer.GetChildren())
-		{
-			((WaypointNode)waypointNode).ShowOrbit();
-		}
-	}
-
-	public void HideOrbits()
-	{
-		foreach (var waypointNode in waypointContainer.GetChildren())
-		{
-			((WaypointNode)waypointNode).HideOrbit();
 		}
 	}
 }

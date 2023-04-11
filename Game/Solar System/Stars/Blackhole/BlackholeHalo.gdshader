@@ -1,41 +1,11 @@
 shader_type spatial;
 
+#include "res://Shader Utils/fbm.gdshaderinc"
+
 uniform sampler2D colours;
 
 instance uniform float seed : hint_range(1, 10) = 1;
 instance uniform float emission_strength = 2.;
-
-float rand(vec2 coord) {
-	coord = mod(coord, vec2(2.,1.) * 4.);
-	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
-}
-
-float noise(vec2 coord){
-	vec2 i = floor(coord);
-	vec2 f = fract(coord);
-		
-	float a = rand(i);
-	float b = rand(i + vec2(1., 0.));
-	float c = rand(i + vec2(0., 1.));
-	float d = rand(i + vec2(1., 1.));
-
-	vec2 cubic = f * f * (3. - 2. * f);
-
-	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1. - cubic.x) + (d - b) * cubic.x * cubic.y;
-}
-
-float fbm(vec2 coord){
-	float value = 0.;
-	float scale = 0.5;
-
-	for(int i = 0; i < 5; i++){
-		value += noise(coord) * scale;
-		coord *= 2.;
-		scale *= 0.5;
-	}
-
-	return value;
-}
 
 vec2 polar_coordinates(vec2 uv)
 {
@@ -50,7 +20,7 @@ void fragment() {
 	
 	float dist = cos(dot(NORMAL, VIEW)) - .5;
 	
-	float height = fbm(polar_coordinates(NORMAL.xy - VIEW.xy).xy * 4. + vec2(TIME));
+	float height = fbm(polar_coordinates(NORMAL.xy - VIEW.xy).xy * 8. + vec2(TIME), 5, seed);
 	
 	if (dist < height) {
 		vec3 colour = texture(colours, vec2(height, 0.)).rgb;

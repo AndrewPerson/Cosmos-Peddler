@@ -2,10 +2,8 @@ using Godot;
 
 namespace CosmosPeddler.Game.SolarSystem.Waypoints.Visualisations;
 
-public partial class AsteroidsNode : GpuParticles3D, IWaypointVisualiser
+public partial class AsteroidsNode : WaypointVisualiser
 {
-	public Vector3 Dimensions { get; private set; } = new Vector3(1, 1, 1);
-
-	public Vector3 OrbitCentre { get; set; }
-    public Waypoint Waypoint { get; set; } = null!;
+	public override Vector3 OrbitCentre { get; set; }
+    public override Waypoint Waypoint { get; set; } = null!;
 }

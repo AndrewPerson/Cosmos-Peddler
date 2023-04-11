@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://cro7bb4oj7mfu"]
 
 [ext_resource type="ArrayMesh" uid="uid://bodjh42sx1yqy" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/Question Mark.obj" id="1_niqfk"]
 [ext_resource type="Material" uid="uid://bekevd1hn8xlk" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/Unknown.material" id="2_2wpsv"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Unknown/UnknownNode.cs" id="3_5i5ga"]
 
-[node name="Unknown" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_by7bm"]
+size = Vector3(0.55, 0.75, 0.16)
+
+[node name="Unknown" type="CollisionShape3D"]
+shape = SubResource("BoxShape3D_by7bm")
 script = ExtResource("3_5i5ga")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.04, -0.08, 0)
 material_override = ExtResource("2_2wpsv")
 mesh = ExtResource("1_niqfk")

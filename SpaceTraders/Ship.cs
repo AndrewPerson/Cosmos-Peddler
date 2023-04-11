@@ -11,8 +11,7 @@ public record WaypointSurvey(string Signature, string WaypointSymbol, string[] D
 
 public partial class Ship
 {
-    public static Dictionary<string, Cooldown> Cooldowns { get; } = new();
-
+    public static CacheDictionary<string, Cooldown> Cooldowns { get; } = new();
     private static CacheDictionary<string, Ship> ships = new();
 
     public static async Task<Ship> GetMyShip(string shipSymbol)
@@ -26,7 +25,7 @@ public partial class Ship
             () => SpaceTradersClient.Client.GetMyShipAsync(shipSymbol))
         ).Data;
 
-        ships[shipSymbol] = ship;
+        ships.TryAdd(shipSymbol, ship);
 
         return ship;
     }
@@ -51,8 +50,8 @@ public partial class Ship
 
                 foreach (var ship in response.Data)
                 {
+                    ships.TryAdd(ship.Symbol, ship);
                     yield return ship;
-                    ships[ship.Symbol] = ship;
                 }
 
                 page++;
@@ -103,7 +102,7 @@ public partial class Ship
         ))).Data;
 
         Agent.MyAgent = purchase.Agent;
-        ships[purchase.Ship.Symbol] = purchase.Ship;
+        ships.TryAdd(purchase.Ship.Symbol, purchase.Ship);
 
         return purchase.Ship;
     }
@@ -311,10 +310,10 @@ public partial class Ship
         return scan.Ships.ToArray();
     }
 
-    public static async Task<WaypointChart> ChartCurrentWaypoint(string shipSymbol)
+    public async Task<WaypointChart> ChartCurrentWaypoint()
     {
         var chart = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
-            () => SpaceTradersClient.Client.CreateChartAsync(shipSymbol)
+            () => SpaceTradersClient.Client.CreateChartAsync(Symbol)
         )).Data;
 
         return new WaypointChart(
@@ -324,13 +323,13 @@ public partial class Ship
         );
     }
 
-    public static async Task<WaypointSurvey[]> SurveyCurrentWaypoint(string shipSymbol)
+    public async Task<WaypointSurvey[]> SurveyCurrentWaypoint()
     {
         var survey = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
-            () => SpaceTradersClient.Client.CreateSurveyAsync(shipSymbol)
+            () => SpaceTradersClient.Client.CreateSurveyAsync(Symbol)
         )).Data;
 
-        Cooldowns[shipSymbol] = survey.Cooldown;
+        Cooldowns[Symbol] = survey.Cooldown;
 
         return survey.Surveys.Select(s => new WaypointSurvey(
             s.Signature,

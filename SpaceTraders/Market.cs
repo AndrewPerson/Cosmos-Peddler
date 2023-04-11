@@ -17,7 +17,7 @@ public partial class Market
                 return cachedMarket;
             }
         }
-        else markets[systemSymbol] = new();
+        else markets.TryAdd(systemSymbol, new());
 
         var market = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
             () => SpaceTradersClient.Client.GetMarketAsync(systemSymbol, waypointSymbol)
@@ -38,7 +38,7 @@ public partial class Market
             return t.Result;
         }))?.Data;
 
-        markets[systemSymbol][waypointSymbol] = market;
+        markets[systemSymbol].TryAdd(waypointSymbol, market);
 
         return market;
     }

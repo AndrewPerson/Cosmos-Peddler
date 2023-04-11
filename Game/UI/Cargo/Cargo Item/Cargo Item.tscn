@@ -1,0 +1,99 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1qi7eg5gf7vn"]
+
+[ext_resource type="Script" path="res://Game/UI/Cargo/Cargo Item/CargoItemNode.cs" id="1_1y5m7"]
+[ext_resource type="Script" path="res://UI/ForceRatioNode.cs" id="2_gia7l"]
+[ext_resource type="Script" path="res://UI/MouseGimbalNode.cs" id="3_liwlq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hwj2o"]
+
+[node name="Cargo Item" type="PanelContainer"]
+offset_right = 221.0
+offset_bottom = 138.0
+size_flags_horizontal = 3
+script = ExtResource("1_1y5m7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_gia7l")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/AspectRatioContainer/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer/AspectRatioContainer/SubViewportContainer/SubViewport"]
+mesh = SubResource("BoxMesh_hwj2o")
+
+[node name="Node3D" type="Node3D" parent="MarginContainer/VBoxContainer/AspectRatioContainer/SubViewportContainer/SubViewport"]
+script = ExtResource("3_liwlq")
+
+[node name="Camera3D" type="Camera3D" parent="MarginContainer/VBoxContainer/AspectRatioContainer/SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MarginContainer/VBoxContainer/AspectRatioContainer/SubViewportContainer/SubViewport/Node3D/Camera3D"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Botanical Specimens"
+
+[node name="Units" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1x"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Buy" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Buy - $"
+
+[node name="Sell" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Sell - $"
+
+[node name="Transfer" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Transfer"
+
+[node name="Jettison" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Jettison"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/Buy" to="." method="OpenPurchaseUI"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/Sell" to="." method="OpenSellUI"]

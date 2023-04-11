@@ -32,12 +32,15 @@ public partial class PopupNode : PanelContainer
 	private TextureRect icon = null!;
 	private Label textLabel = null!;
 
-	public override void _Ready()
-	{
+    public override void _EnterTree()
+    {
 		colour = GetNode<ColorRect>("%Colour");
 		icon = GetNode<TextureRect>("%Icon");
 		textLabel = GetNode<Label>("%Text");
+    }
 
+	public override void _Ready()
+	{
 		colour.Modulate = Type switch
 		{
 			PopupType.Success => SuccessCol,

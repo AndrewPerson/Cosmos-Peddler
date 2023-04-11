@@ -15,13 +15,13 @@ public partial class JumpGate
                 return cachedJumpGate;
             }
         }
-        else jumpGates[systemSymbol] = new();
+        else jumpGates.TryAdd(systemSymbol, new());
 
         var jumpGate = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
             () => SpaceTradersClient.Client.GetJumpGateAsync(systemSymbol, waypointSymbol)
         )).Data;
 
-        jumpGates[systemSymbol][waypointSymbol] = jumpGate;
+        jumpGates[systemSymbol].TryAdd(waypointSymbol, jumpGate);
 
         return jumpGate;
     }

@@ -1,6 +1,8 @@
 shader_type spatial;
 render_mode specular_toon;
 
+#include "res://Shader Utils/fbm.gdshaderinc"
+
 uniform float ocean_height;
 uniform float ocean_height_multiplier = 1.;
 uniform sampler2D ocean_gradient;
@@ -8,58 +10,17 @@ uniform float time_scale = 0.1;
 
 uniform sampler2D depth_texture: hint_depth_texture, filter_linear_mipmap;
 
-const int size = 50;
 const int octaves = 5;
 
 instance uniform float seed: hint_range(1, 10);
 instance uniform float rotation;
 
-float rand(vec2 coord) {
-	coord = mod(coord, vec2(2.,1.) * float(size));
-	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
-}
-
-float noise(vec2 coord){
-	vec2 i = floor(coord);
-	vec2 f = fract(coord);
-		
-	float a = rand(i);
-	float b = rand(i + vec2(1., 0.));
-	float c = rand(i + vec2(0., 1.));
-	float d = rand(i + vec2(1., 1.));
-
-	vec2 cubic = f * f * (3. - 2. * f);
-
-	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1. - cubic.x) + (d - b) * cubic.x * cubic.y;
-}
-
-float fbm(vec2 coord){
-	float value = 0.;
-	float scale = 0.5;
-
-	for(int i = 0; i < octaves ; i++){
-		value += noise(coord) * scale;
-		coord *= 2.;
-		scale *= 0.5;
-	}
-
-	return value;
-}
-
 float height(vec2 uv) {
-	vec2 base_fbm_uv = uv * float(size);
-	
-	// use multiple fbm's at different places so we can determine what color land gets
-	float fbm1 = fbm(base_fbm_uv);
-	float fbm2 = fbm(base_fbm_uv - fbm1);
-	float fbm3 = fbm(base_fbm_uv - 1.5 * fbm1);
-	float fbm4 = fbm(base_fbm_uv - 2. * fbm1);
-	
-	float river_fbm = fbm(base_fbm_uv + fbm1 * 6.);
-	
-	float height = clamp((fbm1 + fbm2 + fbm3 + fbm4 - river_fbm) / 4., 0.01, 1.);
-	
-	return height;
+	vec2 base_fbm_uv = uv * 50.;
+
+	float height = fbm(base_fbm_uv, octaves, seed);
+
+	return clamp(height, 0., .5);
 }
 
 vec2 ray_sphere(vec3 centre, float radius, vec3 rayOrigin, vec3 rayDir) {

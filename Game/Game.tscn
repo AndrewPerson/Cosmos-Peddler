@@ -1,71 +1,26 @@
-[gd_scene load_steps=14 format=3 uid="uid://dujjxwyugi2st"]
+[gd_scene load_steps=13 format=3 uid="uid://cika05wr87evj"]
 
 [ext_resource type="Script" path="res://Game/WorldNode.cs" id="1_drfwb"]
+[ext_resource type="PackedScene" uid="uid://drvoewaa0wu5e" path="res://Game/World.tscn" id="1_fe8v7"]
 [ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_rmgst"]
-[ext_resource type="Script" path="res://Game/GameCameraNode.cs" id="3_j1hyy"]
+[ext_resource type="PackedScene" uid="uid://b8qu5w1xh7iqo" path="res://Game/Solar System/Orbit Indicator/Orbit Indicator.tscn" id="3_5ssq0"]
 [ext_resource type="Script" path="res://Game/UI/UINode.cs" id="4_h7rjt"]
-[ext_resource type="PackedScene" uid="uid://bu32xat3nm5hn" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
+[ext_resource type="PackedScene" uid="uid://by5qevkcnsakh" path="res://Game/UI/Ship Info/Ship Info.tscn" id="5_amhjw"]
 [ext_resource type="PackedScene" uid="uid://d3xoniddnoqq" path="res://Game/UI/Waypoint Info/Waypoint Info.tscn" id="5_mtryu"]
 [ext_resource type="PackedScene" uid="uid://dmbxjqp2s1yod" path="res://Game/UI/Purchase Order/Purchase Order.tscn" id="7_433bh"]
 [ext_resource type="PackedScene" uid="uid://bmkb7ryhtnmu4" path="res://Game/UI/Sell Order/Sell Order.tscn" id="8_h180h"]
 [ext_resource type="Script" path="res://Game/Popup/PopupCreatorNode.cs" id="9_7nuh0"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bvkj"]
-
-[sub_resource type="Sky" id="Sky_7rqt1"]
-sky_material = SubResource("ProceduralSkyMaterial_4bvkj")
-
-[sub_resource type="Environment" id="Environment_725tv"]
-background_mode = 1
-sky = SubResource("Sky_7rqt1")
-ambient_light_source = 2
-ambient_light_color = Color(0.203922, 0.203922, 0.203922, 1)
-ambient_light_sky_contribution = 0.0
-tonemap_mode = 3
-ssr_max_steps = 68
-ssr_fade_in = 5.74647e-05
-ssr_fade_out = 1e-05
-ssr_depth_tolerance = 128.0
-glow_enabled = true
-glow_levels/2 = 1.0
-glow_levels/4 = 1.0
-glow_blend_mode = 1
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_8058l"]
+[ext_resource type="PackedScene" uid="uid://gm54mkj261q5" path="res://Game/UI/Cargo/Cargo.tscn" id="9_11tmk"]
+[ext_resource type="PackedScene" uid="uid://7vpg21lqbc4u" path="res://Game/Popup/Popup.tscn" id="12_krvfu"]
 
 [node name="Game" type="Node"]
 
-[node name="World" type="Node3D" parent="."]
+[node name="World" parent="." instance=ExtResource("1_fe8v7")]
 script = ExtResource("1_drfwb")
 SolarSystemScene = ExtResource("2_rmgst")
+OrbitIndicatorScene = ExtResource("3_5ssq0")
 MapScale = 2.0
 WaypointMapScale = 0.2
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
-environment = SubResource("Environment_725tv")
-
-[node name="Camera" type="Camera3D" parent="World"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, -1.51833, 15.2442, 8.6311)
-current = true
-near = 0.001
-script = ExtResource("3_j1hyy")
-MinZoom = 2.0
-MaxZoom = 40.0
-
-[node name="NoLight" type="DirectionalLight3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-visible = false
-light_energy = 0.05
-sky_mode = 1
-
-[node name="Systems" type="Node3D" parent="World"]
-unique_name_in_owner = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
-mesh = SubResource("BoxMesh_8058l")
 
 [node name="UI" type="Control" parent="."]
 visible = false
@@ -100,6 +55,9 @@ layout_mode = 1
 [node name="Sell Order" parent="UI/Hidden UI" instance=ExtResource("8_h180h")]
 layout_mode = 1
 
+[node name="Cargo" parent="UI/Hidden UI" instance=ExtResource("9_11tmk")]
+layout_mode = 1
+
 [node name="Popups" type="MarginContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
@@ -117,6 +75,7 @@ theme_override_constants/margin_bottom = 5
 [node name="Popups" type="VBoxContainer" parent="Popups"]
 layout_mode = 2
 script = ExtResource("9_7nuh0")
+Popup = ExtResource("12_krvfu")
 
 [connection signal="mouse_entered" from="UI" to="UI" method="MouseEnter"]
 [connection signal="mouse_exited" from="UI" to="UI" method="MouseExit"]

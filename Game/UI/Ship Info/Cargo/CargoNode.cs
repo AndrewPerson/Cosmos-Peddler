@@ -1,30 +1,31 @@
 using Godot;
-using System.Linq;
 
 namespace CosmosPeddler.Game.UI.ShipInfo;
 
-public partial class CargoNode : ReactiveUI<(ShipCargo, ShipNav)>
+public partial class CargoNode : ReactiveUI<Ship>
 {
-	[Export]
-	public PackedScene CargoItemScene { get; set; } = null!;
-
 	private Label name = null!;
-	private Node cargoItems = null!;
+	private ProgressBar cargoUsage = null!;
+	private Button view = null!;
 
 	public override void _EnterTree()
 	{
 		name = GetNode<Label>("%Name");
-		cargoItems = GetNode<Node>("%Cargo List");
+		cargoUsage = GetNode<ProgressBar>("%Cargo Usage");
+		view = GetNode<Button>("%View");
 	}
 
 	public override void UpdateUI()
 	{
-		var (cargo, nav) = Data;
-
+		var cargo = Data.Cargo;
 		name.Text = $"Cargo - {cargo.Units}/{cargo.Capacity}";
 
-		var items = cargo.Inventory.ToArray();
+		cargoUsage.MaxValue = cargo.Capacity;
+		cargoUsage.Value = cargo.Units;
+	}
 
-		RenderList(cargoItems, CargoItemScene, items.Select(i => (i, nav)).ToArray());
+	public void ShowCargo()
+	{
+		CosmosPeddler.Game.UI.Cargo.CargoNode.Show((Data.Cargo, Data.Nav));
 	}
 }

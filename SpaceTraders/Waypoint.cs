@@ -16,13 +16,13 @@ public partial class Waypoint
                 return cachedWaypoint;
             }
         }
-        else waypoints[systemSymbol] = new();
+        else waypoints.TryAdd(systemSymbol, new());
 
         var waypoint = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
             () => SpaceTradersClient.Client.GetWaypointAsync(systemSymbol, waypointSymbol)
         )).Data;
 
-        waypoints[systemSymbol][waypointSymbol] = waypoint;
+        waypoints[systemSymbol].TryAdd(waypointSymbol, waypoint);
 
         return waypoint;
     }
@@ -36,7 +36,7 @@ public partial class Waypoint
                 foreach (var waypoint in cachedSystemWaypoints.Values) yield return waypoint;
             }
         }
-        else waypoints[systemSymbol] = new();
+        else waypoints.TryAdd(systemSymbol, new());
 
         int itemsRemaining;
         int page = 1;
@@ -50,7 +50,7 @@ public partial class Waypoint
 
             foreach (var waypoint in response.Data)
             {
-                waypoints[systemSymbol][waypoint.Symbol] = waypoint;
+                waypoints[systemSymbol].TryAdd(waypoint.Symbol, waypoint);
                 yield return waypoint;
             }
 

@@ -2,18 +2,16 @@ using Godot;
 
 namespace CosmosPeddler.Game.SolarSystem.Waypoints.Visualisations;
 
-public partial class MoonNode : MeshInstance3D, IWaypointVisualiser
+public partial class MoonNode : WaypointVisualiser
 {
-	public Vector3 Dimensions { get; private set; } = new Vector3(0.5f, 0.5f, 0.5f);
-
-	public Vector3 OrbitCentre { get; set; }
-	public Waypoint Waypoint { get; set; } = null!;
+	public override Vector3 OrbitCentre { get; set; }
+	public override Waypoint Waypoint { get; set; } = null!;
 	
 	public override void _Ready()
 	{
 		var seed = (float)GD.RandRange(0f, 10f);
 		
-		SetInstanceShaderParameter("seed", seed);
+		GetNode<MeshInstance3D>("%Mesh").SetInstanceShaderParameter("seed", seed);
 
 		GetNode<AnimationPlayer>("%Rotation").Play("Rotate");
 	}

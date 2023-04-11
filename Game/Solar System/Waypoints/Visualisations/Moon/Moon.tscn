@@ -1,7 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfxh4u0inqvm0"]
+[gd_scene load_steps=11 format=3 uid="uid://bfxh4u0inqvm0"]
 
 [ext_resource type="Shader" path="res://Game/Solar System/Waypoints/Visualisations/Moon/Moon.gdshader" id="1_6rxh0"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Moon/MoonNode.cs" id="2_pkug6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8dfse"]
+radius = 0.25
 
 [sub_resource type="Curve" id="Curve_84dw3"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.053719, 0.645455), 0.0536585, 0.0536585, 0, 0, Vector2(0.309917, 0), -0.0879999, 0.0, 0, 0]
@@ -59,15 +62,20 @@ _data = {
 "Rotate": SubResource("Animation_nr6l2")
 }
 
-[node name="Moon" type="MeshInstance3D"]
+[node name="Moon" type="CollisionShape3D"]
+shape = SubResource("SphereShape3D_8dfse")
+script = ExtResource("2_pkug6")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
 material_override = SubResource("ShaderMaterial_ttkg2")
 instance_shader_parameters/rotation = 0.0
 instance_shader_parameters/seed = 1.0
 mesh = SubResource("SphereMesh_ojj82")
-script = ExtResource("2_pkug6")
 
 [node name="Rotation" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
+root_node = NodePath("../Mesh")
 libraries = {
 "": SubResource("AnimationLibrary_hng4k")
 }

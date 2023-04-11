@@ -4,8 +4,6 @@ namespace CosmosPeddler.Game;
 
 public partial class GameCameraNode : Camera3D
 {
-	public static GameCameraNode Instance { get; private set; } = null!;
-
 	[Export]
 	public float Speed { get; set; } = 1;
 
@@ -34,11 +32,6 @@ public partial class GameCameraNode : Camera3D
 	//Magic number to determine % of screen taken up by object when zooming in.
 	//Don't know how it actually relates to % of screen taken up.
 	private const float objectZoomSize = 1.5f;
-
-	public override void _EnterTree()
-	{
-		Instance = this;
-	}
 
 	public override void _Ready()
 	{

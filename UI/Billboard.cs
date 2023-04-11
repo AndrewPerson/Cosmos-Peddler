@@ -8,7 +8,7 @@ public partial class Billboard : Node3D
 
     public override void _Ready()
     {
-        camera = GetTree().CurrentScene.GetNode<Camera3D>("%Camera");
+        camera = GetViewport().GetCamera3D();
     }
 
     public override void _Process(double delta)

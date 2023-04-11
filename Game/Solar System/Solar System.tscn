@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://conlqrvbv55bp"]
+[gd_scene load_steps=5 format=3 uid="uid://conlqrvbv55bp"]
 
 [ext_resource type="Script" path="res://Game/Solar System/SolarSystemNode.cs" id="1_76rxu"]
-[ext_resource type="PackedScene" uid="uid://ir6rove4ulvx" path="res://Game/Solar System/Stars/Star.tscn" id="2_gkdu3"]
 [ext_resource type="PackedScene" uid="uid://bimbj5blpk5gt" path="res://Game/Solar System/Waypoints/Waypoint.tscn" id="3_0q1fa"]
+[ext_resource type="PackedScene" uid="uid://cc1ixqegv6hpy" path="res://Game/Solar System/Stars/Orange Star/Orange Star.tscn" id="4_atfc5"]
+[ext_resource type="PackedScene" uid="uid://b4pijn8qgv1it" path="res://Game/Solar System/Stars/Blackhole/Blackhole.tscn" id="5_n7c3d"]
 
-[node name="Solar System" type="Node3D"]
+[node name="Solar System" type="Area3D"]
 script = ExtResource("1_76rxu")
-StarScene = ExtResource("2_gkdu3")
 WaypointScene = ExtResource("3_0q1fa")
+StarTypeNames = PackedStringArray("ORANGE_STAR", "BLACK_HOLE", "UNKNOWN")
+StarTypeScenes = [ExtResource("4_atfc5"), ExtResource("5_n7c3d"), ExtResource("4_atfc5")]
 
 [node name="Waypoints" type="Node3D" parent="."]
 unique_name_in_owner = true

@@ -1,0 +1,79 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhftnjmj7bd3i"]
+
+[ext_resource type="Script" path="res://UI/ForceRatioNode.cs" id="1_ekxpy"]
+[ext_resource type="PackedScene" uid="uid://bwk12two2n2id" path="res://Game/Solar System/Waypoints/Visualisations/Planet/Planet.tscn" id="1_qyiyh"]
+[ext_resource type="Script" path="res://Game/UI/Navigate/Stop/StopNode.cs" id="1_udbio"]
+
+[node name="Stop" type="PanelContainer"]
+offset_right = 4.0
+offset_bottom = 4.0
+script = ExtResource("1_udbio")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+columns = 3
+
+[node name="To Label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "To:"
+
+[node name="To" type="OptionButton" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 1
+selected = 0
+popup/item_0/text = "Hola"
+popup/item_0/id = 0
+
+[node name="Aspect Ratio" type="AspectRatioContainer" parent="MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+stretch_mode = 1
+script = ExtResource("1_ekxpy")
+
+[node name="Viewport Container" type="SubViewportContainer" parent="MarginContainer/GridContainer/Aspect Ratio"]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="Waypoint Viewport" type="SubViewport" parent="MarginContainer/GridContainer/Aspect Ratio/Viewport Container"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(39, 39)
+render_target_update_mode = 4
+
+[node name="Waypoint Container" type="Node3D" parent="MarginContainer/GridContainer/Aspect Ratio/Viewport Container/Waypoint Viewport"]
+unique_name_in_owner = true
+
+[node name="Planet" parent="MarginContainer/GridContainer/Aspect Ratio/Viewport Container/Waypoint Viewport/Waypoint Container" instance=ExtResource("1_qyiyh")]
+
+[node name="Waypoint Camera" type="Camera3D" parent="MarginContainer/GridContainer/Aspect Ratio/Viewport Container/Waypoint Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.56357)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MarginContainer/GridContainer/Aspect Ratio/Viewport Container/Waypoint Viewport/Waypoint Camera"]
+
+[node name="Method Label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Method:"
+
+[node name="Method" type="OptionButton" parent="MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Fly"
+popup/item_0/id = 0
+popup/item_1/text = "Warp"
+popup/item_1/id = 1
+popup/item_2/text = "Jump"
+popup/item_2/id = 2

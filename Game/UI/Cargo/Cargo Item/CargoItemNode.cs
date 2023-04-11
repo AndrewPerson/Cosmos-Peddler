@@ -37,37 +37,13 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 		Market.GetMarket(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>
 		{
-			var market = t.Result;
-
-			if (market == null)
-			{
-                buy.Text = "Unavailable";
-                buy.Disabled = true;
-                sell.Text = "Unavailable";
-                sell.Disabled = true;
-
-                return;
-			}
-
-			var goods = market.GetMarketItems();
-
-			if (goods == null)
-			{
-				buy.Text = "Unavailable";
-				buy.Disabled = true;
-				sell.Text = "Unavailable";
-				sell.Disabled = true;
-
-				return;
-			}
-
-			marketItem = goods.FirstOrDefault(i => i.Symbol.ToString() == cargo.Symbol);
+            marketItem = t.Result?.GetMarketItems()?.FirstOrDefault(i => i?.Symbol.ToString() == cargo.Symbol, null);
 
 			if (marketItem == null)
 			{
-				buy.Text = "Unavailable";
+				buy.Text = "Buy";
 				buy.Disabled = true;
-				sell.Text = "Unavailable";
+				sell.Text = "Sell";
 				sell.Disabled = true;
 
 				return;
@@ -91,7 +67,7 @@ public partial class CargoItemNode : ReactiveUI<(ShipCargoItem, ShipNav)>
 
 		var nav = Data.Item2;
 
-		buy.Text = "Loading...";
+		buy.Text = "Buying...";
 		buy.Disabled = true;
 
 		Waypoint.GetWaypoint(nav.SystemSymbol, nav.WaypointSymbol).ContinueWith(t =>

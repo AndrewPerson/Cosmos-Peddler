@@ -1,5 +1,7 @@
 shader_type spatial;
 
+#include "res://Shader Utils/fbm.gdshaderinc"
+
 uniform vec3 sun_colour : source_color;
 uniform float wave_speed : hint_range(0,1) = 0.1;
 uniform float fresnel : hint_range(0,2) = 1.;
@@ -7,52 +9,16 @@ uniform float emission_strength = 10;
 
 instance uniform float seed : hint_range(1, 10) = 1;
 
-const float size = 30.;
-const int octaves = 4;
-
-float rand(vec2 coord) {
-	return fract(sin(dot(coord.xy, vec2(12.9898,78.233))) * 15.5453 * seed);
-}
-
-float noise(vec2 coord){
-	vec2 i = floor(coord);
-	vec2 f = fract(coord);
-		
-	float a = rand(i);
-	float b = rand(i + vec2(1., 0.));
-	float c = rand(i + vec2(0., 1.));
-	float d = rand(i + vec2(1., 1.));
-
-	vec2 cubic = f * f * (3. - 2. * f);
-
-	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1. - cubic.x) + (d - b) * cubic.x * cubic.y;
-}
-
-float fbm(vec2 coord){
-	float value = 0.;
-	float scale = 0.5;
-
-	for(int i = 0; i < octaves ; i++){
-		value += noise(coord) * scale;
-		coord *= 2.;
-		scale *= 0.5;
-	}
-
-	return value;
-}
-
 float height(vec2 uv) {
-	vec2 base_fbm_uv = uv * float(size);
+	vec2 base_fbm_uv = uv * 30.;
 	
 	// use multiple fbm's at different places so we can determine what color land gets
-	float fbm1 = fbm(base_fbm_uv);
-	float fbm2 = fbm(base_fbm_uv - fbm1);
-	float fbm3 = fbm(base_fbm_uv - 1.5 * fbm1);
-	float fbm4 = fbm(base_fbm_uv - 2. * fbm1);
+	float fbm1 = fbm(base_fbm_uv, 4, seed);
+	float fbm2 = fbm(base_fbm_uv - fbm1, 4, seed);
+	float fbm3 = fbm(base_fbm_uv - 1.5 * fbm1, 4, seed);
+	float fbm4 = fbm(base_fbm_uv - 2. * fbm1, 4, seed);
 	
-	float river_fbm = fbm(base_fbm_uv + fbm1 * 6.);
-	
-	float height = clamp((fbm1 + fbm2 + fbm3 + fbm4 - river_fbm) / 4., 0.01, 1.);
+	float height = clamp((fbm1 + fbm2 + fbm3 + fbm4) / 4., 0.01, 1.);
 	
 	return height;
 }

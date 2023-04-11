@@ -24,7 +24,7 @@ public partial class SolarSystem
             () => SpaceTradersClient.Client.GetSystemAsync(systemSymbol)
         )).Data;
 
-        systems[systemSymbol] = system;
+        systems.TryAdd(systemSymbol, system);
 
         return system;
     }
@@ -65,7 +65,7 @@ public partial class SolarSystem
 
         foreach (var system in systems)
         {
-            SolarSystem.systems[system.Symbol] = system;
+            SolarSystem.systems.TryAdd(system.Symbol, system);
         }
 
         return systems;

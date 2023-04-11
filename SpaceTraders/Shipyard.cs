@@ -15,13 +15,13 @@ public partial class Shipyard
                 return cachedShipyard;
             }
         }
-        else shipyards[systemSymbol] = new();
+        else shipyards.TryAdd(systemSymbol, new());
 
         var shipyard = (await SpaceTradersClient.Retry429Policy.ExecuteAsync(
             () => SpaceTradersClient.Client.GetShipyardAsync(systemSymbol, waypointSymbol)
         )).Data;
 
-        shipyards[systemSymbol][waypointSymbol] = shipyard;
+        shipyards[systemSymbol].TryAdd(waypointSymbol, shipyard);
 
         return shipyard;
     }

@@ -23,12 +23,7 @@ public partial class MouseGimbalNode : Node3D
 		{
 			if (@event is InputEventMouseMotion mouseMotion)
 			{
-				var viewport = GetViewport();
-
-				if (viewport.GetVisibleRect().HasPoint(mouseMotion.Position))
-				{
-					Rotation += new Vector3(0, -mouseMotion.Relative.X * MouseSpeed, 0);
-				}
+				Rotation += new Vector3(0, -mouseMotion.Relative.X * MouseSpeed, 0);
 			}
 		}
 	}

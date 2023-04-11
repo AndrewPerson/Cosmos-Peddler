@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://dd6j58t70uvw0"]
 
 [ext_resource type="ArrayMesh" uid="uid://c2xsdthbvg4si" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Orbital Station.obj" id="1_3rga5"]
 [ext_resource type="Script" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/OrbitalStationNode.cs" id="2_27jal"]
@@ -6,7 +6,14 @@
 [ext_resource type="Material" uid="uid://funkhblgps63" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Glow.material" id="3_n333p"]
 [ext_resource type="Material" uid="uid://bsitx6d7dscg" path="res://Game/Solar System/Waypoints/Visualisations/Orbital Station/Panel.material" id="4_7mtit"]
 
-[node name="Orbital Station" type="MeshInstance3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_c6one"]
+size = Vector3(0.6, 0.1, 0.3)
+
+[node name="Orbital Station" type="CollisionShape3D"]
+shape = SubResource("BoxShape3D_c6one")
+script = ExtResource("2_27jal")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_3rga5")
 surface_material_override/0 = ExtResource("2_no4tc")
 surface_material_override/1 = ExtResource("3_n333p")
@@ -24,4 +31,3 @@ surface_material_override/12 = ExtResource("2_no4tc")
 surface_material_override/13 = ExtResource("4_7mtit")
 surface_material_override/14 = ExtResource("4_7mtit")
 surface_material_override/15 = ExtResource("2_no4tc")
-script = ExtResource("2_27jal")

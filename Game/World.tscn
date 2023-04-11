@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://drvoewaa0wu5e"]
+
+[ext_resource type="Script" path="res://Game/GameCameraNode.cs" id="1_advpw"]
+[ext_resource type="Shader" path="res://Game/Nebula.gdshader" id="2_y1lyd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p8fih"]
+
+[sub_resource type="Sky" id="Sky_8h37h"]
+sky_material = SubResource("ProceduralSkyMaterial_p8fih")
+
+[sub_resource type="Environment" id="Environment_7pce8"]
+sky = SubResource("Sky_8h37h")
+ambient_light_source = 2
+ambient_light_color = Color(0.203922, 0.203922, 0.203922, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 3
+ssr_max_steps = 68
+ssr_fade_in = 5.74647e-05
+ssr_fade_out = 1e-05
+ssr_depth_tolerance = 128.0
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_blend_mode = 1
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[sub_resource type="Curve" id="Curve_o2wy3"]
+_data = [Vector2(0, 0.05), 0.0, 0.1, 0, 0, Vector2(1, 0.272727), 0.57381, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ayxhi"]
+curve = SubResource("Curve_o2wy3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_srbmj"]
+shader = ExtResource("2_y1lyd")
+shader_parameter/CLOUD1_COL = Color(0.41, 0.64, 0.78, 0.4)
+shader_parameter/CLOUD2_COL = Color(0.99, 0.79, 0.46, 0.2)
+shader_parameter/CLOUD3_COL = Color(0.81, 0.31, 0.59, 1)
+shader_parameter/CLOUD4_COL = Color(0.27, 0.15, 0.33, 1)
+shader_parameter/densityScale = SubResource("CurveTexture_ayxhi")
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7pce8")
+
+[node name="Camera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, 0, 15.244, 8.631)
+current = true
+near = 0.001
+script = ExtResource("1_advpw")
+MinZoom = 2.0
+MaxZoom = 40.0
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.843, -27.542)
+remote_path = NodePath("../../FogVolume")
+update_rotation = false
+update_scale = false
+
+[node name="NoLight" type="DirectionalLight3D" parent="."]
+visible = false
+
+[node name="Systems" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.1452, 8.63097)
+size = Vector3(100, 30, 100)
+material = SubResource("ShaderMaterial_srbmj")
+
+[node name="Orbit Indicator Pool" type="Node3D" parent="."]
+unique_name_in_owner = true
