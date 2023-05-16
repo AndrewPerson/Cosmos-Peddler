@@ -38,7 +38,7 @@ public partial class WorldNode : Node3D
 	{
         camera = GetNode<GameCameraNode>("%Camera");
 		systemsContainer = GetNode("%Systems");
-        orbitIndicatorPool = GetNode("%Orbit Indicator Pool");
+        orbitIndicatorPool = GetNode("Orbit Indicator Pool");
 	}
 
 	public override void _Ready()
@@ -82,23 +82,16 @@ public partial class WorldNode : Node3D
                             waypoints.Add(waypoint);
                             systemWaypoints[systemInstance] = waypoints;
 
-                            if (waypoint.OrbitalTarget == null)
-                            {
-                                waypoint.MouseEntered += () => ShowIndicator(waypoint, systemInstance.GlobalPosition);
-                            }
-                            else
-                            {
-                                waypoint.MouseEntered += () => ShowIndicator(waypoint, waypoint.OrbitalTarget.GlobalPosition);
-                            }
+                            waypoint.MouseEntered += () => ShowIndicator(
+                                waypoint,
+                                waypoint.OrbitalTarget?.GlobalPosition ?? systemInstance.GlobalPosition
+                            );
 
                             waypoint.MouseEntered += () => hoveredWaypoint = waypoint;
                             
                             waypoint.MouseExited += () => HideIndicator(waypoint);
                             waypoint.MouseExited += () => {
-                                if (hoveredWaypoint == waypoint)
-                                {
-                                    hoveredWaypoint = null;
-                                }
+                                if (hoveredWaypoint == waypoint) hoveredWaypoint = null;
                             };
 
                             UINode.Instance.UIAppear += waypoint.HideIndicators;

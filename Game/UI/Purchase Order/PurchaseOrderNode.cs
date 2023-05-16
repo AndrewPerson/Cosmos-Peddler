@@ -5,9 +5,8 @@ using CosmosPeddler.Game.UI.ShipInfo;
 
 namespace CosmosPeddler.Game.UI.PurchaseOrder;
 
-public partial class PurchaseOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint), PurchaseOrderNode>
+public partial class PurchaseOrderNode : PopupUI<(MarketItem, Waypoint), PurchaseOrderNode>
 {
-	private bool loadedShips = false;
 	private List<Ship> ships = null!;
 
 	private Label name = null!;
@@ -30,8 +29,6 @@ public partial class PurchaseOrderNode : DifferentiatedPopupUI<(MarketItem, Wayp
 	public override void UpdateUI()
 	{
 		name.Text = $"Purchase {Data.Item1.Symbol.ToString().ToHuman()}";
-
-		loadedShips = false;
 		
 		shipSelection.Clear();
 		shipSelection.AddItem("Loading...");
@@ -53,7 +50,9 @@ public partial class PurchaseOrderNode : DifferentiatedPopupUI<(MarketItem, Wayp
 				return;
 			}
 
-			loadedShips = true;
+            viewShip.Text = "View";
+            purchase.Text = "Purchase";
+
 			shipSelection.Clear();
 
 			ships = t.Result;
@@ -68,20 +67,13 @@ public partial class PurchaseOrderNode : DifferentiatedPopupUI<(MarketItem, Wayp
 				shipSelection.Disabled = false;
 				shipSelection.Selected = 0;
 
-				viewShip.Text = "View";
 				viewShip.Disabled = false;
-
-				purchase.Text = "Purchase";
 				purchase.Disabled = false;
 			}
 			else
 			{
 				shipSelection.AddItem("None");
 				shipSelection.Selected = 0;
-
-				viewShip.Text = "Unavailable";
-
-				purchase.Text = "Unavailable";
 			}
 
 			UpdateMaxItems();

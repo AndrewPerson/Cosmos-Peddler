@@ -6,9 +6,8 @@ using CosmosPeddler.Game.UI.ShipInfo;
 
 namespace CosmosPeddler.Game.UI.SellOrder;
 
-public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint), SellOrderNode>
+public partial class SellOrderNode : PopupUI<(MarketItem, Waypoint), SellOrderNode>
 {
-	private bool loadedShips = false;
 	private List<Ship> ships = null!;
 
 	private Label name = null!;
@@ -31,8 +30,6 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 	public override void UpdateUI()
 	{
 		name.Text = $"Sell {Data.Item1.Symbol.ToString().ToHuman()}";
-
-		loadedShips = false;
 		
 		shipSelection.Clear();
 		shipSelection.AddItem("Loading...");
@@ -49,12 +46,14 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 		{
 			if (t.IsFaulted)
 			{
-				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to purchase. Check the log for errors.");
+				PopupCreatorNode.CreatePopup(PopupType.Error, "Failed to sell. Check the log for errors.");
 				Logger.Error(t.Exception?.ToString() ?? "Unknown error");
 				return;
 			}
 
-			loadedShips = true;
+            viewShip.Text = "View";
+            sell.Text = "Sell";
+
 			shipSelection.Clear();
 
 			ships = t.Result;
@@ -69,20 +68,13 @@ public partial class SellOrderNode : DifferentiatedPopupUI<(MarketItem, Waypoint
 				shipSelection.Disabled = false;
 				shipSelection.Selected = 0;
 
-				viewShip.Text = "View";
 				viewShip.Disabled = false;
-
-				sell.Text = "Sell";
 				sell.Disabled = false;
 			}
 			else
 			{
 				shipSelection.AddItem("None");
 				shipSelection.Selected = 0;
-
-				viewShip.Text = "Unavailable";
-
-				sell.Text = "Unavailable";
 			}
 
 			UpdateMaxItems();

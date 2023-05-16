@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://drvoewaa0wu5e"]
+[gd_scene load_steps=6 format=3 uid="uid://drvoewaa0wu5e"]
 
 [ext_resource type="Script" path="res://Game/GameCameraNode.cs" id="1_advpw"]
-[ext_resource type="Shader" path="res://Game/Nebula.gdshader" id="2_y1lyd"]
+[ext_resource type="Material" uid="uid://cg7nn5ycpsun3" path="res://Game/Nebula.tres" id="2_pmr4b"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p8fih"]
 
@@ -24,21 +24,6 @@ glow_levels/4 = 1.0
 glow_blend_mode = 1
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
-
-[sub_resource type="Curve" id="Curve_o2wy3"]
-_data = [Vector2(0, 0.05), 0.0, 0.1, 0, 0, Vector2(1, 0.272727), 0.57381, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ayxhi"]
-curve = SubResource("Curve_o2wy3")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_srbmj"]
-shader = ExtResource("2_y1lyd")
-shader_parameter/CLOUD1_COL = Color(0.41, 0.64, 0.78, 0.4)
-shader_parameter/CLOUD2_COL = Color(0.99, 0.79, 0.46, 0.2)
-shader_parameter/CLOUD3_COL = Color(0.81, 0.31, 0.59, 1)
-shader_parameter/CLOUD4_COL = Color(0.27, 0.15, 0.33, 1)
-shader_parameter/densityScale = SubResource("CurveTexture_ayxhi")
 
 [node name="World" type="Node3D"]
 
@@ -69,7 +54,4 @@ unique_name_in_owner = true
 [node name="FogVolume" type="FogVolume" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.1452, 8.63097)
 size = Vector3(100, 30, 100)
-material = SubResource("ShaderMaterial_srbmj")
-
-[node name="Orbit Indicator Pool" type="Node3D" parent="."]
-unique_name_in_owner = true
+material = ExtResource("2_pmr4b")

@@ -32,6 +32,8 @@ public partial class SolarSystem
     // TODO Find a way to add this path to the OpenAPI Spec so it can be generated
     public static async Task<List<SolarSystem>> GetSystems()
     {
+        if (SolarSystem.systems.Complete) return new(SolarSystem.systems.Values);
+
         var systems = await SpaceTradersClient.Retry429Policy.ExecuteAsync(async () => {
             using (var request = new HttpRequestMessage()
             {
@@ -67,6 +69,8 @@ public partial class SolarSystem
         {
             SolarSystem.systems.TryAdd(system.Symbol, system);
         }
+
+        SolarSystem.systems.Complete = true;
 
         return systems;
     }

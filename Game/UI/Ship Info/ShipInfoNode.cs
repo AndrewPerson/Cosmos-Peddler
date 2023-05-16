@@ -2,7 +2,7 @@ using Godot;
 
 namespace CosmosPeddler.Game.UI.ShipInfo;
 
-public partial class ShipInfoNode : PopupUI<Ship>
+public partial class ShipInfoNode : PopupUI<Ship, ShipInfoNode>
 {
 	private Label name = null!;
 	private FuelNode fuel = null!;

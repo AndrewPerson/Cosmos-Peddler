@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cika05wr87evj"]
+[gd_scene load_steps=14 format=3 uid="uid://cika05wr87evj"]
 
 [ext_resource type="Script" path="res://Game/WorldNode.cs" id="1_drfwb"]
 [ext_resource type="PackedScene" uid="uid://drvoewaa0wu5e" path="res://Game/World.tscn" id="1_fe8v7"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bmkb7ryhtnmu4" path="res://Game/UI/Sell Order/Sell Order.tscn" id="8_h180h"]
 [ext_resource type="Script" path="res://Game/Popup/PopupCreatorNode.cs" id="9_7nuh0"]
 [ext_resource type="PackedScene" uid="uid://gm54mkj261q5" path="res://Game/UI/Cargo/Cargo.tscn" id="9_11tmk"]
+[ext_resource type="PackedScene" uid="uid://0u6qvayl2ydd" path="res://Game/UI/Navigate/Navigate.tscn" id="11_2e72b"]
 [ext_resource type="PackedScene" uid="uid://7vpg21lqbc4u" path="res://Game/Popup/Popup.tscn" id="12_krvfu"]
 
 [node name="Game" type="Node"]
@@ -21,6 +22,9 @@ SolarSystemScene = ExtResource("2_rmgst")
 OrbitIndicatorScene = ExtResource("3_5ssq0")
 MapScale = 2.0
 WaypointMapScale = 0.2
+
+[node name="Orbit Indicator Pool" type="Node3D" parent="World"]
+unique_name_in_owner = true
 
 [node name="UI" type="Control" parent="."]
 visible = false
@@ -56,6 +60,9 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="Cargo" parent="UI/Hidden UI" instance=ExtResource("9_11tmk")]
+layout_mode = 1
+
+[node name="Navigate" parent="UI/Hidden UI" instance=ExtResource("11_2e72b")]
 layout_mode = 1
 
 [node name="Popups" type="MarginContainer" parent="."]

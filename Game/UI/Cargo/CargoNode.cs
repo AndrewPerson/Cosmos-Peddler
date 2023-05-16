@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CosmosPeddler.Game.UI.Cargo;
 
-public partial class CargoNode : PopupUI<(ShipCargo, ShipNav)>
+public partial class CargoNode : PopupUI<(ShipCargo, ShipNav), CargoNode>
 {
 	[Export]
 	public PackedScene CargoItemScene { get; set; } = null!;

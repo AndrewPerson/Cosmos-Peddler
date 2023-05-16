@@ -14,6 +14,12 @@ public partial class Ship
     public static CacheDictionary<string, Cooldown> Cooldowns { get; } = new();
     private static CacheDictionary<string, Ship> ships = new();
 
+    public bool HasWarpModule => Modules.Any(module =>
+        module.Symbol == ShipModuleSymbol.MODULE_WARP_DRIVE_I ||
+        module.Symbol == ShipModuleSymbol.MODULE_WARP_DRIVE_II ||
+        module.Symbol == ShipModuleSymbol.MODULE_WARP_DRIVE_III
+    );
+
     public static async Task<Ship> GetMyShip(string shipSymbol)
     {
         if (ships.TryGetValue(shipSymbol, out var cachedShip))
@@ -51,14 +57,18 @@ public partial class Ship
                 foreach (var ship in response.Data)
                 {
                     ships.TryAdd(ship.Symbol, ship);
+                }
+
+                if (itemsRemaining <= 0) ships.Complete = true;
+
+                foreach (var ship in response.Data)
+                {
                     yield return ship;
                 }
 
                 page++;
             }
             while (itemsRemaining > 0);
-
-            ships.Complete = true;
         }
     }
 

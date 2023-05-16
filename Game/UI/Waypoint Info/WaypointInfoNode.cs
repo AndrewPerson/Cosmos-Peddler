@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CosmosPeddler.Game.UI.WaypointInfo;
 
-public partial class WaypointInfoNode : PopupUI<Waypoint>
+public partial class WaypointInfoNode : PopupUI<Waypoint, WaypointInfoNode>
 {
 	private Label name = null!;
 	private Label extraInfo = null!;

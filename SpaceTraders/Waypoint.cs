@@ -51,14 +51,18 @@ public partial class Waypoint
             foreach (var waypoint in response.Data)
             {
                 waypoints[systemSymbol].TryAdd(waypoint.Symbol, waypoint);
+            }
+
+            if (itemsRemaining <= 0) waypoints[systemSymbol].Complete = true;
+
+            foreach (var waypoint in response.Data)
+            {
                 yield return waypoint;
             }
 
             page++;
         }
         while (itemsRemaining > 0);
-
-        waypoints[systemSymbol].Complete = true;
     }
 
     public Task<Shipyard?> GetShipyard() => Shipyard.GetShipyard(SystemSymbol, Symbol);

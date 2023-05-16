@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://0u6qvayl2ydd"]
+[gd_scene load_steps=8 format=3 uid="uid://0u6qvayl2ydd"]
 
 [ext_resource type="Script" path="res://Game/UI/Navigate/NavigateNode.cs" id="1_kbv2d"]
 [ext_resource type="PackedScene" uid="uid://bhftnjmj7bd3i" path="res://Game/UI/Navigate/Stop/Stop.tscn" id="1_q5d5w"]
 [ext_resource type="PackedScene" uid="uid://drvoewaa0wu5e" path="res://Game/World.tscn" id="1_wqxhk"]
+[ext_resource type="PackedScene" uid="uid://conlqrvbv55bp" path="res://Game/Solar System/Solar System.tscn" id="2_labh3"]
+[ext_resource type="World3D" uid="uid://coxfi777qtx03" path="res://Game/UI/Navigate/Navigate World.tres" id="2_t2xmd"]
+[ext_resource type="Script" path="res://Game/UI/Navigate/NavigateWorldNode.cs" id="4_m0qpu"]
+[ext_resource type="PackedScene" uid="uid://po5a73pqoela" path="res://Game/UI/Navigate/Path Segment/Path Segment.tscn" id="5_448q8"]
 
 [node name="Navigate" type="Control"]
 layout_mode = 3
@@ -45,11 +49,22 @@ layout_mode = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="PanelContainer/MarginContainer/HBoxContainer/PanelContainer/SubViewportContainer"]
+own_world_3d = true
+world_3d = ExtResource("2_t2xmd")
 handle_input_locally = false
-size = Vector2i(598, 430)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="World" parent="PanelContainer/MarginContainer/HBoxContainer/PanelContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_wqxhk")]
+unique_name_in_owner = true
+script = ExtResource("4_m0qpu")
+SolarSystemScene = ExtResource("2_labh3")
+PathSegmentScene = ExtResource("5_448q8")
+MapScale = 2.0
+WaypointMapScale = 0.2
+
+[node name="Path Segments Pool" type="Node3D" parent="PanelContainer/MarginContainer/HBoxContainer/PanelContainer/SubViewportContainer/SubViewport/World"]
+unique_name_in_owner = true
 
 [node name="VScrollBar" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2

@@ -81,7 +81,7 @@ public partial class SolarSystemNode : Area3D
 		var waypoints = new Dictionary<string, Waypoint>();
 		await foreach (var waypoint in System.GetWaypoints())
 		{
-			waypoints.Add(waypoint.Symbol, waypoint);
+			waypoints.TryAdd(waypoint.Symbol, waypoint);
 		}
 
 		var orbitalWaypoints = new Dictionary<Waypoint, Waypoint>();
@@ -90,7 +90,7 @@ public partial class SolarSystemNode : Area3D
 		{
 			foreach (var orbital in waypoint.Orbitals)
 			{
-				orbitalWaypoints.Add(waypoints[orbital.Symbol], waypoint);
+				orbitalWaypoints.TryAdd(waypoints[orbital.Symbol], waypoint);
 			}
 		}
 
@@ -111,7 +111,7 @@ public partial class SolarSystemNode : Area3D
 
 			waypointContainer.AddChild(waypointInstance);
 
-			waypointNodeDict.Add(waypoint, waypointInstance);
+			waypointNodeDict.TryAdd(waypoint, waypointInstance);
 		}
 
 		foreach (var (waypoint, orbitalTarget) in orbitalWaypoints)
